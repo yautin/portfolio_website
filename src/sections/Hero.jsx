@@ -1,6 +1,7 @@
 import React from 'react'
 import { words } from '../constants/index.js'
 import Button from '../components/Button.jsx'
+import HeroExperience from '../components/HeroModels/HeroExperience.jsx'
 
 const Hero = () => {
   return (
@@ -11,7 +12,7 @@ const Hero = () => {
 
         <div className="hero-layout">
             {/* {LEFT: HERO CONTENT} */}
-            <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
+            <header className="lex flex-col justify-center md:w-full w-screen md:px-20 px-5">
                 <div className="flex flex-col gap-7">
                     <div className="hero-text">
                         <h1>
@@ -34,7 +35,7 @@ const Hero = () => {
                         <h1>into Real Projects</h1>
                         <h1>that Deliver Results</h1>
                     </div>
-                    <p className="text-white-50 md:text-xl relative z-10 pointer-events-none"> 
+                    <p className="text-white-50 md:text-xl relative z-10 pointer-events-none xl:max-w-xl"> 
                             Hi! I'm Marco, a medical writer based in Hong Kong with a passion for transforming complex medical information.
                     </p>
                     <Button 
@@ -44,7 +45,12 @@ const Hero = () => {
                     />
                 </div>
             </header>
-            {/* {RIGHT: HERO CONTENT} */}
+            {/* {RIGHT: 3D MODEL} */}
+            <figure>
+                <div className="hero-3d-layout">
+                    <HeroExperience />
+                </div>
+            </figure>
         </div>
     </section>
   )
