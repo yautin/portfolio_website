@@ -1,3 +1,3 @@
 # Portfolio Website
 
-This is a basic portfolio website which showcases some of the scientific content I've drafted for multinational pharmaceutical companies. 
+This is a basic portfolio website which showcases some of the scientific content I've drafted for multinational pharmaceutical companies as a medical writer based in Hong Kong. 
