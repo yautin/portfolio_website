@@ -161,6 +161,39 @@ section {
       @apply flex xl:flex-row flex-col gap-10 justify-between;
     }
 
+    /* ================== IMAGE DARKENING + BLUR + COPYRIGHT BADGE ================== */
+    .image-wrapper {
+      position: relative;           /* Ensure badge positioning works */
+    }
+
+    .image-wrapper img {
+      filter: brightness(0.68) blur(2.5px);
+      transition: filter 0.5s ease;
+    }
+
+    .image-wrapper:hover img {
+      filter: brightness(0.88) blur(2.5px);
+    }
+
+    /* Copyright notice badge */
+    .image-wrapper::after {
+      content: "Blurred for copyright";
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      z-index: 10;
+      pointer-events: none;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+    /* =================================================================== */
+
     .first-project-wrapper {
       @apply h-full flex flex-col justify-between xl:w-[60%];
 
