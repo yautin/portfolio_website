@@ -161,6 +161,17 @@ section {
       @apply flex xl:flex-row flex-col gap-10 justify-between;
     }
 
+    /* ================== IMAGE DARKENING ================== */
+    .image-wrapper img {
+      filter: brightness(0.70);           /* Main darkening - adjust as needed */
+      transition: filter 0.4s ease;
+    }
+
+    .image-wrapper:hover img {
+      filter: brightness(0.88);           /* Optional: slight brighten on hover */
+    }
+    /* ==================================================== */
+
     .first-project-wrapper {
       @apply h-full flex flex-col justify-between xl:w-[60%];
 
