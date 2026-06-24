@@ -54,10 +54,10 @@ const ShowcaseSection = () => {
             </div>
             <div className="text-content">
               <h2>
-                Camzyos 8p GDV DA
+                mavacamten 8p GDV DA
               </h2>
               <p className="text-white-50 md:text-xl">
-                Leading patients to noninvasive oHCM treatment by promoting more standardized Valsalva maneuver diagnosis methodology and positioning Camzyos as a reliable first-in-class therapy.
+                Leading patients to noninvasive oHCM treatment by promoting more standardized Valsalva maneuver diagnosis methodology and positioning mavacamten as a reliable first-in-class myosin inhibitor.
               </p>
             </div>
           </div>
@@ -70,14 +70,14 @@ const ShowcaseSection = () => {
                   alt="Library Management Platform"
                 />
               </div>
-              <h2>Truqap 4p AKT Pathway DA</h2>
+              <h2>capivasertib 4p AKT Pathway DA</h2>
             </div>
 
             <div className="project" ref={ycDirectoryRef}>
               <div className="image-wrapper bg-[#FFE7EB]">
                 <img src="/images/project3.png" alt="YC Directory App" />
               </div>
-              <h2>Enhertu HER2-low OS Reminder Card</h2>
+              <h2>fam-trastuzumab deruxtecan-nxki HER2-low OS Reminder Card</h2>
             </div>
           </div>
         </div>
