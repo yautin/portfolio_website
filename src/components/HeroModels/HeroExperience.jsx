@@ -13,6 +13,7 @@ const HeroExperience = () => {
         <ambientLight intensity={0.3} color="#a8c0ff" />
 
         <OrbitControls
+            enabled={!isMobile}
             enablePan={false}
             enableZoom={!isTablet}
             maxDistance={20}
@@ -22,7 +23,7 @@ const HeroExperience = () => {
         <HeroLights />
         <Particles count={100} />
 
-        <group scale={isMobile ? 0.6 : 0.9} position={[0, 0, 0]}>
+        <group scale={isMobile ? 0.6 : 0.9} position={isMobile ? [0, -2.5, 0] : [0, 0, 0]}>
             <DnaHelix />
         </group>
     </Canvas>
