@@ -1,90 +1,90 @@
-import React from 'react'
 import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from "@gsap/react";
 
+import { workProjects } from "../constants";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const ShowcaseSection = () => {
   const sectionRef = useRef(null);
-  const rydeRef = useRef(null);
-  const libraryRef = useRef(null);
-  const ycDirectoryRef = useRef(null);
 
   useGSAP(() => {
-    // Animation for the main section
     gsap.fromTo(
-      sectionRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 1.5 }
+      ".work-head > *",
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out",
+        scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+      }
     );
 
-    // Animations for each app showcase
-    const cards = [rydeRef.current, libraryRef.current, ycDirectoryRef.current];
-
-    cards.forEach((card, index) => {
-      gsap.fromTo(
-        card,
-        {
-          y: 50,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          delay: 0.3 * (index + 1),
-          scrollTrigger: {
-            trigger: card,
-            start: "top bottom-=100",
-          },
-        }
-      );
-    });
+    gsap.fromTo(
+      ".work-card",
+      { y: 60, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: "power2.out",
+        scrollTrigger: { trigger: ".work-grid", start: "top 80%" },
+      }
+    );
   }, []);
 
   return (
-    <div id="work" ref={sectionRef} className="app-showcase">
-      <div className="w-full">
-        <div className="showcaselayout">
-          <div ref={rydeRef} className="first-project-wrapper">
-            <div className="image-wrapper">
-              <img src="/images/project1.png" alt="Ryde App Interface" />
-            </div>
-            <div className="text-content">
-              <h2>
-                mavacamten 8p GDV DA
-              </h2>
-              <p className="text-white-50 md:text-xl">
-                Leading patients to noninvasive oHCM treatment by promoting more standardized Valsalva maneuver diagnosis methodology and positioning mavacamten as a reliable first-in-class myosin inhibitor.
-              </p>
-            </div>
-          </div>
-
-          <div className="project-list-wrapper overflow-hidden">
-            <div className="project" ref={libraryRef}>
-              <div className="image-wrapper bg-[#FFEFDB]">
-                <img
-                  src="/images/project2.png"
-                  alt="Library Management Platform"
-                />
-              </div>
-              <h2>capivasertib 4p AKT Pathway DA</h2>
-            </div>
-
-            <div className="project" ref={ycDirectoryRef}>
-              <div className="image-wrapper bg-[#FFE7EB]">
-                <img src="/images/project3.png" alt="YC Directory App" />
-              </div>
-              <h2>fam-trastuzumab deruxtecan-nxki HER2-low OS Reminder Card</h2>
-            </div>
-          </div>
-        </div>
+    <section id="work" ref={sectionRef} className="work-section">
+      <div className="work-head">
+        <p className="work-eyebrow">Selected work</p>
+        <h2>Turning clinical data into content HCPs act on</h2>
+        <p className="work-note">
+          Client deliverables are confidential and shown here as summaries.
+          Samples available on request under NDA.
+        </p>
       </div>
-    </div>
+
+      <div className="work-grid">
+        {workProjects.map((project, index) => (
+          <article
+            key={project.title}
+            className="work-card"
+            style={{ "--accent": project.accent }}
+          >
+            <span className="work-index">{String(index + 1).padStart(2, "0")}</span>
+
+            <div className="work-card-body">
+              <div className="work-icon">
+                <img src={project.icon} alt="" />
+              </div>
+
+              <p className="work-tag">
+                <span className="work-dot" />
+                {project.tag}
+              </p>
+
+              <h3>{project.title}</h3>
+              <p className="work-molecule">{project.molecule}</p>
+              <p className="work-desc">{project.description}</p>
+
+              <div className="work-chips">
+                {project.chips.map((chip) => (
+                  <span key={chip} className="work-chip">
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
 export default ShowcaseSection
-

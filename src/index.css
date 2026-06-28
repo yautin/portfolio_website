@@ -187,83 +187,172 @@ section {
     }
   }
 
-  .app-showcase {
-    @apply w-full mt-20 px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
+  .work-section {
+    @apply px-5 md:px-20 md:mt-40 mt-24;
+  }
 
-    .showcaselayout {
-      @apply flex xl:flex-row flex-col gap-10 justify-between;
+  .work-head {
+    @apply max-w-3xl;
+
+    .work-eyebrow {
+      @apply text-sm uppercase tracking-[0.25em] text-blue-50 mb-3;
     }
 
-    /* ================== IMAGE DARKENING + BLUR + COPYRIGHT BADGE ================== */
-    .image-wrapper {
-      position: relative;           /* Ensure badge positioning works */
+    h2 {
+      @apply text-3xl md:text-5xl font-bold leading-tight;
     }
 
-    .image-wrapper img {
-      filter: brightness(0.68) blur(2.5px);
-      transition: filter 0.5s ease;
+    .work-note {
+      @apply text-white-50 text-sm md:text-base mt-5 max-w-xl;
+    }
+  }
+
+  .work-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-14;
+  }
+
+  .work-card {
+    @apply relative overflow-hidden rounded-2xl border border-black-50 bg-black-100 p-7
+      transition-all duration-500 hover:-translate-y-2;
+
+    &:hover {
+      border-color: var(--accent);
+      box-shadow: 0 24px 60px -24px var(--accent);
     }
 
-    .image-wrapper:hover img {
-      filter: brightness(0.88) blur(2.5px);
+    /* gradient accent line along the top edge, revealed on hover */
+    &::before {
+      content: "";
+      @apply absolute left-0 top-0 h-[3px] w-full opacity-0 transition-opacity duration-500;
+      background: linear-gradient(90deg, var(--accent), transparent 80%);
     }
 
-    /* Copyright notice badge */
-    .image-wrapper::after {
-      content: "Blurred for copyright";
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(0, 0, 0, 0.75);
-      color: #fff;
-      font-size: 10px;
-      padding: 3px 8px;
-      border-radius: 4px;
-      z-index: 10;
-      pointer-events: none;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-    }
-    /* =================================================================== */
-
-    .first-project-wrapper {
-      @apply h-full flex flex-col justify-between xl:w-[60%];
-
-      .image-wrapper {
-        @apply xl:h-[70vh] md:h-[50vh] h-96 relative;
-
-        img {
-          @apply w-full h-full object-cover rounded-xl absolute inset-0;
-        }
-      }
-
-      .text-content {
-        @apply space-y-5 mt-5;
-
-        .badges {
-          @apply flex gap-2 mb-4;
-        }
-
-        h2 {
-          @apply text-2xl md:text-3xl lg:text-4xl font-bold;
-        }
-      }
+    &:hover::before {
+      @apply opacity-100;
     }
 
-    .project-list-wrapper {
-      @apply flex md:flex-row flex-col xl:flex-col gap-10 xl:w-[40%];
+    h3 {
+      @apply text-xl md:text-2xl font-semibold leading-snug;
+    }
+  }
 
-      .image-wrapper {
-        @apply xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0;
-      }
+  /* oversized editorial index number, tinted with the card accent */
+  .work-index {
+    @apply absolute -top-3 right-4 text-8xl font-bold leading-none pointer-events-none select-none;
+    color: color-mix(in srgb, var(--accent) 14%, transparent);
+  }
 
-      img {
-        @apply w-full h-full object-contain rounded-xl;
-      }
+  .work-card-body {
+    @apply relative z-10 flex flex-col h-full;
+  }
 
-      h2 {
-        @apply text-lg md:text-xl lg:text-2xl font-semibold mt-5;
+  .work-icon {
+    @apply flex items-center justify-center size-12 rounded-xl mb-6;
+    background: var(--accent);
+
+    img {
+      @apply size-6;
+    }
+  }
+
+  .work-tag {
+    @apply flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white-50 mb-3;
+
+    .work-dot {
+      @apply size-1.5 rounded-full flex-none;
+      background: var(--accent);
+    }
+  }
+
+  .work-molecule {
+    @apply text-sm font-medium italic mt-2 mb-4;
+    color: var(--accent);
+  }
+
+  .work-desc {
+    @apply text-white-50 text-sm md:text-[15px] leading-relaxed;
+  }
+
+  .work-chips {
+    @apply flex flex-wrap gap-2 mt-auto pt-6;
+
+    .work-chip {
+      @apply text-xs px-3 py-1 rounded-full border border-black-50 text-white-50;
+    }
+  }
+
+  .drugs-section {
+    @apply md:mt-40 mt-24 overflow-hidden;
+  }
+
+  .drugs-head {
+    @apply px-5 md:px-20 max-w-3xl;
+
+    .drugs-eyebrow {
+      @apply text-sm uppercase tracking-[0.25em] text-blue-50 mb-3;
+    }
+
+    h2 {
+      @apply text-3xl md:text-5xl font-bold leading-tight;
+    }
+
+    .drugs-note {
+      @apply text-white-50 text-sm md:text-base mt-5 max-w-xl;
+    }
+  }
+
+  .drug-legend {
+    @apply flex flex-wrap gap-x-5 gap-y-2 mt-7;
+
+    span {
+      @apply inline-flex items-center gap-2 text-xs uppercase tracking-wider text-white-50;
+    }
+
+    .dot {
+      @apply size-2 rounded-full;
+    }
+  }
+
+  .drug-rows {
+    @apply flex flex-col gap-4 md:gap-5 mt-12;
+  }
+
+  .drug-marquee {
+    @apply relative flex overflow-hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+
+    &:hover .drug-track {
+      animation-play-state: paused;
+    }
+  }
+
+  .drug-track {
+    @apply flex shrink-0 items-center w-max;
+    animation: drug-scroll var(--duration, 40s) linear infinite;
+
+    &.reverse {
+      animation-direction: reverse;
+    }
+  }
+
+  .drug-pill {
+    @apply inline-flex items-center gap-2 mr-4 md:mr-5 whitespace-nowrap rounded-full
+      border border-black-50 bg-black-100 px-5 py-2.5 text-sm md:text-base text-white-50
+      transition-colors duration-300 cursor-default select-none;
+
+    .drug-dot {
+      @apply size-2 rounded-full flex-none;
+      background: var(--accent);
+    }
+
+    &:hover {
+      @apply text-black;
+      background: var(--accent);
+      border-color: var(--accent);
+
+      .drug-dot {
+        @apply bg-black/40;
       }
     }
   }
@@ -517,4 +606,31 @@ section {
 
 .card:hover::before {
   opacity: 1;
+}
+
+/* On touch devices, let the page scroll past the hero 3D canvas instead of the
+   canvas swallowing the swipe. !important overrides react-three-fiber's inline
+   touch-action/pointer-events on the <canvas> element. */
+@media (max-width: 768px) {
+  .hero-3d-layout,
+  .hero-3d-layout canvas {
+    pointer-events: none !important;
+    touch-action: pan-y !important;
+  }
+}
+
+/* drug-products marquee: scroll one full (duplicated) set, then loop seamlessly */
+@keyframes drug-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drug-track {
+    animation: none;
+  }
 }
