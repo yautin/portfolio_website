@@ -1,16 +1,70 @@
-# React + Vite
+# Marco Ng — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal portfolio website for **Marco Ng**, a medical writer based in Hong Kong specializing in promotional and educational content for healthcare professionals.
 
-Currently, two official plugins are available:
+The site is a single-page application featuring an interactive 3D hero, scroll-driven animations, case-study summaries of selected work, and an animated showcase of drug products across therapeutic areas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech stack
 
-## React Compiler
+- **React 19** + **Vite** — UI and build tooling
+- **Tailwind CSS v4** (via `@tailwindcss/vite`) — styling, configured entirely in `src/index.css`
+- **GSAP** (`@gsap/react`, `ScrollTrigger`) — entrance and scroll-driven animations
+- **React Three Fiber** (`@react-three/fiber`, `drei`, `postprocessing`) — the 3D DNA-helix hero scene
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting started
 
-## Expanding the ESLint configuration
+### Prerequisites
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- [Node.js](https://nodejs.org/) 20+
+- npm (bundled with Node)
+
+### Installation
+
+```bash
+git clone https://github.com/yautin/portfolio_website.git
+cd portfolio_website
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Then open the local URL printed in the terminal (default: `http://localhost:5173`).
+
+## Available scripts
+
+| Command           | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| `npm run dev`     | Start the Vite dev server with hot-module reload |
+| `npm run build`   | Build the production bundle to `dist/`           |
+| `npm run preview` | Serve the production build locally               |
+| `npm run lint`    | Run ESLint over the project                      |
+
+## Project structure
+
+```
+public/            Static assets (images, 3D models, favicon)
+src/
+  components/      Reusable UI and 3D model components
+  sections/        Full-width page sections (Hero, Work, Drug Products)
+  constants/       Centralized content/data (copy, drug list, etc.)
+  index.css        Tailwind theme, component classes, and animations
+  App.jsx          Page composition
+```
+
+Site content (headings, the drug list, therapeutic-area colors, and case studies) lives in `src/constants/index.js`, so most copy changes are made there rather than in the components.
+
+## Deployment
+
+The production build in `dist/` is a static bundle and can be deployed to any static host (e.g. Vercel, Netlify, or GitHub Pages):
+
+```bash
+npm run build
+```
+
+## License
+
+This project is for personal portfolio use. All rights reserved.
