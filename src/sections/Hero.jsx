@@ -1,4 +1,3 @@
-import React from 'react'
 import { words } from '../constants/index.js'
 import Button from '../components/Button.jsx'
 import HeroExperience from '../components/HeroModels/HeroExperience.jsx'
@@ -22,15 +21,15 @@ const Hero = () => {
 
         <div className="hero-layout">
             {/* {LEFT: HERO CONTENT} */}
-            <header className="lex flex-col justify-center md:w-full w-screen md:px-20 px-5">
+            <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
                 <div className="flex flex-col gap-7">
                     <div className="hero-text">
                         <h1>
                             Shaping 
                             <span className="slide"> 
                                 <span className="wrapper">
-                                    {words.map((word) => (
-                                        <span key={word.text} className="flex items-center md:gap-3 gap-1 pb-2">
+                                    {words.map((word, index) => (
+                                        <span key={`${word.text}-${index}`} className="flex items-center md:gap-3 gap-1 pb-2">
                                             <img 
                                             src={word.imgPath} 
                                             alt={word.text} 
@@ -42,8 +41,8 @@ const Hero = () => {
                                 </span>
                             </span>    
                         </h1>
-                        <h1>into Real Projects</h1>
-                        <h1>that Deliver Results</h1>
+                        <h1>into Clear, Accurate</h1>
+                        <h1>Medical Communications</h1>
                     </div>
                     <p className="text-white-50 md:text-xl relative z-10 pointer-events-none xl:max-w-xl"> 
                             Hi! I'm Marco, a medical writer based in Hong Kong with a passion for transforming complex medical information.
