@@ -4,7 +4,7 @@ const navLinks = [
     link: "#work",
   },
   {
-    name: "Drug Products List",
+    name: "Drug Product Experience",
     link: "#drugs",
   },
   {
@@ -64,32 +64,45 @@ const workProjects = [
 
 // Therapeutic areas mapped to accent colours, reused by the drug-products marquee
 const drugAreaColors = {
-  Cardiology: "#ff6b81",
   Oncology: "#9d4edd",
-  Respiratory: "#4cc9f0",
-  Immunology: "#52d1a4",
-  Neurology: "#b794f6",
+  Cardiology: "#ff6b81",
   Endocrinology: "#f4a261",
+  Nephrology: "#52d1a4",
+  "Infectious Disease": "#4cc9f0",
+  Hematology: "#f25f5c",
+  Gastroenterology: "#a3e635",
+  Dermatology: "#f472b6",
+  Ophthalmology: "#60a5fa",
 };
 
-// Drugs you've worked on. The first three match the Work case studies; the rest
-// are examples — replace `name`/`area` with your actual product list.
+// Drug products Marco has developed content for. Pill labels use the common INN;
+// each `area` must have a matching colour in drugAreaColors above.
 const drugProducts = [
-  { name: "Mavacamten", area: "Cardiology" },
-  { name: "Capivasertib", area: "Oncology" },
   { name: "Trastuzumab deruxtecan", area: "Oncology" },
-  { name: "Dapagliflozin", area: "Cardiology" },
-  { name: "Vericiguat", area: "Cardiology" },
-  { name: "Osimertinib", area: "Oncology" },
   { name: "Olaparib", area: "Oncology" },
-  { name: "Durvalumab", area: "Oncology" },
-  { name: "Benralizumab", area: "Respiratory" },
-  { name: "Tezepelumab", area: "Respiratory" },
-  { name: "Roflumilast", area: "Respiratory" },
-  { name: "Upadacitinib", area: "Immunology" },
-  { name: "Risankizumab", area: "Immunology" },
-  { name: "Lecanemab", area: "Neurology" },
+  { name: "Sacituzumab govitecan", area: "Oncology" },
+  { name: "Capivasertib", area: "Oncology" },
+  { name: "Elacestrant", area: "Oncology" },
+  { name: "Abemaciclib", area: "Oncology" },
+  { name: "Acalabrutinib", area: "Oncology" },
+  { name: "Amivantamab", area: "Oncology" },
+  { name: "Mavacamten", area: "Cardiology" },
+  { name: "Alirocumab", area: "Cardiology" },
+  { name: "Clopidogrel", area: "Cardiology" },
+  { name: "Ticagrelor", area: "Cardiology" },
+  { name: "Dapagliflozin", area: "Cardiology" },
+  { name: "Dapagliflozin + metformin", area: "Endocrinology" },
   { name: "Tirzepatide", area: "Endocrinology" },
+  { name: "Semaglutide", area: "Endocrinology" },
+  { name: "Finerenone", area: "Nephrology" },
+  { name: "Remdesivir", area: "Infectious Disease" },
+  { name: "Bictegravir/emtricitabine/tenofovir alafenamide", area: "Infectious Disease" },
+  { name: "Tenofovir alafenamide", area: "Infectious Disease" },
+  { name: "Japanese encephalitis vaccine", area: "Infectious Disease" },
+  { name: "Ferric derisomaltose", area: "Hematology" },
+  { name: "Otilonium bromide", area: "Gastroenterology" },
+  { name: "Lebrikizumab", area: "Dermatology" },
+  { name: "Faricimab", area: "Ophthalmology" },
 ];
 
 export {
