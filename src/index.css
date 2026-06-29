@@ -223,10 +223,12 @@ section {
     }
   }
 
-  /* oversized editorial index number, tinted with the card accent */
-  .work-index {
-    @apply absolute -top-3 right-4 text-8xl font-bold leading-none pointer-events-none select-none;
-    color: color-mix(in srgb, var(--accent) 14%, transparent);
+  /* oversized faint echo of the card's own icon, bleeding off the corner */
+  .work-watermark {
+    @apply absolute -top-8 -right-8 size-40 pointer-events-none select-none;
+    background-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
   }
 
   .work-card-body {

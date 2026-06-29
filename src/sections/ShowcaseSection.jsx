@@ -50,13 +50,13 @@ const ShowcaseSection = () => {
       </div>
 
       <div className="work-grid">
-        {workProjects.map((project, index) => (
+        {workProjects.map((project) => (
           <article
             key={project.title}
             className="work-card"
-            style={{ "--accent": project.accent }}
+            style={{ "--accent": project.accent, "--icon": `url(${project.icon})` }}
           >
-            <span className="work-index">{String(index + 1).padStart(2, "0")}</span>
+            <span className="work-watermark" aria-hidden="true" />
 
             <div className="work-card-body">
               <div className="work-icon">
