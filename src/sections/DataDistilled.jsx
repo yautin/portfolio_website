@@ -9,8 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const colorFor = (area) => drugAreaColors[area] ?? "#839cb5";
 
-// dagger-marked footnotes (e.g. the TPC note), collected from the examples
-const daggerNotes = dataDistillExamples.filter((ex) => ex.note).map((ex) => ex.note);
+// symbol footnotes (e.g. the population * and TPC † notes), across all examples
+const footNotes = dataDistillExamples.flatMap((ex) => ex.footnotes ?? []);
 
 const prefersReducedMotion =
   typeof window !== "undefined" &&
@@ -111,7 +111,14 @@ const DataDistilled = () => {
                 {ex.trial}
                 <sup>{i + 1}</sup>
               </span>
-              <span className="distill-population">{ex.population}</span>
+              <span className="distill-population">
+                {ex.population}
+                {ex.footnotes
+                  ?.filter((f) => f.target === "population")
+                  .map((f) => (
+                    <sup key={f.symbol}>{f.symbol}</sup>
+                  ))}
+              </span>
               <span className="distill-source">{ex.source}</span>
             </div>
 
@@ -148,7 +155,11 @@ const DataDistilled = () => {
                 </svg>
                 <span>
                   {ex.statement}
-                  {ex.note && <sup>†</sup>}
+                  {ex.footnotes
+                    ?.filter((f) => f.target === "statement")
+                    .map((f) => (
+                      <sup key={f.symbol}>{f.symbol}</sup>
+                    ))}
                 </span>
               </span>
 
@@ -178,10 +189,10 @@ const DataDistilled = () => {
       </div>
 
       <div className="distill-refs">
-        {daggerNotes.map((note, i) => (
+        {footNotes.map((f, i) => (
           <p className="distill-footnote" key={i}>
-            <span className="distill-ref-num">†</span>
-            {note}
+            <span className="distill-ref-num">{f.symbol}</span>
+            {f.text}
           </p>
         ))}
 

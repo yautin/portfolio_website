@@ -35,7 +35,7 @@ const workProjects = [
     title: "8-panel detail aid for a first-in-class cardiac myosin inhibitor",
     molecule: "mavacamten",
     description:
-      "Visual aid for cardiologists on obstructive HCM that standardised Valsalva-maneuver assessment and framed the therapy as a non-invasive treatment option. Owned the scientific narrative and reference accuracy through MLR review.",
+      "Visual aid for cardiologists on obstructive HCM that standardised Valsalva-maneuver assessment and framed the therapy as a non-invasive treatment option.",
     chips: ["8-panel", "MLR-reviewed", "oHCM"],
     icon: "/images/work/activity.svg",
     accent: "#ff6b81",
@@ -45,7 +45,7 @@ const workProjects = [
     title: "4-panel detail aid on AKT-pathway–targeted therapy",
     molecule: "capivasertib",
     description:
-      "Translated complex AKT signalling-pathway biology into a concise, fair-balanced clinical rationale for oncologists, kept MLR-compliant throughout.",
+      "Translated complex AKT signaling biology into a fair-balanced visual rationale, showing oncologists how capivasertib targets a critical choke-point in the pathway.",
     chips: ["4-panel", "MLR-reviewed", "mBC"],
     icon: "/images/work/target.svg",
     accent: "#9d4edd",
@@ -117,7 +117,18 @@ const dataDistillExamples = [
     population: "HER2-low metastatic breast cancer",
     source: "PFS HR 0.51 (95% CI 0.40–0.64), P<0.001",
     citation: "Modi S, et al. N Engl J Med. 2022;387(1):9-20.",
-    note: "Of 557 patients who underwent randomization, 494 (88.7%) had hormone receptor–positive disease and 63 (11.3%) had hormone receptor–negative disease.",
+    footnotes: [
+      {
+        symbol: "*",
+        target: "population",
+        text: "Of 557 patients who underwent randomization, 494 (88.7%) had hormone receptor–positive disease and 63 (11.3%) had hormone receptor–negative disease.",
+      },
+      {
+        symbol: "†",
+        target: "statement",
+        text: "For the treatment of physician's choice (TPC) group, patients received eribulin (51.1%), capecitabine (20.1%), nab-paclitaxel (10.3%), gemcitabine (10.3%), or paclitaxel (8.2%).",
+      },
+    ],
     metricValue: 49,
     decimals: 0,
     suffix: "%",

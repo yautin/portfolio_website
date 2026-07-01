@@ -84,8 +84,7 @@ const Contact = () => {
             <p className="contact-note contact-reveal">
               I help medical and commercial teams turn complex clinical data into
               accurate, compelling content for healthcare professionals — from
-              detail aids to symposium highlights. Available for freelance and contract
-              work.
+              detail aids to symposium highlights.
             </p>
 
             <p className="contact-status contact-reveal">
@@ -160,7 +159,7 @@ const Contact = () => {
                 name="message"
                 rows={5}
                 required
-                placeholder="Tell me about the project…"
+                placeholder="Let me know what you need…"
                 value={form.message}
                 onChange={onChange}
               />
