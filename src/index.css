@@ -8,6 +8,8 @@ body {
   background-color: #15171e;
   color: #e8ebf2;
   scroll-behavior: smooth;
+  /* leave room for the fixed navbar so anchored section titles aren't hidden */
+  scroll-padding-top: 6rem;
   font-family: "Mona Sans", sans-serif;
 }
 
@@ -424,6 +426,10 @@ section {
 
   .distill-ref-num {
     @apply flex-none font-semibold text-blue-50;
+  }
+
+  .distill-population sup {
+    @apply text-[0.8em];
   }
 
   .distill-statement sup {
