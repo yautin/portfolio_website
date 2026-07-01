@@ -821,12 +821,13 @@ section {
   83.33% { transform: translateY(-83.33%); }
 }
 
-/* On touch devices, let the page scroll past the hero 3D canvas instead of the
-   canvas swallowing the swipe. !important overrides react-three-fiber's inline
-   touch-action/pointer-events on the <canvas> element. */
+/* On touch devices, let the page scroll past the hero 3D scene instead of it
+   swallowing the swipe. Targets the layout AND every descendant (the
+   react-three-fiber wrapper div + the <canvas>), with !important to beat R3F's
+   inline touch-action/pointer-events. */
 @media (max-width: 768px) {
   .hero-3d-layout,
-  .hero-3d-layout canvas {
+  .hero-3d-layout * {
     pointer-events: none !important;
     touch-action: pan-y !important;
   }
