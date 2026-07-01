@@ -8,8 +8,8 @@ const navLinks = [
     link: "#drugs",
   },
   {
-    name: "Skills",
-    link: "#skills",
+    name: "Data Distilled",
+    link: "#distill",
   },
 ];
 
@@ -24,9 +24,9 @@ const words = [
 
 // Headline stats — replace the values with your own figures.
 const counterItems = [
-  { value: 6, suffix: "+", label: "Therapeutic areas covered" },
-  { value: 40, suffix: "+", label: "Promotional pieces delivered" },
-  { value: 5, suffix: "+", label: "Years in medical writing" },
+  { value: 9, suffix: "+", label: "Therapeutic areas covered" },
+  { value: 60, suffix: "+", label: "Promotional pieces delivered" },
+  { value: 1.5, suffix: "+", label: "Years in medical writing" },
 ];
 
 const workProjects = [
@@ -46,7 +46,7 @@ const workProjects = [
     molecule: "capivasertib",
     description:
       "Translated complex AKT signalling-pathway biology into a concise, fair-balanced clinical rationale for oncologists, kept MLR-compliant throughout.",
-    chips: ["4-panel", "MLR-reviewed", "Targeted therapy"],
+    chips: ["4-panel", "MLR-reviewed", "mBC"],
     icon: "/images/work/target.svg",
     accent: "#9d4edd",
   },
@@ -56,9 +56,9 @@ const workProjects = [
     molecule: "trastuzumab deruxtecan",
     description:
       "Leave-behind communicating overall-survival (OS) data for an antibody–drug conjugate in HER2-low breast cancer, designed for fast reference at the point of care.",
-    chips: ["Leave-behind", "OS data", "HER2-low"],
+    chips: ["Leave-behind", "MLR-reviewed", "mBC"],
     icon: "/images/work/trending.svg",
-    accent: "#4cc9f0",
+    accent: "#9d4edd",
   },
 ];
 
@@ -105,6 +105,75 @@ const drugProducts = [
   { name: "Faricimab", area: "Ophthalmology" },
 ];
 
+// Raw trial readout → distilled takeaway, for the "Data Distilled" section.
+// IMPORTANT: figures are recalled from memory and must be VERIFIED against the
+// primary publications (and citations completed) before publishing. `area`
+// keys map to drugAreaColors; `arms[0]` is the product (accent), `arms[1]` the
+// comparator; `fraction` is each arm's value relative to the larger arm.
+const dataDistillExamples = [
+  {
+    area: "Oncology",
+    trial: "DESTINY-Breast04",
+    population: "HER2-low metastatic breast cancer",
+    source: "PFS HR 0.51 (95% CI 0.40–0.64), P<0.001",
+    citation: "Modi S, et al. N Engl J Med. 2022;387(1):9-20.",
+    note: "Of 557 patients who underwent randomization, 494 (88.7%) had hormone receptor–positive disease and 63 (11.3%) had hormone receptor–negative disease.",
+    metricValue: 49,
+    decimals: 0,
+    suffix: "%",
+    metricLabel: "relative risk reduction",
+    statement: "Lower risk of progression or death vs TPC",
+    direction: "down",
+    arms: [
+      { label: "T-DXd", value: "10.1", unit: " mo", fraction: 1 },
+      { label: "Chemo", value: "5.4", unit: " mo", fraction: 0.53 },
+    ],
+  },
+  {
+    area: "Cardiology",
+    trial: "VALOR-HCM",
+    population: "Obstructive HCM eligible for septal reduction therapy",
+    source: "17.9% vs 76.8% met SRT criteria at wk 16; P<0.001",
+    citation: "Desai MY, et al. J Am Coll Cardiol. 2022;80(2):95-108.",
+    metricValue: 59,
+    decimals: 0,
+    suffix: " pts",
+    metricLabel: "absolute reduction",
+    statement: "Fewer patients still eligible for septal reduction therapy",
+    direction: "down",
+    arms: [
+      { label: "Mavacamten", value: "17.9", unit: "%", fraction: 0.23 },
+      { label: "Placebo", value: "76.8", unit: "%", fraction: 1 },
+    ],
+  },
+];
+
+// Contact details — update the email and LinkedIn URL to your own.
+const contactEmail = "ngyautin@gmail.com";
+
+// Free access key from https://web3forms.com (safe to expose client-side).
+// Until you paste your key here, the contact form falls back to opening a
+// pre-filled draft in the visitor's mail app.
+const web3formsKey = "6ae7eb9f-c72a-4470-add8-9100d21e31c9";
+
+const contactLinks = [
+  {
+    label: "Email",
+    value: "ngyautin@gmail.com",
+    href: "mailto:ngyautin@gmail.com",
+  },
+  {
+    label: "Phone",
+    value: "+852 6409 9880",
+    href: "tel:+85264099880",
+  },
+  {
+    label: "Based in",
+    value: "Hong Kong",
+    href: null,
+  },
+];
+
 export {
   navLinks,
   words,
@@ -112,4 +181,8 @@ export {
   workProjects,
   drugProducts,
   drugAreaColors,
+  dataDistillExamples,
+  contactEmail,
+  contactLinks,
+  web3formsKey,
 };
