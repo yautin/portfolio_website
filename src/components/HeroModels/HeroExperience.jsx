@@ -6,7 +6,6 @@ import Particles from './Particles';
 import DnaHelix from './DnaHelix';
 
 const HeroExperience = () => {
-    const isTablet = useMediaQuery({ query: '(max-width: 1024px)' });
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   return (
     <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
@@ -15,9 +14,7 @@ const HeroExperience = () => {
         <OrbitControls
             enabled={!isMobile}
             enablePan={false}
-            enableZoom={!isTablet}
-            maxDistance={20}
-            minDistance={5}
+            enableZoom={false}
         />
 
         <HeroLights />

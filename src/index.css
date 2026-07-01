@@ -17,6 +17,12 @@ section {
   width: 100dvw;
 }
 
+/* consistent, visible keyboard focus ring for all interactive elements */
+:focus-visible {
+  outline: 2px solid #4cc9f0;
+  outline-offset: 2px;
+}
+
 @theme {
   --font-sans: "Mona Sans", sans-serif;
   --color-white-50: #c4cdda;
@@ -108,6 +114,14 @@ section {
           .underline {
             @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full;
           }
+
+          a.active span {
+            @apply text-white;
+          }
+
+          a.active .underline {
+            @apply w-full;
+          }
         }
       }
     }
@@ -150,6 +164,10 @@ section {
 
       a {
         @apply block py-3 px-4 rounded-lg text-white-50 transition-colors duration-300 hover:bg-black-50 hover:text-white;
+      }
+
+      a.active {
+        @apply text-white bg-black-50;
       }
 
       .mobile-contact {
@@ -676,6 +694,52 @@ section {
     }
   }
 
+  .footer-funbtn {
+    @apply inline-flex items-center gap-2 rounded-full border border-black-50 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white-50 bg-transparent cursor-pointer transition-colors duration-300;
+  }
+
+  .footer-funbtn:hover {
+    @apply border-blue-50 text-white;
+  }
+
+  /* ---- "Kinesin Run" mini-game overlay ---- */
+  .game-overlay {
+    @apply fixed inset-0 z-[200] flex items-center justify-center p-4;
+    background: rgba(10, 12, 16, 0.82);
+    backdrop-filter: blur(4px);
+    animation: game-fade 0.2s ease-out;
+  }
+
+  .game-panel {
+    @apply w-full max-w-[840px] rounded-2xl border border-black-50 bg-black-100 p-4 md:p-5;
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+  }
+
+  .game-topbar {
+    @apply flex items-center justify-between mb-3;
+  }
+
+  .game-title {
+    @apply text-sm font-semibold uppercase tracking-[0.2em] text-blue-50;
+  }
+
+  .game-close {
+    @apply flex items-center justify-center size-9 rounded-lg text-white-50 bg-transparent border-0 cursor-pointer transition-colors duration-200;
+  }
+
+  .game-close:hover {
+    @apply bg-black-50 text-white;
+  }
+
+  .game-canvas {
+    @apply block w-full h-auto rounded-xl;
+    touch-action: none;
+  }
+
+  .game-hint {
+    @apply mt-3 text-center text-xs text-blue-50;
+  }
+
   /* ---- Kinesin walking a microtubule (decorative divider) ---- */
   .kinesin-band {
     @apply relative w-full overflow-hidden mt-16 md:mt-24 h-52 md:h-64 border-y border-black-50;
@@ -696,11 +760,32 @@ section {
   }
 
   .kinesin {
-    @apply absolute w-[112px] h-[144px] md:w-[144px] md:h-[185px];
+    @apply absolute w-[112px] h-[144px] md:w-[144px] md:h-[185px] border-0 bg-transparent p-0 cursor-pointer;
     left: 0;
     bottom: 3rem;
     animation: kinesin-walk 26s linear infinite;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  }
+
+  /* rides along with the walking kinesin; anchored by its top near the head so
+     it can't extend above the band and get clipped */
+  .kinesin-bubble {
+    @apply absolute z-10 max-w-[200px] rounded-xl border border-black-50 bg-black-100 px-3 py-2 text-xs md:text-sm text-white-50 text-left leading-snug;
+    left: 58%;
+    top: 6%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    animation: kinesin-bubble-pop 0.2s ease-out both;
+  }
+
+  /* tail pointing down-left toward the cargo */
+  .kinesin-bubble::after {
+    content: "";
+    @apply absolute;
+    left: 14px;
+    bottom: -7px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid var(--color-black-100);
   }
 
   .kinesin-body {
@@ -922,6 +1007,28 @@ section {
   }
 }
 
+/* mini-game overlay fade-in */
+@keyframes game-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* speech bubble entrance when the kinesin is poked */
+@keyframes kinesin-bubble-pop {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .drug-track {
     animation: none;
@@ -931,7 +1038,8 @@ section {
   .kinesin-body,
   .kinesin-thigh,
   .kinesin-shin,
-  .kinesin-cargo-group {
+  .kinesin-cargo-group,
+  .kinesin-bubble {
     animation: none;
   }
 }
