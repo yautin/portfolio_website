@@ -7,6 +7,7 @@
 const Button = ({ text, className, id }) => {
   return (
     <a
+      href="#counter"
       onClick={(e) => {
         e.preventDefault(); // Stop the link from jumping instantly
 
