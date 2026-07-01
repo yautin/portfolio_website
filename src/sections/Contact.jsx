@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 import { contactEmail, contactLinks, web3formsKey } from "../constants";
+import KinesinGame from "../components/KinesinGame";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,7 @@ const Contact = () => {
   const sectionRef = useRef(null);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+  const [gameOpen, setGameOpen] = useState(false);
 
   const onChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -205,8 +207,18 @@ const Contact = () => {
           </nav> */}
 
           <p className="footer-copy">© {year} Marco Ng. All rights reserved.</p>
+
+          <button
+            type="button"
+            className="footer-funbtn"
+            onClick={() => setGameOpen(true)}
+          >
+            🎮 For Fun
+          </button>
         </div>
       </footer>
+
+      {gameOpen && <KinesinGame onClose={() => setGameOpen(false)} />}
     </>
   );
 };

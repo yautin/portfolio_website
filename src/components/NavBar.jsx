@@ -7,6 +7,8 @@ const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
   // track if the mobile menu is open
   const [menuOpen, setMenuOpen] = useState(false);
+  // track which section is currently in view (scroll-spy)
+  const [activeId, setActiveId] = useState("hero");
 
   useEffect(() => {
     // create an event listener for when the user scrolls
@@ -24,8 +26,29 @@ const NavBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // highlight the nav link for whichever section sits in the mid-viewport band
+  useEffect(() => {
+    const ids = ["hero", "work", "drugs", "distill", "contact"];
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!els.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveId(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   // collapse the mobile menu after a link is tapped
   const closeMenu = () => setMenuOpen(false);
+
+  const isActive = (link) => link === `#${activeId}`;
 
   return (
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
@@ -38,7 +61,11 @@ const NavBar = () => {
           <ul>
             {navLinks.map(({ link, name }) => (
               <li key={name} className="group">
-                <a href={link}>
+                <a
+                  href={link}
+                  className={isActive(link) ? "active" : undefined}
+                  aria-current={isActive(link) ? "true" : undefined}
+                >
                   <span>{name}</span>
                   <span className="underline" />
                 </a>
@@ -47,7 +74,11 @@ const NavBar = () => {
           </ul>
         </nav>
 
-        <a href="#contact" className="contact-btn group">
+        <a
+          href="#contact"
+          className={`contact-btn group ${isActive("#contact") ? "active" : ""}`}
+          aria-current={isActive("#contact") ? "true" : undefined}
+        >
           <div className="inner">
             <span>Contact me</span>
           </div>
@@ -71,7 +102,12 @@ const NavBar = () => {
           <ul>
             {navLinks.map(({ link, name }) => (
               <li key={name}>
-                <a href={link} onClick={closeMenu}>
+                <a
+                  href={link}
+                  onClick={closeMenu}
+                  className={isActive(link) ? "active" : undefined}
+                  aria-current={isActive(link) ? "true" : undefined}
+                >
                   {name}
                 </a>
               </li>
