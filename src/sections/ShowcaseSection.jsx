@@ -45,7 +45,7 @@ const ShowcaseSection = () => {
         <h2>Turning clinical data into content HCPs act on</h2>
         <p className="work-note">
           Client deliverables are confidential and shown here as summaries.
-          Samples available on request under NDA.
+          Samples available on request.
         </p>
       </div>
 
