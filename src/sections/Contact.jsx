@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 import { contactEmail, contactLinks, web3formsKey } from "../constants";
-import KinesinGame from "../components/KinesinGame";
+import ImmuneDefense from "../components/ImmuneDefense";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -218,7 +218,7 @@ const Contact = () => {
         </div>
       </footer>
 
-      {gameOpen && <KinesinGame onClose={() => setGameOpen(false)} />}
+      {gameOpen && <ImmuneDefense onClose={() => setGameOpen(false)} />}
     </>
   );
 };
