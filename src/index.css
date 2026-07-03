@@ -702,7 +702,7 @@ section {
     @apply border-blue-50 text-white;
   }
 
-  /* ---- "Kinesin Run" mini-game overlay ---- */
+  /* ---- "Immune Defense" mini-game overlay ---- */
   .game-overlay {
     @apply fixed inset-0 z-[200] flex items-center justify-center p-4;
     background: rgba(10, 12, 16, 0.82);
@@ -723,17 +723,31 @@ section {
     @apply text-sm font-semibold uppercase tracking-[0.2em] text-blue-50;
   }
 
-  .game-close {
+  .game-actions {
+    @apply flex items-center gap-1;
+  }
+
+  .game-icon-btn {
     @apply flex items-center justify-center size-9 rounded-lg text-white-50 bg-transparent border-0 cursor-pointer transition-colors duration-200;
   }
 
-  .game-close:hover {
+  .game-icon-btn:hover {
     @apply bg-black-50 text-white;
   }
 
-  .game-canvas {
-    @apply block w-full h-auto rounded-xl;
+  .game-host {
+    @apply relative w-full rounded-xl overflow-hidden;
+    aspect-ratio: 900 / 360;
+    background: #0f1116;
     touch-action: none;
+  }
+
+  .game-host canvas {
+    @apply block;
+  }
+
+  .game-loading {
+    @apply absolute inset-0 flex items-center justify-center text-sm text-blue-50;
   }
 
   .game-hint {
@@ -906,11 +920,12 @@ section {
   83.33% { transform: translateY(-83.33%); }
 }
 
-/* On touch devices, let the page scroll past the hero 3D scene instead of it
-   swallowing the swipe. Targets the layout AND every descendant (the
-   react-three-fiber wrapper div + the <canvas>), with !important to beat R3F's
-   inline touch-action/pointer-events. */
-@media (max-width: 768px) {
+/* On touch devices (phones, tablets, iPad — keyed off "can't hover / coarse
+   pointer" rather than width so iPads are covered), let the page scroll past
+   the hero 3D scene instead of it swallowing the swipe. Targets the layout AND
+   every descendant (the react-three-fiber wrapper div + the <canvas>), with
+   !important to beat R3F's inline touch-action/pointer-events. */
+@media (hover: none), (pointer: coarse) {
   .hero-3d-layout,
   .hero-3d-layout * {
     pointer-events: none !important;

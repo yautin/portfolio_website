@@ -6,13 +6,18 @@ import Particles from './Particles';
 import DnaHelix from './DnaHelix';
 
 const HeroExperience = () => {
-    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    // Touch devices (phones, tablets, iPad) can't hover — disable interaction
+    // there so the canvas never captures scroll gestures. Width alone misses
+    // iPads (they're wider than 768px but still touch).
+    const isTouch = useMediaQuery({ query: '(hover: none)' });
+    const isNarrow = useMediaQuery({ query: '(max-width: 768px)' });
+    const compact = isTouch || isNarrow;
   return (
     <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
         <ambientLight intensity={0.3} color="#a8c0ff" />
 
         <OrbitControls
-            enabled={!isMobile}
+            enabled={!isTouch}
             enablePan={false}
             enableZoom={false}
         />
@@ -20,7 +25,7 @@ const HeroExperience = () => {
         <HeroLights />
         <Particles count={100} />
 
-        <group scale={isMobile ? 0.6 : 0.9} position={isMobile ? [0, -2.5, 0] : [0, 0, 0]}>
+        <group scale={compact ? 0.6 : 0.9} position={compact ? [0, -2.5, 0] : [0, 0, 0]}>
             <DnaHelix />
         </group>
     </Canvas>
