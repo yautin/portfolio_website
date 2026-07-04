@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import { TOTAL_LEVELS, getProgress, getStars, getDifficulty, setDifficulty } from "../td/defs";
-import { makeButton, redrawRoundRect } from "../ui";
+import { TOTAL_LEVELS, RES, getProgress, getStars, getDifficulty, setDifficulty } from "../td/defs";
+import { makeButton, redrawRoundRect, viewport } from "../ui";
 
 const FONT = "'Mona Sans', system-ui, sans-serif";
 
@@ -10,7 +10,7 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   create() {
-    const { width: W, height: H } = this.scale;
+    const { W, H } = viewport(this);
     const progress = getProgress();
     const difficulty = getDifficulty();
 
@@ -19,22 +19,22 @@ export default class MenuScene extends Phaser.Scene {
     bg.fillRect(0, 0, W, H);
     this.add.tileSprite(0, 0, W, H, "specks").setOrigin(0, 0).setAlpha(0.6);
 
-    this.add.text(W / 2, 36, "IMMUNE DEFENSE", { fontFamily: FONT, fontSize: "32px", fontStyle: "800", color: "#e8ebf2" }).setOrigin(0.5);
-    this.add.text(W / 2, 66, "Place immune defenders — stop the pathogens reaching the cell.", {
-      fontFamily: FONT, fontSize: "13px", color: "#8b97ad",
+    this.add.text(W / 2, H / 2 - 158, "IMMUNE DEFENSE", { resolution: RES, fontFamily: FONT, fontSize: "34px", fontStyle: "800", color: "#e8ebf2" }).setOrigin(0.5);
+    this.add.text(W / 2, H / 2 - 126, "Place immune defenders — stop the pathogens reaching the cell.", {
+      resolution: RES, fontFamily: FONT, fontSize: "14px", color: "#8b97ad",
     }).setOrigin(0.5);
 
     // difficulty toggle
-    this.add.text(W / 2 - 118, 94, "Difficulty", { fontFamily: FONT, fontSize: "13px", fontStyle: "700", color: "#8b97ad" }).setOrigin(0, 0.5);
+    this.add.text(W / 2 - 118, H / 2 - 84, "Difficulty", { resolution: RES, fontFamily: FONT, fontSize: "13px", fontStyle: "700", color: "#8b97ad" }).setOrigin(0, 0.5);
     const setDiff = (k) => { if (k !== difficulty) { setDifficulty(k); this.scene.restart(); } };
-    makeButton(this, W / 2 - 4, 94, "Easy", { variant: difficulty === "easy" ? "primary" : "secondary", minWidth: 84, fontSize: 13, onClick: () => setDiff("easy") });
-    makeButton(this, W / 2 + 88, 94, "Normal", { variant: difficulty === "normal" ? "primary" : "secondary", minWidth: 84, fontSize: 13, onClick: () => setDiff("normal") });
+    makeButton(this, W / 2 - 4, H / 2 - 84, "Easy", { variant: difficulty === "easy" ? "primary" : "secondary", minWidth: 84, fontSize: 13, onClick: () => setDiff("easy") });
+    makeButton(this, W / 2 + 88, H / 2 - 84, "Normal", { variant: difficulty === "normal" ? "primary" : "secondary", minWidth: 84, fontSize: 13, onClick: () => setDiff("normal") });
 
     // level-select grid (8 per row, 15 levels)
-    const perRow = 8, bw = 74, bh = 56, gap = 13;
+    const perRow = 8, bw = 76, bh = 56, gap = 14;
     const rowW = perRow * bw + (perRow - 1) * gap;
     const startX = (W - rowW) / 2 + bw / 2;
-    const topY = 138;
+    const topY = H / 2 - 20;
 
     for (let lvl = 1; lvl <= TOTAL_LEVELS; lvl++) {
       const i = lvl - 1;
@@ -53,7 +53,7 @@ export default class MenuScene extends Phaser.Scene {
       paint(false);
 
       const num = this.add.text(0, -10, `${lvl}`, {
-        fontFamily: FONT, fontSize: "20px", fontStyle: "800", color: unlocked ? "#e8ebf2" : "#3a4152",
+        resolution: RES, fontFamily: FONT, fontSize: "20px", fontStyle: "800", color: unlocked ? "#e8ebf2" : "#3a4152",
       }).setOrigin(0.5);
       const children = [g, num];
 
@@ -77,7 +77,7 @@ export default class MenuScene extends Phaser.Scene {
       this.add.container(x, y, children);
     }
 
-    const cont = makeButton(this, W / 2, H - 30, `Continue — Level ${progress}`, {
+    const cont = makeButton(this, W / 2, H / 2 + 172, `Continue — Level ${progress}`, {
       variant: "primary", minWidth: 220, onClick: () => this.scene.start("Game", { level: progress }),
     });
     this.tweens.add({ targets: cont, scaleX: 1.03, scaleY: 1.03, yoyo: true, repeat: -1, duration: 900, ease: "Sine.inOut" });

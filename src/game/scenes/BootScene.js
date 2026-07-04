@@ -1,37 +1,30 @@
 import Phaser from "phaser";
+import { RES } from "../td/defs";
 
-// Loads the SVG sprites and generates helper textures, then hands off to the
-// menu.
+// Loads the SVG sprites (rasterised at RES× the logical size for HiDPI crispness
+// under the camera zoom) and generates helper textures, then hands off to the
+// menu. Sprites are drawn at 1/RES scale in-game so world sizes stay logical.
 export default class BootScene extends Phaser.Scene {
   constructor() {
     super("Boot");
   }
 
   preload() {
+    const svg = (key, w, h = w) => this.load.svg(key, `/game/${key}.svg`, { width: w * RES, height: h * RES });
     // defenders
-    this.load.svg("def-antibody", "/game/def-antibody.svg", { width: 46, height: 46 });
-    this.load.svg("def-mito", "/game/def-mito.svg", { width: 46, height: 46 });
-    this.load.svg("def-macrophage", "/game/def-macrophage.svg", { width: 46, height: 46 });
-    this.load.svg("def-mine", "/game/def-mine.svg", { width: 46, height: 46 });
-    this.load.svg("def-interferon", "/game/def-interferon.svg", { width: 46, height: 46 });
-    this.load.svg("def-mastcell", "/game/def-mastcell.svg", { width: 46, height: 46 });
-    this.load.svg("def-neutrophil", "/game/def-neutrophil.svg", { width: 46, height: 46 });
+    svg("def-antibody", 46); svg("def-mito", 46); svg("def-macrophage", 46);
+    svg("def-mine", 46); svg("def-interferon", 46); svg("def-mastcell", 46); svg("def-neutrophil", 46);
     // pathogens
-    this.load.svg("pathogen-virus", "/game/pathogen-virus.svg", { width: 38, height: 38 });
-    this.load.svg("pathogen-bacterium", "/game/pathogen-bacterium.svg", { width: 40, height: 40 });
-    this.load.svg("pathogen-resistant", "/game/pathogen-resistant.svg", { width: 38, height: 38 });
-    this.load.svg("pathogen-parasite", "/game/pathogen-parasite.svg", { width: 40, height: 40 });
-    this.load.svg("pathogen-spore", "/game/pathogen-spore.svg", { width: 30, height: 30 });
-    this.load.svg("pathogen-miasma", "/game/pathogen-miasma.svg", { width: 42, height: 42 });
-    this.load.svg("pathogen-biofilm", "/game/pathogen-biofilm.svg", { width: 48, height: 48 });
+    svg("pathogen-virus", 38); svg("pathogen-bacterium", 40); svg("pathogen-resistant", 38);
+    svg("pathogen-parasite", 40); svg("pathogen-spore", 30); svg("pathogen-miasma", 42); svg("pathogen-biofilm", 48);
     // projectiles + atp
-    this.load.svg("projectile", "/game/projectile.svg", { width: 14, height: 14 });
-    this.load.svg("projectile-slow", "/game/projectile-slow.svg", { width: 16, height: 16 });
-    this.load.svg("atp", "/game/atp.svg", { width: 22, height: 22 });
+    svg("projectile", 14); svg("projectile-slow", 16); svg("atp", 22);
   }
 
   create() {
-    // small round particle
+    const R = RES;
+
+    // small round particle (soft — kept at native size)
     const dot = this.add.graphics();
     dot.fillStyle(0xffffff, 1);
     dot.fillCircle(4, 4, 4);
@@ -47,26 +40,26 @@ export default class BootScene extends Phaser.Scene {
     specks.generateTexture("specks", 256, 256);
     specks.destroy();
 
-    // heart pip for the cell-integrity display (two lobes + a point)
+    // heart pip (crisp UI icon → RES density)
     const heart = this.add.graphics();
     heart.fillStyle(0xffffff, 1);
-    heart.fillCircle(5, 6, 5);
-    heart.fillCircle(13, 6, 5);
-    heart.fillTriangle(0.5, 7.5, 17.5, 7.5, 9, 17);
-    heart.generateTexture("heart", 18, 18);
+    heart.fillCircle(5 * R, 6 * R, 5 * R);
+    heart.fillCircle(13 * R, 6 * R, 5 * R);
+    heart.fillTriangle(0.5 * R, 7.5 * R, 17.5 * R, 7.5 * R, 9 * R, 17 * R);
+    heart.generateTexture("heart", 18 * R, 18 * R);
     heart.destroy();
 
-    // five-point star for level ratings
+    // five-point star for level ratings (RES density)
     const star = this.add.graphics();
     star.fillStyle(0xffffff, 1);
     const pts = [];
     for (let i = 0; i < 10; i++) {
       const ang = -Math.PI / 2 + (i * Math.PI) / 5;
-      const rr = i % 2 === 0 ? 8 : 3.4;
-      pts.push(new Phaser.Math.Vector2(9 + Math.cos(ang) * rr, 9 + Math.sin(ang) * rr));
+      const rr = (i % 2 === 0 ? 8 : 3.4) * R;
+      pts.push(new Phaser.Math.Vector2(9 * R + Math.cos(ang) * rr, 9 * R + Math.sin(ang) * rr));
     }
     star.fillPoints(pts, true);
-    star.generateTexture("star", 18, 18);
+    star.generateTexture("star", 18 * R, 18 * R);
     star.destroy();
 
     this.scene.start("Menu");
