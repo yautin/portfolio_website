@@ -1,5 +1,13 @@
 // All tuning knobs for Immune Defense live here so balancing is a one-file job.
 
+// HiDPI factor: the canvas backing store is RES× the logical design size and
+// each scene's camera zooms by RES, so gameplay stays in logical pixels while
+// rendering at (near-)native display resolution. Derived once per session.
+export const RES = Math.min(
+  3,
+  Math.max(2, Math.round(((window.screen?.width || 1280) * (window.devicePixelRatio || 1)) / 960))
+);
+
 export const COLORS = {
   antibody: 0x4cc9f0,
   mito: 0xf4a259,

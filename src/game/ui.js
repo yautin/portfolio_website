@@ -1,5 +1,19 @@
+import { RES } from "./td/defs";
+
 // Shared UI kit for the game scenes: pill buttons, icon buttons and a
 // rounded-rect helper, so every scene draws chrome the same way.
+
+// HiDPI: the canvas backing store is RES× the logical size; zooming the main
+// camera by RES makes the scene compose in logical pixels while rendering at
+// native density. Call first in create(); returns the logical view size.
+export function viewport(scene) {
+  const W = scene.scale.width / RES;
+  const H = scene.scale.height / RES;
+  const cam = scene.cameras.main;
+  cam.setZoom(RES);
+  cam.centerOn(W / 2, H / 2);
+  return { W, H };
+}
 
 export const UI = {
   accent: 0x4cc9f0,
@@ -53,7 +67,7 @@ export function makeButton(scene, x, y, label, { variant = "primary", onClick, m
   const padX = 18;
   const h = 34;
   const txt = scene.add
-    .text(0, 0, label, { fontFamily: FONT, fontSize: `${fontSize}px`, fontStyle: "700" })
+    .text(0, 0, label, { resolution: RES, fontFamily: FONT, fontSize: `${fontSize}px`, fontStyle: "700" })
     .setOrigin(0.5);
   const w = Math.max(minWidth, Math.ceil(txt.width) + padX * 2);
 
@@ -89,7 +103,7 @@ export function makeButton(scene, x, y, label, { variant = "primary", onClick, m
 // A round icon button (single glyph), e.g. the ☰ menu.
 export function makeIconButton(scene, x, y, glyph, { onClick, size = 30 } = {}) {
   const g = scene.add.graphics();
-  const txt = scene.add.text(0, 0, glyph, { fontFamily: FONT, fontSize: "18px", fontStyle: "700" }).setOrigin(0.5);
+  const txt = scene.add.text(0, 0, glyph, { resolution: RES, fontFamily: FONT, fontSize: "18px", fontStyle: "700" }).setOrigin(0.5);
   const hit = scene.add.rectangle(0, 0, size, size, 0x000000, 0).setInteractive({ useHandCursor: true });
   const c = scene.add.container(x, y, [g, txt, hit]);
   c.setSize(size, size);
