@@ -1,14 +1,17 @@
 import Phaser from "phaser";
+import { RES } from "./defs";
 
 // Light entity classes. The scene owns FX, collisions and the game loop; these
-// hold per-instance state and the movement they need.
+// hold per-instance state and the movement they need. Textures are rasterised
+// at RES× density, so sprites render at 1/RES scale to keep world sizes (and
+// Arcade bodies) in logical pixels while staying crisp.
 
 export class Pathogen extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, def, lane) {
     super(scene, x, y, def.texture);
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setDepth(5);
+    this.setDepth(5).setScale(1 / RES);
     this.body.setAllowGravity(false);
     this.def = def;
     this.lane = lane;
@@ -72,7 +75,7 @@ export class Projectile extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, def.projectile || "projectile");
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setDepth(6);
+    this.setDepth(6).setScale(1 / RES);
     this.body.setAllowGravity(false);
     this.damage = def.damage;
     this.slowFactor = def.slowFactor || 1;
@@ -85,7 +88,7 @@ export class Defender extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, def, col, row) {
     super(scene, x, y, def.texture);
     scene.add.existing(this);
-    this.setDepth(4);
+    this.setDepth(4).setScale(1 / RES);
     this.def = def;
     this.col = col;
     this.row = row;

@@ -28,7 +28,8 @@ import {
   diff,
 } from "../td/defs";
 import { Pathogen, Projectile, Defender } from "../td/entities";
-import { makeButton, makeIconButton, redrawRoundRect } from "../ui";
+import { RES } from "../td/defs";
+import { makeButton, makeIconButton, redrawRoundRect, viewport } from "../ui";
 
 const FONT = "'Mona Sans', system-ui, sans-serif";
 const CONTACT = 34; // px: how close a pathogen must get to a defender to engage
@@ -44,7 +45,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    const { width: W, height: H } = this.scale;
+    const { W, H } = viewport(this);
     this.W = W;
     this.H = H;
 
@@ -135,7 +136,7 @@ export default class GameScene extends Phaser.Scene {
       onComplete: () => this.tweens.add({ targets: rect, alpha: 0, duration: 700, delay: 500, onComplete: () => rect.destroy() }),
     });
     const label = this.add
-      .text(this.W / 2, y, "＋ New lane", { fontFamily: FONT, fontSize: "18px", fontStyle: "800", color: "#4cc9f0" })
+      .text(this.W / 2, y, "＋ New lane", { resolution: RES, fontFamily: FONT, fontSize: "18px", fontStyle: "800", color: "#4cc9f0" })
       .setOrigin(0.5).setDepth(16).setAlpha(0);
     this.tweens.add({ targets: label, alpha: 1, duration: 300, yoyo: true, hold: 1000, onComplete: () => label.destroy() });
   }
@@ -205,12 +206,12 @@ export default class GameScene extends Phaser.Scene {
     this.add.rectangle(0, 0, W, GRID.hudTop, 0x0d0f14, 0.9).setOrigin(0, 0).setDepth(15);
     this.add.rectangle(0, GRID.hudTop, W, 1, 0xffffff, 0.06).setOrigin(0, 1).setDepth(15);
 
-    this.add.image(20, hy, "atp").setDepth(16);
-    this.atpText = this.add.text(36, hy, "", { fontFamily: FONT, fontSize: "18px", fontStyle: "800", color: "#e8ebf2" }).setOrigin(0, 0.5).setDepth(16);
+    this.add.image(20, hy, "atp").setDisplaySize(22, 22).setDepth(16);
+    this.atpText = this.add.text(36, hy, "", { resolution: RES, fontFamily: FONT, fontSize: "18px", fontStyle: "800", color: "#e8ebf2" }).setOrigin(0, 0.5).setDepth(16);
     this.atpShown = -1;
     this.atpPopAt = 0;
 
-    this.waveText = this.add.text(W / 2, hy, "", { fontFamily: FONT, fontSize: "15px", fontStyle: "700", color: "#c4cdda" }).setOrigin(0.5).setDepth(16);
+    this.waveText = this.add.text(W / 2, hy, "", { resolution: RES, fontFamily: FONT, fontSize: "15px", fontStyle: "700", color: "#c4cdda" }).setOrigin(0.5).setDepth(16);
     this.startCta = makeButton(this, W / 2, hy, "▶ Start level · 20s", {
       variant: "primary", minWidth: 184, fontSize: 14, onClick: () => this.skipWait(),
     }).setDepth(16);
@@ -223,10 +224,10 @@ export default class GameScene extends Phaser.Scene {
     }
     this.menuBtn = makeIconButton(this, W - 22, hy, "☰", { onClick: () => this.togglePause(), size: 30 }).setDepth(16);
 
-    this.banner = this.add.text(W / 2, this.playTop + 30, "", { fontFamily: FONT, fontSize: "24px", fontStyle: "800", color: "#e8ebf2" })
+    this.banner = this.add.text(W / 2, this.playTop + 30, "", { resolution: RES, fontFamily: FONT, fontSize: "24px", fontStyle: "800", color: "#e8ebf2" })
       .setOrigin(0.5).setDepth(16).setAlpha(0);
 
-    this.bossName = this.add.text(W / 2, this.playTop + 8, "", { fontFamily: FONT, fontSize: "13px", fontStyle: "800", color: "#ffd0cf" })
+    this.bossName = this.add.text(W / 2, this.playTop + 8, "", { resolution: RES, fontFamily: FONT, fontSize: "13px", fontStyle: "800", color: "#ffd0cf" })
       .setOrigin(0.5).setDepth(17).setVisible(false);
   }
 
@@ -241,7 +242,7 @@ export default class GameScene extends Phaser.Scene {
     this.add.rectangle(0, this.playBottom, W, GRID.toolbar, 0x0d0f14, 0.9).setOrigin(0, 0).setDepth(15);
     this.add.rectangle(0, this.playBottom, W, 1, 0xffffff, 0.06).setOrigin(0, 0).setDepth(15);
 
-    this.tip = this.add.text(0, 0, "", { fontFamily: FONT, fontSize: "12px", color: "#e8ebf2", backgroundColor: "#1b2130", padding: { x: 7, y: 4 } })
+    this.tip = this.add.text(0, 0, "", { resolution: RES, fontFamily: FONT, fontSize: "12px", color: "#e8ebf2", backgroundColor: "#1b2130", padding: { x: 7, y: 4 } })
       .setOrigin(0.5, 1).setDepth(30).setVisible(false);
 
     this.cards = DEFENDER_ORDER.map((key, i) => {
@@ -252,10 +253,10 @@ export default class GameScene extends Phaser.Scene {
 
       const bgG = this.add.graphics();
       const icon = this.add.image(lx + 24, 0, def.texture).setDisplaySize(32, 32);
-      const nameT = this.add.text(lx + 43, -10, def.shortName, { fontFamily: FONT, fontSize: "11px", fontStyle: "700", color: "#e8ebf2" }).setOrigin(0, 0.5);
+      const nameT = this.add.text(lx + 43, -10, def.shortName, { resolution: RES, fontFamily: FONT, fontSize: "11px", fontStyle: "700", color: "#e8ebf2" }).setOrigin(0, 0.5);
       const dot = this.add.image(lx + 46, 10, "dot").setTint(0x4cc9f0).setDisplaySize(7, 7);
-      const costT = this.add.text(lx + 54, 10, `${def.cost}`, { fontFamily: FONT, fontSize: "12px", fontStyle: "700", color: "#8b97ad" }).setOrigin(0, 0.5);
-      this.add.text(cardW / 2 - 9, -cardH / 2 + 9, `${i + 1}`, { fontFamily: FONT, fontSize: "10px", color: "#5c6b82" }).setOrigin(0.5);
+      const costT = this.add.text(lx + 54, 10, `${def.cost}`, { resolution: RES, fontFamily: FONT, fontSize: "12px", fontStyle: "700", color: "#8b97ad" }).setOrigin(0, 0.5);
+      this.add.text(cardW / 2 - 9, -cardH / 2 + 9, `${i + 1}`, { resolution: RES, fontFamily: FONT, fontSize: "10px", color: "#5c6b82" }).setOrigin(0.5);
       const cdbar = this.add.rectangle(lx + 6, cardH / 2 - 5, cardW - 12, 3, 0x4cc9f0).setOrigin(0, 0.5).setScale(0, 1).setVisible(false);
 
       const children = [bgG, icon, nameT, dot, costT, cdbar];
@@ -267,7 +268,7 @@ export default class GameScene extends Phaser.Scene {
         lock.fillStyle(0x8b97ad, 1).fillRoundedRect(lx + 40, -2, 12, 9, 2);
         lock.lineStyle(2, 0x8b97ad, 1);
         lock.beginPath(); lock.arc(lx + 46, -2, 4, Math.PI, 0); lock.strokePath();
-        const lvT = this.add.text(lx + 60, 0, `Lv ${i + 1}`, { fontFamily: FONT, fontSize: "11px", fontStyle: "700", color: "#5c6b82" }).setOrigin(0, 0.5);
+        const lvT = this.add.text(lx + 60, 0, `Lv ${i + 1}`, { resolution: RES, fontFamily: FONT, fontSize: "11px", fontStyle: "700", color: "#5c6b82" }).setOrigin(0, 0.5);
         children.push(lock, lvT);
       } else {
         const hit = this.add.rectangle(0, 0, cardW, cardH, 0x000000, 0).setInteractive({ useHandCursor: true });
@@ -313,7 +314,7 @@ export default class GameScene extends Phaser.Scene {
     this.cellHi = this.add.rectangle(0, 0, this.colW - 4, this.laneH - 4, 0x4cc9f0, 0.12)
       .setStrokeStyle(2, 0x4cc9f0, 0.6).setDepth(2).setVisible(false);
     this.ghost = this.add.image(0, 0, this.units[0] ? DEFENDERS[this.units[0]].texture : "def-antibody")
-      .setAlpha(0.55).setDepth(3).setVisible(false);
+      .setScale(1 / RES).setAlpha(0.55).setDepth(3).setVisible(false);
   }
 
   bindInput() {
@@ -328,11 +329,11 @@ export default class GameScene extends Phaser.Scene {
 
   showTutorial() {
     const firstX = this.cards[0].container.x;
-    this.tutorArrow = this.add.text(firstX, this.playBottom - 4, "▼", { fontFamily: FONT, fontSize: "22px", fontStyle: "800", color: "#4cc9f0" })
+    this.tutorArrow = this.add.text(firstX, this.playBottom - 4, "▼", { resolution: RES, fontFamily: FONT, fontSize: "22px", fontStyle: "800", color: "#4cc9f0" })
       .setOrigin(0.5, 1).setDepth(21);
     this.tweens.add({ targets: this.tutorArrow, y: this.tutorArrow.y - 8, yoyo: true, repeat: -1, duration: 500, ease: "Sine.inOut" });
     this.tutorText = this.add.text(this.W / 2, this.playBottom - 34, "Tap a defender, then tap a lane cell to place it", {
-      fontFamily: FONT, fontSize: "13px", fontStyle: "700", color: "#e8ebf2", backgroundColor: "#1b2130cc", padding: { x: 8, y: 4 },
+      resolution: RES, fontFamily: FONT, fontSize: "13px", fontStyle: "700", color: "#e8ebf2", backgroundColor: "#1b2130cc", padding: { x: 8, y: 4 },
     }).setOrigin(0.5).setDepth(21);
   }
 
@@ -364,7 +365,7 @@ export default class GameScene extends Phaser.Scene {
     const els = [];
     els.push(this.add.rectangle(0, 0, W, H, 0x0b0d12, 0.78).setOrigin(0, 0).setDepth(40).setInteractive());
     els.push(this.add.rectangle(W / 2, H / 2, 288, 218, 0x141922, 0.97).setStrokeStyle(1.5, 0x2b3345).setDepth(40.5));
-    els.push(this.add.text(W / 2, H / 2 - 66, "PAUSED", { fontFamily: FONT, fontSize: "26px", fontStyle: "800", color: "#e8ebf2" }).setOrigin(0.5).setDepth(41));
+    els.push(this.add.text(W / 2, H / 2 - 66, "PAUSED", { resolution: RES, fontFamily: FONT, fontSize: "26px", fontStyle: "800", color: "#e8ebf2" }).setOrigin(0.5).setDepth(41));
     const mkBtn = (label, y, variant, action) => els.push(makeButton(this, W / 2, y, label, { variant, minWidth: 208, onClick: action }).setDepth(41));
     mkBtn("Resume", H / 2 - 22, "primary", () => this.resumeGame());
     mkBtn("Restart level", H / 2 + 20, "secondary", () => { this.resumeGame(); this.scene.restart({ level: this.level }); });
@@ -403,11 +404,20 @@ export default class GameScene extends Phaser.Scene {
   }
 
   onPointerMove(p) {
-    if (this.pressData && Phaser.Math.Distance.Between(p.x, p.y, this.pressData.x, this.pressData.y) > 12) this.clearPress();
+    if (this.pressData && Phaser.Math.Distance.Between(p.worldX, p.worldY, this.pressData.x, this.pressData.y) > 12) this.clearPress();
+    this.refreshPreview();
+  }
+
+  // Live placement preview — recomputed every frame from the current pointer so
+  // the ghost/highlight reflect cooldown & ATP even while the pointer is held
+  // still. (Previously only pointermove refreshed it, so a stationary pointer
+  // stayed stale-red after a cooldown/ATP freed up.)
+  refreshPreview() {
     if (this.paused || !this.selected) { this.ghost.setVisible(false); this.cellHi.setVisible(false); return; }
-    const cell = this.cellAt(p.x, p.y);
-    const def = DEFENDERS[this.selected];
+    const p = this.input.activePointer;
+    const cell = this.cellAt(p.worldX, p.worldY);
     if (!cell || this.cells[this.cellIndex(cell.col, cell.row)]) { this.ghost.setVisible(false); this.cellHi.setVisible(false); return; }
+    const def = DEFENDERS[this.selected];
     const card = this.cards.find((c) => c.key === this.selected);
     const ok = this.atp >= def.cost && this.time.now >= card.cdEnd;
     const x = this.colX(cell.col), y = this.laneY(cell.row);
@@ -417,20 +427,20 @@ export default class GameScene extends Phaser.Scene {
 
   onPointerDown(p) {
     if (this.paused || this.mode === "over") return;
-    const cell = this.cellAt(p.x, p.y);
+    const cell = this.cellAt(p.worldX, p.worldY);
 
     // right-click sells
     if (p.rightButtonDown && p.rightButtonDown()) { if (cell) this.sellAt(cell); return; }
 
     // tap/hold on an occupied cell (no card): hold = sell, tap = upgrade prompt
     if (cell && this.cells[this.cellIndex(cell.col, cell.row)] && !this.selected) {
-      this.pressData = { cell, x: p.x, y: p.y };
+      this.pressData = { cell, x: p.worldX, y: p.worldY };
       this.pressTimer = this.time.delayedCall(500, () => { this.pressTimer = null; this.sellAt(cell); this.pressData = null; });
       return;
     }
 
     if (!this.selected) return;
-    if (p.y < this.playTop || p.y >= this.playBottom || !cell) return;
+    if (p.worldY < this.playTop || p.worldY >= this.playBottom || !cell) return;
     const idx = this.cellIndex(cell.col, cell.row);
     if (this.cells[idx]) return;
 
@@ -445,13 +455,13 @@ export default class GameScene extends Phaser.Scene {
     this.defenders.push(d);
     sfx.place();
     d.setScale(0);
-    this.tweens.add({ targets: d, scale: 1, duration: 180, ease: "Back.out" });
+    this.tweens.add({ targets: d, scale: 1 / RES, duration: 180, ease: "Back.out" });
     this.burst(d.x, d.y, def.color, 6, 16);
     if (def.role === "mine") {
       this.time.delayedCall(def.armTime, () => { if (d.active) { d.armed = true; this.burst(d.x, d.y, 0xffe08a, 6, 14); sfx.arm(); } });
     }
     if (this.tutorial) this.endTutorial();
-    this.onPointerMove(p);
+    this.refreshPreview();
   }
 
   clearPress() {
@@ -511,7 +521,19 @@ export default class GameScene extends Phaser.Scene {
 
   nope(card) {
     sfx.nope();
-    this.tweens.add({ targets: card.container, x: card.container.x + 4, duration: 45, yoyo: true, repeat: 3 });
+    // anchor the shake to the card's home x — overlapping shakes must never
+    // capture an already-displaced position or the card drifts permanently
+    this.tweens.killTweensOf(card.container);
+    card.container.x = card.baseX;
+    this.tweens.add({
+      targets: card.container,
+      x: card.baseX + 4,
+      duration: 45,
+      yoyo: true,
+      repeat: 3,
+      onComplete: () => { card.container.x = card.baseX; },
+      onStop: () => { card.container.x = card.baseX; },
+    });
   }
 
   // --- waves -----------------------------------------------------------
@@ -552,7 +574,7 @@ export default class GameScene extends Phaser.Scene {
     p.maxHp = Math.round(def.hp * diff().hpMul); p.hp = p.maxHp;
     p.baseSpeed = def.speed * diff().speedMul * (this.modifier?.speedMul || 1);
     p.refreshVelocity();
-    if (def.fly) this.tweens.add({ targets: p, scaleX: 1.08, scaleY: 1.08, yoyo: true, repeat: -1, duration: 700, ease: "Sine.inOut" });
+    if (def.fly) this.tweens.add({ targets: p, scaleX: 1.08 / RES, scaleY: 1.08 / RES, yoyo: true, repeat: -1, duration: 700, ease: "Sine.inOut" });
     this.pathogens.add(p);
   }
 
@@ -564,7 +586,7 @@ export default class GameScene extends Phaser.Scene {
     p.boss = true;
     p.maxHp = Math.round(def.hp * cfg.hpMul * diff().hpMul); p.hp = p.maxHp;
     p.baseSpeed = def.speed * diff().speedMul * 0.85; p.refreshVelocity();
-    p.setScale(cfg.scale).setDepth(5);
+    p.setScale(cfg.scale / RES).setDepth(5);
     this.pathogens.add(p);
     this.boss = p;
     this.bossName.setText(cfg.name);
@@ -715,12 +737,12 @@ export default class GameScene extends Phaser.Scene {
   }
 
   coinFly(x, y) {
-    const coin = this.add.image(x, y, "atp").setDisplaySize(15, 15).setDepth(11);
-    this.tweens.add({ targets: coin, x: 26, y: GRID.hudTop / 2, scale: 0.45, duration: 480, ease: "Quad.in", onComplete: () => coin.destroy() });
+    const coin = this.add.image(x, y, "atp").setDisplaySize(16, 16).setDepth(11);
+    this.tweens.add({ targets: coin, x: 26, y: GRID.hudTop / 2, scaleX: coin.scaleX * 0.5, scaleY: coin.scaleY * 0.5, duration: 480, ease: "Quad.in", onComplete: () => coin.destroy() });
   }
 
   floatText(x, y, str, color, dur = 800) {
-    const t = this.add.text(x, y, str, { fontFamily: FONT, fontSize: "14px", fontStyle: "700", color }).setOrigin(0.5).setDepth(10);
+    const t = this.add.text(x, y, str, { resolution: RES, fontFamily: FONT, fontSize: "14px", fontStyle: "700", color }).setOrigin(0.5).setDepth(10);
     this.tweens.add({ targets: t, y: y - 26, alpha: 0, duration: dur, ease: "Quad.out", onComplete: () => t.destroy() });
   }
 
@@ -747,6 +769,7 @@ export default class GameScene extends Phaser.Scene {
     this.drawBossBar();
     this.updateHud(time);
     this.updateCards();
+    this.refreshPreview();
   }
 
   updateDefenders(delta) {
