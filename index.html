@@ -5,6 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Apply a saved light theme before first paint (dark is the default) so
+         there is no flash of the wrong theme. -->
+    <script>
+      try {
+        if (localStorage.getItem("theme") === "light")
+          document.documentElement.dataset.theme = "light";
+      } catch (e) {}
+    </script>
+
     <title>Marco Ng — Medical Writer</title>
     <meta
       name="description"
