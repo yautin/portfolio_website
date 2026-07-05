@@ -78,12 +78,12 @@ const Contact = () => {
 
   return (
     <>
-      <section id="contact" ref={sectionRef} className="contact-section">
+      <section id="contact" ref={sectionRef} className="contact-section section-band is-alt">
         <div className="contact-grid">
           <div className="contact-intro">
-            <p className="contact-eyebrow contact-reveal">Contact</p>
-            <h2 className="contact-title contact-reveal">Let&rsquo;s work together</h2>
-            <p className="contact-note contact-reveal">
+            <p className="section-eyebrow contact-reveal">Contact</p>
+            <h2 className="section-title contact-reveal">Let&rsquo;s work together</h2>
+            <p className="section-lead contact-reveal">
               I help medical and commercial teams turn complex clinical data into
               accurate, compelling content for healthcare professionals — from
               detail aids to symposium highlights.
