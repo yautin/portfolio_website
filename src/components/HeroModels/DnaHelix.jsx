@@ -7,7 +7,7 @@ import * as THREE from "three";
  * medical / life-sciences focus of the portfolio. Built entirely from
  * primitives (no .glb asset required) so it stays light and easy to tweak.
  */
-const DnaHelix = ({ count = 24, radius = 1.5, rise = 0.4, turns = 2.5 }) => {
+const DnaHelix = ({ count = 24, radius = 1.5, rise = 0.4, turns = 2.5, light = false }) => {
   const group = useRef();
 
   const { nodes, rungs } = useMemo(() => {
@@ -53,9 +53,9 @@ const DnaHelix = ({ count = 24, radius = 1.5, rise = 0.4, turns = 2.5 }) => {
           <meshStandardMaterial
             color={n.strand === 0 ? "#4cc9f0" : "#9d4edd"}
             emissive={n.strand === 0 ? "#1b6fa3" : "#5a2d8a"}
-            emissiveIntensity={0.35}
-            roughness={0.25}
-            metalness={0.4}
+            emissiveIntensity={light ? 0.55 : 0.35}
+            roughness={light ? 0.2 : 0.25}
+            metalness={light ? 0.3 : 0.4}
           />
         </mesh>
       ))}
@@ -64,8 +64,8 @@ const DnaHelix = ({ count = 24, radius = 1.5, rise = 0.4, turns = 2.5 }) => {
         <mesh key={`rung-${i}`} position={r.pos} quaternion={r.quaternion}>
           <cylinderGeometry args={[0.05, 0.05, radius * 2, 12]} />
           <meshStandardMaterial
-            color="#a8dadc"
-            emissive="#3a506b"
+            color={light ? "#5c7789" : "#a8dadc"}
+            emissive={light ? "#2b3d4f" : "#3a506b"}
             emissiveIntensity={0.2}
             roughness={0.4}
             metalness={0.2}
