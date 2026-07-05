@@ -90,11 +90,11 @@ const DataDistilled = () => {
   }, []);
 
   return (
-    <section id="distill" ref={sectionRef} className="distill-section">
+    <section id="distill" ref={sectionRef} className="distill-section section-band">
       <div className="distill-head">
-        <p className="distill-eyebrow">Data distilled</p>
-        <h2>Trial data, made to land with clinicians</h2>
-        <p className="distill-note">
+        <p className="section-eyebrow">Data distilled</p>
+        <h2 className="section-title">Trial data, made to land with clinicians</h2>
+        <p className="section-lead">
           Real trial readouts condensed into the single takeaway an HCP needs.
         </p>
       </div>

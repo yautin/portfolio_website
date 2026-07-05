@@ -39,11 +39,11 @@ const ShowcaseSection = () => {
   }, []);
 
   return (
-    <section id="work" ref={sectionRef} className="work-section">
+    <section id="work" ref={sectionRef} className="work-section section-band">
       <div className="work-head">
-        <p className="work-eyebrow">Selected work</p>
-        <h2>Turning clinical data into content HCPs act on</h2>
-        <p className="work-note">
+        <p className="section-eyebrow">Selected work</p>
+        <h2 className="section-title">Turning clinical data into content HCPs act on</h2>
+        <p className="section-lead">
           Client deliverables are confidential and shown here as summaries.
           Samples available on request.
         </p>

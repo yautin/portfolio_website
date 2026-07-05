@@ -30,6 +30,8 @@ section {
   --color-black-100: #1c1f28;
   --color-black-200: #262b37;
   --color-blue-50: #8b97ad;
+  /* hair-lighter surface for alternating section bands */
+  --color-black-surface: #191c24;
 }
 
 @layer utilities {
@@ -44,6 +46,34 @@ section {
 @layer components {
   .padding-x-lg {
     @apply px-5 md:px-20;
+  }
+
+  /* ---- shared section rhythm + type scale ----
+     one consistent vertical beat and one header scale across every section,
+     with subtly alternating background bands so the page reads as distinct
+     sections rather than one flat scroll. */
+  .section-band {
+    @apply py-24 md:py-32;
+  }
+
+  .section-band.is-alt {
+    background: var(--color-black-surface);
+  }
+
+  .section-head {
+    @apply max-w-3xl;
+  }
+
+  .section-eyebrow {
+    @apply text-xs md:text-sm font-semibold uppercase tracking-[0.28em] text-blue-50 mb-4;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-5xl font-bold leading-[1.08] tracking-tight text-white;
+  }
+
+  .section-lead {
+    @apply mt-5 text-base md:text-lg text-white-50 leading-relaxed max-w-[60ch];
   }
 
   .grid-3-cols {
@@ -191,23 +221,11 @@ section {
   }
 
   .work-section {
-    @apply px-5 md:px-20 md:mt-40 mt-24;
+    @apply px-5 md:px-20;
   }
 
   .work-head {
     @apply max-w-3xl;
-
-    .work-eyebrow {
-      @apply text-sm uppercase tracking-[0.25em] text-blue-50 mb-3;
-    }
-
-    h2 {
-      @apply text-3xl md:text-5xl font-bold leading-tight;
-    }
-
-    .work-note {
-      @apply text-white-50 text-sm md:text-base mt-5 max-w-xl;
-    }
   }
 
   .work-grid {
@@ -287,23 +305,11 @@ section {
   }
 
   .drugs-section {
-    @apply md:mt-40 mt-24 overflow-hidden;
+    @apply overflow-hidden;
   }
 
   .drugs-head {
     @apply px-5 md:px-20 max-w-3xl;
-
-    .drugs-eyebrow {
-      @apply text-sm uppercase tracking-[0.25em] text-blue-50 mb-3;
-    }
-
-    h2 {
-      @apply text-3xl md:text-5xl font-bold leading-tight;
-    }
-
-    .drugs-note {
-      @apply text-white-50 text-sm md:text-base mt-5 max-w-xl;
-    }
   }
 
   .drug-legend {
@@ -363,23 +369,11 @@ section {
   }
 
   .distill-section {
-    @apply px-5 md:px-20 md:mt-40 mt-24;
+    @apply px-5 md:px-20;
   }
 
   .distill-head {
     @apply max-w-3xl;
-
-    .distill-eyebrow {
-      @apply text-sm uppercase tracking-[0.25em] text-blue-50 mb-3;
-    }
-
-    h2 {
-      @apply text-3xl md:text-5xl font-bold leading-tight;
-    }
-
-    .distill-note {
-      @apply text-white-50 text-sm md:text-base mt-5 max-w-xl;
-    }
   }
 
   /* transformation flow: raw readout -> connector -> distilled hero figure */
@@ -548,24 +542,12 @@ section {
 
   /* ---- Contact ---- */
   .contact-section {
-    @apply px-5 md:px-20 md:mt-40 mt-24;
+    @apply px-5 md:px-20;
     --accent: #4cc9f0;
   }
 
   .contact-grid {
     @apply grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-16 items-start;
-  }
-
-  .contact-eyebrow {
-    @apply text-sm uppercase tracking-[0.25em] text-blue-50 mb-3;
-  }
-
-  .contact-title {
-    @apply text-3xl md:text-5xl font-bold leading-tight max-w-xl;
-  }
-
-  .contact-note {
-    @apply text-white-50 text-base md:text-lg mt-5 max-w-md leading-relaxed;
   }
 
   .contact-status {
@@ -831,7 +813,7 @@ section {
 
   /* ---- Kinesin walking a microtubule (decorative divider) ---- */
   .kinesin-band {
-    @apply relative w-full overflow-hidden mt-16 md:mt-24 h-52 md:h-64 border-y border-black-50;
+    @apply relative w-full overflow-hidden h-52 md:h-64 border-y border-black-50;
   }
 
   .kinesin-track {

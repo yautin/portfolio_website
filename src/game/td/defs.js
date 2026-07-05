@@ -44,7 +44,7 @@ export const TUTORIAL_KEY = "immuneDefenseTutorial";
 export const GRID = {
   cols: 8,
   membrane: 96,
-  hudTop: 44,
+  hudTop: 56, // taller top bar: a content row + a dedicated wave-progress row
   toolbar: 64,
 };
 
