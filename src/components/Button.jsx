@@ -1,7 +1,6 @@
 /**
- * A reusable CTA button component.
- * When clicked, it scrolls smoothly to the section with ID "counter",
- * with a small offset from the top for better visual placement.
+ * The hero CTA: a brand-gradient pill that scrolls smoothly to the section
+ * with ID "counter", with a small offset from the top for better placement.
  */
 
 const Button = ({ text, className, id }) => {
@@ -9,31 +8,37 @@ const Button = ({ text, className, id }) => {
     <a
       href="#counter"
       onClick={(e) => {
-        e.preventDefault(); // Stop the link from jumping instantly
+        e.preventDefault(); // stop the link from jumping instantly
 
-        const target = document.getElementById("counter"); // Find the section with ID "counter"
+        const target = document.getElementById("counter");
 
-        // Only scroll if we found the section and an ID is passed in
-        // taht prevents the contact button from scrolling to the top
+        // only scroll if we found the section and an ID is passed in
+        // (prevents other instances from scrolling to the top)
         if (target && id) {
-          const offset = window.innerHeight * 0.15; // Leave a bit of space at the top
-
-          // Calculate how far down the page we need to scroll
+          const offset = window.innerHeight * 0.15;
           const top =
             target.getBoundingClientRect().top + window.pageYOffset - offset;
-
-          // Scroll smoothly to that position
           window.scrollTo({ top, behavior: "smooth" });
         }
       }}
-      className={`${className ?? ""} cta-wrapper`} // Add base + extra class names
+      className={`${className ?? ""} cta-wrapper`}
     >
-      <div className="cta-button group">
-        <div className="bg-circle" />
-        <p className="text">{text}</p>
-        <div className="arrow-wrapper">
-          <img src="/images/arrow-down.svg" alt="arrow" />
-        </div>
+      <div className="cta-button">
+        <span className="text">{text}</span>
+        {/* circle badge that morphs in on hover; the arrow drops in and bounces */}
+        <span className="cta-badge" aria-hidden="true">
+          <svg
+            className="cta-arrow"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 4v16M5 13l7 7 7-7" />
+          </svg>
+        </span>
       </div>
     </a>
   );

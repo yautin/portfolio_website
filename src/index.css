@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+/* Mona Sans is loaded via <link> in index.html (preconnect + swap) so the font
+   request parallelizes instead of chaining behind the CSS bundle. */
 @import "tailwindcss";
 
 html,
@@ -24,6 +25,36 @@ section {
   outline-offset: 2px;
 }
 
+/* brand text selection */
+::selection {
+  background: #4cc9f0;
+  color: #0b0d12;
+}
+
+/* slim, theme-aware scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-black-50) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-black-50);
+  border-radius: 999px;
+  border: 2px solid var(--page-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-blue-50);
+}
+
 @theme {
   --font-sans: "Mona Sans", sans-serif;
   --color-white-50: #c4cdda;
@@ -42,6 +73,11 @@ section {
    whole site. Semantic tokens cover the spots that used literal colors. */
 :root {
   --page-bg: #15171e;
+  /* brand gradient thread: cyan → violet, used for the logo dot, eyebrows,
+     nav underline, hero CTA and counter numbers in both modes */
+  --brand-1: #4cc9f0;
+  --brand-2: #9d4edd;
+  --brand-grad: linear-gradient(120deg, var(--brand-1), var(--brand-2));
   --fg-strong: #e8ebf2; /* primary text / headings (was literal white) */
   --btn-bg: #ffffff; /* the high-contrast pill CTA */
   --btn-fg: #0b0d12;
@@ -50,7 +86,7 @@ section {
   --hero-glow-1: rgba(76, 201, 240, 0.16);
   --hero-glow-2: rgba(157, 78, 221, 0.14);
   --hero-tint: none;
-  --counter-grad: linear-gradient(180deg, #f5f7fa 0%, #c3cad6 45%, #8a93a3 100%);
+  --counter-grad: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
   --kinesin-cargo: #c9d4e1;
   --tub-a: #55617a;
   --tub-b: #3c4557;
@@ -72,7 +108,9 @@ section {
   --color-black-surface: #e7edf8; /* alternating band base tint */
 
   /* semantic overrides */
-  --page-bg: #e6ebf5; /* tinted base, clearly not white */
+  --page-bg: #e8edf7; /* tinted base, clearly not white */
+  --brand-1: #1596c9; /* darker gradient stops for contrast on light */
+  --brand-2: #7b3fc4;
   --fg-strong: #141a27;
   --btn-bg: #141a27; /* inverse: dark pill, light text */
   --btn-fg: #ffffff;
@@ -81,7 +119,6 @@ section {
   --hero-glow-1: rgba(76, 201, 240, 0.2);
   --hero-glow-2: rgba(157, 78, 221, 0.16);
   --hero-tint: radial-gradient(120% 90% at 70% 25%, rgba(22, 30, 52, 0.05), transparent 60%);
-  --counter-grad: linear-gradient(180deg, #2e3646 0%, #5a6576 50%, #8792a4 100%);
   --kinesin-cargo: #8593a8;
   --tub-a: #7f8ea8;
   --tub-b: #5f6b82;
@@ -91,35 +128,62 @@ section {
   --switch-ink: #e0892b;
 }
 
-/* Ambient colour wash echoing the DNA-hero palette, so the light page has a
-   living atmosphere rather than flat white. Fixed behind all content. */
-:root[data-theme="light"] body::before {
+/* Ambient colour wash echoing the DNA-hero palette, so both themes have a
+   living atmosphere rather than a flat field. Fixed behind all content. */
+body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(46% 40% at 84% 6%, rgba(76, 201, 240, 0.12), transparent 62%),
-    radial-gradient(42% 46% at 8% 40%, rgba(157, 78, 221, 0.1), transparent 62%),
-    radial-gradient(52% 42% at 70% 92%, rgba(82, 209, 164, 0.09), transparent 62%);
+    radial-gradient(46% 40% at 84% 6%, rgba(76, 201, 240, 0.06), transparent 62%),
+    radial-gradient(42% 46% at 8% 40%, rgba(157, 78, 221, 0.055), transparent 62%),
+    radial-gradient(52% 42% at 70% 92%, rgba(82, 209, 164, 0.05), transparent 62%);
 }
 
-/* Give the two alternating bands distinct soft brand tints (gently graded for
-   depth) for a colourful rhythm down the page; base sections show the ambient
-   wash through. */
+:root[data-theme="light"] body::before {
+  background:
+    radial-gradient(46% 40% at 84% 6%, rgba(76, 201, 240, 0.1), transparent 62%),
+    radial-gradient(42% 46% at 8% 40%, rgba(157, 78, 221, 0.09), transparent 62%),
+    radial-gradient(52% 42% at 70% 92%, rgba(82, 209, 164, 0.07), transparent 62%);
+}
+
+/* fine grain over the washes: kills radial-gradient banding and adds material
+   quality; invisible at reading distance */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.055;
+}
+
+/* Give the two alternating bands distinct brand tints (gently graded for
+   depth) for a colourful rhythm down the page in BOTH modes; base sections
+   show the ambient wash through. */
+.drugs-section.is-alt {
+  background: linear-gradient(180deg, #161f2b 0%, #131a24 100%); /* deep blue-teal band */
+}
+
+.contact-section.is-alt {
+  background: linear-gradient(180deg, #1a1726 0%, #161320 100%); /* deep violet band */
+}
+
 :root[data-theme="light"] .drugs-section.is-alt {
-  background: linear-gradient(180deg, #e7f2fb 0%, #d8e8f5 100%); /* soft cyan band */
+  background: linear-gradient(180deg, #e0eefa 0%, #d4e7f6 100%); /* soft cyan band */
 }
 
 :root[data-theme="light"] .contact-section.is-alt {
-  background: linear-gradient(180deg, #efecfa 0%, #e4e0f5 100%); /* soft lavender band */
+  background: linear-gradient(180deg, #ece9fa 0%, #e0dcf4 100%); /* soft lavender band */
 }
 
-/* Accent-tinted eyebrows add pops of brand colour to every section header. */
-:root[data-theme="light"] .section-eyebrow {
-  color: #1596c9;
-}
 
 /* Accent-coloured small text needs a darker tint on the white surfaces so it
    keeps enough contrast (hue preserved, mixed toward ink). */
@@ -177,7 +241,11 @@ section {
   }
 
   .section-eyebrow {
-    @apply text-xs md:text-sm font-semibold uppercase tracking-[0.28em] text-blue-50 mb-4;
+    @apply text-xs md:text-sm font-semibold uppercase tracking-[0.28em] mb-4 w-fit;
+    background: var(--brand-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .section-title {
@@ -242,6 +310,13 @@ section {
 
     .logo {
       @apply text-white-50 text-xl md:text-2xl font-semibold transition-transform duration-300 hover:scale-105;
+
+      .logo-dot {
+        background: var(--brand-grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
     }
 
     /* tabs are absolutely centred on the bar, independent of the side clusters */
@@ -263,8 +338,8 @@ section {
           }
 
           .underline {
-            @apply absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full;
-            background: var(--fg-strong);
+            @apply absolute -bottom-1 left-0 w-0 h-0.5 rounded-full transition-all duration-300 group-hover:w-full;
+            background: var(--brand-grad);
           }
 
           a.active span {
@@ -858,6 +933,10 @@ section {
     .footer-copy {
       @apply text-xs text-blue-50;
     }
+
+    .footer-meta {
+      @apply flex flex-col items-center md:items-end gap-3;
+    }
   }
 
   .footer-funbtn {
@@ -1112,33 +1191,73 @@ section {
   }
 
   .cta-wrapper {
-    @apply relative z-20 cursor-pointer;
+    @apply relative z-20 inline-block cursor-pointer;
   }
 
+  /* brand-gradient pill CTA. On hover a white circle badge morphs in on the
+     right, the text slides left and the arrow drops in and bounces (the
+     original button's choreography, restaged on the gradient pill). Below xl
+     (touch) the badge + bouncing arrow show at rest, as before. */
   .cta-button {
-    @apply px-4 py-4 rounded-lg bg-black-200 flex justify-center items-center relative cursor-pointer overflow-hidden;
-
-    .bg-circle {
-      @apply absolute -right-10 origin-center top-1/2 -translate-y-1/2
-        w-[120%] h-[120%] group-hover:size-10 group-hover:right-10
-        rounded-full transition-all duration-500;
-      background: var(--btn-bg);
-    }
+    @apply relative h-full w-full rounded-xl flex items-center justify-center
+      font-semibold uppercase tracking-wide text-base md:text-lg
+      overflow-hidden transition-all duration-300;
+    background: var(--brand-grad);
+    color: #ffffff;
+    box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--brand-2) 55%, transparent);
 
     .text {
-      @apply uppercase md:text-lg transition-all duration-500
-        group-hover:text-white-50 group-hover:-translate-x-5 xl:translate-x-0 -translate-x-5;
-      color: var(--btn-fg);
+      transition: translate 0.5s;
+      translate: -1rem 0;
     }
 
-    .arrow-wrapper {
-      @apply group-hover:bg-white-50 size-10 rounded-full absolute right-10 top-1/2
-        -translate-y-1/2 flex justify-center items-center overflow-hidden;
-
-      img {
-        @apply size-5 xl:-translate-y-32 translate-y-0 animate-bounce group-hover:translate-y-0 transition-all duration-500;
-      }
+    .cta-badge {
+      @apply absolute size-10 rounded-full bg-white flex items-center justify-center overflow-hidden;
+      right: 0.75rem;
+      top: 50%;
+      translate: 0 -50%;
+      scale: 1;
+      transition: scale 0.5s;
+      color: var(--brand-2);
     }
+
+    .cta-arrow {
+      @apply size-5 animate-bounce;
+      transition: translate 0.5s;
+      translate: 0 0;
+    }
+  }
+
+  /* desktop: badge and arrow stay hidden until hover */
+  @media (min-width: 1280px) {
+    .cta-button .text {
+      translate: 0 0;
+    }
+
+    .cta-button .cta-badge {
+      scale: 0;
+    }
+
+    .cta-button .cta-arrow {
+      translate: 0 -2.5rem;
+    }
+
+    .cta-wrapper:hover .cta-button .text {
+      translate: -1rem 0;
+    }
+
+    .cta-wrapper:hover .cta-badge {
+      scale: 1;
+    }
+
+    .cta-wrapper:hover .cta-arrow {
+      translate: 0 0;
+    }
+  }
+
+  .cta-wrapper:hover .cta-button {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 38px -12px color-mix(in srgb, var(--brand-2) 70%, transparent);
   }
 }
 

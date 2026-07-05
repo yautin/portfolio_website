@@ -1,9 +1,13 @@
+import { lazy, Suspense } from 'react'
 import { words } from '../constants/index.js'
 import Button from '../components/Button.jsx'
-import HeroExperience from '../components/HeroModels/HeroExperience.jsx'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import AnimatedCounter from '../components/AnimatedCounter.jsx'
+
+// Code-split the 3D scene: three.js/R3F only load in an async chunk, so the
+// hero copy (the LCP) paints immediately and the helix streams in after.
+const HeroExperience = lazy(() => import('../components/HeroModels/HeroExperience.jsx'))
 
 const Hero = () => {
     useGSAP(() => {
@@ -31,7 +35,8 @@ const Hero = () => {
                                             <img
                                             src={word.imgPath}
                                             alt={word.text}
-                                            className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full bg-[#c4cdda]"/>
+                                            className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full"
+                                            style={{ background: `color-mix(in srgb, ${word.accent} 32%, white)` }}/>
                                             <span>{word.text}</span>
                                         </span>
                                     ))}
@@ -55,7 +60,9 @@ const Hero = () => {
             {/* {RIGHT: 3D MODEL} */}
             <figure>
                 <div className="hero-3d-layout">
-                    <HeroExperience />
+                    <Suspense fallback={null}>
+                        <HeroExperience />
+                    </Suspense>
                 </div>
             </figure>
         </div>
