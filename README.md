@@ -4,7 +4,7 @@ A personal portfolio for **Marco Ng**, a medical writer based in Hong Kong who s
 
 The site is a single-page React application with an interactive 3D hero, scroll-driven animations, and purpose-built sections that reframe a traditional developer portfolio around medical communications. Motion is used deliberately and respects the visitor's reduced-motion preference throughout. Tucked in the footer is a full **browser tower-defense game** ("Immune Defense"), built on Phaser and lazy-loaded so it never affects the site's initial load.
 
-<!-- Live site: add your deployment URL here once published. -->
+Live site: https://marco-ng.com/
 
 ## Highlights
 
@@ -88,8 +88,7 @@ Then open the local URL printed in the terminal (default: `http://localhost:5173
 
 ```
 public/
-  images/            Icons, textures, and section assets
-  models/            3D model files (.glb)
+  images/            Icons and section assets (SVG)
   game/              SVG sprites for the Immune Defense game
   favicon.svg
 src/

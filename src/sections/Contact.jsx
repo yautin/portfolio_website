@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-import { contactEmail, contactLinks, web3formsKey } from "../constants";
+import { contactEmail, contactLinks, navLinks, web3formsKey } from "../constants";
 import ImmuneDefense from "../components/ImmuneDefense";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -192,29 +192,30 @@ const Contact = () => {
 
       <footer className="site-footer">
         <div className="inner">
-          {/* <div className="footer-brand">
+          <div className="footer-brand">
             <p className="footer-name">Marco Ng</p>
             <p className="footer-tag">Medical writer · Hong Kong</p>
-          </div> */}
+          </div>
 
-          {/* <nav className="footer-nav">
+          <nav className="footer-nav">
             {navLinks.map(({ link, name }) => (
               <a key={name} href={link}>
                 {name}
               </a>
             ))}
             <a href="#contact">Contact</a>
-          </nav> */}
+          </nav>
 
-          <p className="footer-copy">© {year} Marco Ng. All rights reserved.</p>
-
-          <button
-            type="button"
-            className="footer-funbtn"
-            onClick={() => setGameOpen(true)}
-          >
-            🎮 For Fun
-          </button>
+          <div className="footer-meta">
+            <p className="footer-copy">© {year} Marco Ng. All rights reserved.</p>
+            <button
+              type="button"
+              className="footer-funbtn"
+              onClick={() => setGameOpen(true)}
+            >
+              🎮 For Fun
+            </button>
+          </div>
         </div>
       </footer>
 

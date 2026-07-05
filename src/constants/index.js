@@ -14,12 +14,12 @@ const navLinks = [
 ];
 
 const words = [
-  { text: "Science", imgPath: "/images/science.svg" },
-  { text: "Data", imgPath: "/images/data.svg" },
-  { text: "Evidence", imgPath: "/images/evidence.svg" },
-  { text: "Science", imgPath: "/images/science.svg" },
-  { text: "Data", imgPath: "/images/data.svg" },
-  { text: "Evidence", imgPath: "/images/evidence.svg" },
+  { text: "Science", imgPath: "/images/science.svg", accent: "#4cc9f0" },
+  { text: "Data", imgPath: "/images/data.svg", accent: "#9d4edd" },
+  { text: "Evidence", imgPath: "/images/evidence.svg", accent: "#52d1a4" },
+  { text: "Science", imgPath: "/images/science.svg", accent: "#4cc9f0" },
+  { text: "Data", imgPath: "/images/data.svg", accent: "#9d4edd" },
+  { text: "Evidence", imgPath: "/images/evidence.svg", accent: "#52d1a4" },
 ];
 
 // Headline stats — replace the values with your own figures.
