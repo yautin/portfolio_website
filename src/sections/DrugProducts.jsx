@@ -49,11 +49,11 @@ const DrugProducts = () => {
   }, []);
 
   return (
-    <section id="drugs" ref={sectionRef} className="drugs-section">
+    <section id="drugs" ref={sectionRef} className="drugs-section section-band is-alt">
       <div className="drugs-head">
-        <p className="drugs-eyebrow">Product experience</p>
-        <h2>Drug products I've helped bring to HCPs</h2>
-        <p className="drugs-note">
+        <p className="section-eyebrow">Product experience</p>
+        <h2 className="section-title">Drug products I've helped bring to HCPs</h2>
+        <p className="section-lead">
           A snapshot of the therapies I've developed promotional and educational
           content for, spanning multiple therapeutic areas.
         </p>

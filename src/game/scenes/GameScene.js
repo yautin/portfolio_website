@@ -71,11 +71,14 @@ export default class GameScene extends Phaser.Scene {
     this.atp = startAtpForLevel(this.level);
     this.kills = 0;
     this.mode = "planning"; // planning | wave | gap | over
-    this.planEnd = this.time.now + PLANNING_TIME;
-    this.gapEnd = 0;
+    // countdown budget (ms) for the current planning / gap phase, ticked by
+    // frame delta while the scene updates — a fresh 20s every level, immune to
+    // absolute-clock drift, pausing, and scene restarts
+    this.countdown = PLANNING_TIME;
     this.waveIndex = 0;
     this.waveTotal = 0;
     this.waveSpawned = 0;
+    this.waveBarShown = 0; // smoothed fill for the progress bar
     this.selected = null;
     this.paused = false;
     this.pauseEls = null;
@@ -202,27 +205,32 @@ export default class GameScene extends Phaser.Scene {
 
   buildHud() {
     const { W } = this;
-    const hy = GRID.hudTop / 2;
+    const y1 = 22; // top content row (icons / text / buttons)
+    this.hudRowY = y1;
     this.add.rectangle(0, 0, W, GRID.hudTop, 0x0d0f14, 0.9).setOrigin(0, 0).setDepth(15);
     this.add.rectangle(0, GRID.hudTop, W, 1, 0xffffff, 0.06).setOrigin(0, 1).setDepth(15);
 
-    this.add.image(20, hy, "atp").setDisplaySize(22, 22).setDepth(16);
-    this.atpText = this.add.text(36, hy, "", { resolution: RES, fontFamily: FONT, fontSize: "18px", fontStyle: "800", color: "#e8ebf2" }).setOrigin(0, 0.5).setDepth(16);
+    // left cluster: ATP
+    this.add.image(28, y1, "atp").setDisplaySize(22, 22).setDepth(16);
+    this.atpText = this.add.text(45, y1, "", { resolution: RES, fontFamily: FONT, fontSize: "18px", fontStyle: "800", color: "#e8ebf2" }).setOrigin(0, 0.5).setDepth(16);
     this.atpShown = -1;
     this.atpPopAt = 0;
 
-    this.waveText = this.add.text(W / 2, hy, "", { resolution: RES, fontFamily: FONT, fontSize: "15px", fontStyle: "700", color: "#c4cdda" }).setOrigin(0.5).setDepth(16);
-    this.startCta = makeButton(this, W / 2, hy, "▶ Start level · 20s", {
-      variant: "primary", minWidth: 184, fontSize: 14, onClick: () => this.skipWait(),
+    // centre cluster: wave status / Start CTA
+    this.waveText = this.add.text(W / 2, y1, "", { resolution: RES, fontFamily: FONT, fontSize: "15px", fontStyle: "700", color: "#c4cdda" }).setOrigin(0.5).setDepth(16);
+    this.startCta = makeButton(this, W / 2, y1, "▶ Start level · 20s", {
+      variant: "primary", minWidth: 186, fontSize: 14, onClick: () => this.skipWait(),
     }).setDepth(16);
     this.tweens.add({ targets: this.startCta, scaleX: 1.03, scaleY: 1.03, yoyo: true, repeat: -1, duration: 720, ease: "Sine.inOut" });
 
+    // right cluster: menu button, then hearts to its left with a clear gap
+    this.menuBtn = makeIconButton(this, W - 28, y1, "☰", { onClick: () => this.togglePause(), size: 32 }).setDepth(16);
     this.pips = [];
+    const pipGap = 18, pipRight = W - 66;
     for (let i = 0; i < this.maxHearts; i++) {
-      const x = W - 46 - (this.maxHearts - 1 - i) * 15;
-      this.pips.push(this.add.image(x, hy, "heart").setDisplaySize(14, 14).setDepth(16));
+      const x = pipRight - (this.maxHearts - 1 - i) * pipGap;
+      this.pips.push(this.add.image(x, y1, "heart").setDisplaySize(15, 15).setDepth(16));
     }
-    this.menuBtn = makeIconButton(this, W - 22, hy, "☰", { onClick: () => this.togglePause(), size: 30 }).setDepth(16);
 
     this.banner = this.add.text(W / 2, this.playTop + 30, "", { resolution: RES, fontFamily: FONT, fontSize: "24px", fontStyle: "800", color: "#e8ebf2" })
       .setOrigin(0.5).setDepth(16).setAlpha(0);
@@ -738,7 +746,7 @@ export default class GameScene extends Phaser.Scene {
 
   coinFly(x, y) {
     const coin = this.add.image(x, y, "atp").setDisplaySize(16, 16).setDepth(11);
-    this.tweens.add({ targets: coin, x: 26, y: GRID.hudTop / 2, scaleX: coin.scaleX * 0.5, scaleY: coin.scaleY * 0.5, duration: 480, ease: "Quad.in", onComplete: () => coin.destroy() });
+    this.tweens.add({ targets: coin, x: 30, y: this.hudRowY, scaleX: coin.scaleX * 0.5, scaleY: coin.scaleY * 0.5, duration: 480, ease: "Quad.in", onComplete: () => coin.destroy() });
   }
 
   floatText(x, y, str, color, dur = 800) {
@@ -747,7 +755,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   // --- main loop -------------------------------------------------------
-  update(time, delta) {
+  update(_loopTime, delta) {
     if (this.mode === "over" || this.paused) return;
     this.specks.tilePositionX += delta * 0.004;
 
@@ -755,19 +763,20 @@ export default class GameScene extends Phaser.Scene {
     this.updatePathogens(delta / 1000);
     this.cullProjectiles();
 
-    if (this.mode === "wave" && this.waveSpawned >= this.waveTotal && this.pathogens.countActive(true) === 0) {
-      if (this.waveIndex >= this.totalWaves) this.levelComplete();
-      else { this.mode = "gap"; this.gapEnd = time + WAVE_GAP; this.floatText(this.W / 2, this.playTop + 58, "Wave cleared", "#4cc9f0", 1100); }
-    } else if (this.mode === "gap" && time >= this.gapEnd) {
-      this.startNextWave();
-    } else if (this.mode === "planning" && time >= this.planEnd) {
-      this.startNextWave();
+    if (this.mode === "wave") {
+      if (this.waveSpawned >= this.waveTotal && this.pathogens.countActive(true) === 0) {
+        if (this.waveIndex >= this.totalWaves) this.levelComplete();
+        else { this.mode = "gap"; this.countdown = WAVE_GAP; this.floatText(this.W / 2, this.playTop + 58, "Wave cleared", "#4cc9f0", 1100); }
+      }
+    } else if (this.mode === "planning" || this.mode === "gap") {
+      this.countdown -= delta;
+      if (this.countdown <= 0) this.startNextWave();
     }
 
     this.drawBars();
     this.drawWaveBar();
     this.drawBossBar();
-    this.updateHud(time);
+    this.updateHud(this.time.now);
     this.updateCards();
     this.refreshPreview();
   }
@@ -892,21 +901,46 @@ export default class GameScene extends Phaser.Scene {
   drawWaveBar() {
     const g = this.waveBarGfx;
     g.clear();
-    // only during an active wave — the Start CTA owns the HUD centre otherwise
-    if (this.mode !== "wave" || (this.boss && this.boss.active)) return;
+
+    // target fill (kill-based); always eased so the bar glides rather than jumps
     const total = this.totalWaves;
-    const inWave = this.waveTotal > 0 ? Phaser.Math.Clamp((this.waveSpawned - this.pathogens.countActive(true)) / this.waveTotal, 0, 1) : 0;
-    const frac = Phaser.Math.Clamp((this.waveIndex - 1 + inWave) / total, 0, 1);
-    // sits in the HUD strip so it never clips defenders in the top lane
-    const L = this.gridLeft + 40, W2 = this.W - 200 - L, y = GRID.hudTop - 7;
-    g.fillStyle(0x0b0d12, 0.8); g.fillRoundedRect(L - 2, y - 2, W2 + 4, 6, 3);
-    g.fillStyle(0x4cc9f0, 0.95); g.fillRoundedRect(L, y - 1, Math.max(2, W2 * frac), 4, 2);
+    let target = 0;
+    if (this.mode === "wave") {
+      const inWave = this.waveTotal > 0 ? Phaser.Math.Clamp((this.waveSpawned - this.pathogens.countActive(true)) / this.waveTotal, 0, 1) : 0;
+      target = (this.waveIndex - 1 + inWave) / total;
+    } else if (this.mode === "gap") {
+      target = this.waveIndex / total;
+    }
+    target = Phaser.Math.Clamp(target, 0, 1);
+    this.waveBarShown = Phaser.Math.Linear(this.waveBarShown, target, 0.09);
+
+    // shown only during a wave — the Start CTA owns the HUD centre otherwise
+    if (this.mode !== "wave" || (this.boss && this.boss.active)) return;
+    const shown = this.waveBarShown;
+
+    // dedicated progress row along the bottom of the HUD strip
+    const L = 156, R = this.W - 156, BW = R - L, y = GRID.hudTop - 12;
+    g.fillStyle(0x11161f, 1); g.fillRoundedRect(L - 3, y - 4, BW + 6, 8, 4);
+    g.lineStyle(1, 0xffffff, 0.05); g.strokeRoundedRect(L - 3, y - 4, BW + 6, 8, 4);
+    const fw = Math.max(4, BW * shown);
+    g.lineStyle(0, 0, 0);
+    g.fillStyle(0x4cc9f0, 1); g.fillRoundedRect(L, y - 2, fw, 4, 2);
+    g.fillStyle(0xffffff, 0.28); g.fillRoundedRect(L, y - 2, fw, 1.5, 2); // gloss
+
+    // flag checkpoint at each wave boundary (pennant on a pole + a node on the bar)
     for (let i = 1; i <= total; i++) {
-      const fx = L + W2 * (i / total);
-      const final = i === total;
-      g.fillStyle(final ? 0xf25f5c : 0x8b97ad, 1);
-      g.fillRect(fx - 1, y - 6, 2, 6);
-      g.fillTriangle(fx + 1, y - 6, fx + 7, y - 4, fx + 1, y - 2);
+      const cx = L + BW * (i / total);
+      const passed = shown >= i / total - 0.004;
+      const isFinal = i === total;
+      const poleH = isFinal ? 16 : 12;
+      const col = isFinal ? (passed ? 0x8ef0a0 : 0xf25f5c) : (passed ? 0x4cc9f0 : 0x8b97ad);
+      g.fillStyle(0xaab4c6, passed ? 1 : 0.55); // pole
+      g.fillRect(cx - 0.75, y - poleH, 1.5, poleH);
+      const fpw = isFinal ? 11 : 8, fph = isFinal ? 8 : 6; // pennant
+      g.fillStyle(col, passed ? 1 : 0.9);
+      g.fillTriangle(cx + 0.75, y - poleH, cx + 0.75, y - poleH + fph, cx + 0.75 + fpw, y - poleH + fph / 2);
+      g.fillStyle(0x11161f, 1); g.fillCircle(cx, y, isFinal ? 5 : 4); // node backing
+      g.fillStyle(passed ? col : 0x3a4552, 1); g.fillCircle(cx, y, isFinal ? 3.2 : 2.4);
     }
   }
 
@@ -943,7 +977,7 @@ export default class GameScene extends Phaser.Scene {
 
     const planning = this.mode === "planning", gap = this.mode === "gap";
     if (planning || gap) {
-      const s = Math.max(0, Math.ceil(((planning ? this.planEnd : this.gapEnd) - time) / 1000));
+      const s = Math.max(0, Math.ceil(this.countdown / 1000));
       this.startCta.setLabel(`▶ Start ${planning ? "level" : "wave"} · ${s}s`).setVisible(true);
       this.waveText.setVisible(false);
     } else {
