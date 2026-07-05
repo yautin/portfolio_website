@@ -5,12 +5,13 @@ html,
 body {
   width: 100dvw;
   overflow-x: hidden;
-  background-color: #15171e;
-  color: #e8ebf2;
+  background-color: var(--page-bg);
+  color: var(--fg-strong);
   scroll-behavior: smooth;
   /* leave room for the fixed navbar so anchored section titles aren't hidden */
   scroll-padding-top: 6rem;
   font-family: "Mona Sans", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 section {
@@ -32,6 +33,117 @@ section {
   --color-blue-50: #8b97ad;
   /* hair-lighter surface for alternating section bands */
   --color-black-surface: #191c24;
+}
+
+/* ---- theme tokens ----
+   Dark is the default (the @theme values above + the semantic tokens here).
+   Light mode overrides both under [data-theme="light"]; because Tailwind v4
+   utilities resolve to var(--color-*), redefining the token values flips the
+   whole site. Semantic tokens cover the spots that used literal colors. */
+:root {
+  --page-bg: #15171e;
+  --fg-strong: #e8ebf2; /* primary text / headings (was literal white) */
+  --btn-bg: #ffffff; /* the high-contrast pill CTA */
+  --btn-fg: #0b0d12;
+  --nav-bg: rgba(21, 23, 30, 0.85); /* scrolled navbar */
+  --input-bg: #15171e;
+  --hero-glow-1: rgba(76, 201, 240, 0.16);
+  --hero-glow-2: rgba(157, 78, 221, 0.14);
+  --hero-tint: none;
+  --counter-grad: linear-gradient(180deg, #f5f7fa 0%, #c3cad6 45%, #8a93a3 100%);
+  --kinesin-cargo: #c9d4e1;
+  --tub-a: #55617a;
+  --tub-b: #3c4557;
+  --card-shadow: none;
+  /* theme toggle switch */
+  --switch-track: #262b37;
+  --switch-knob: #e8ebf2;
+  --switch-ink: #3c4557;
+}
+
+:root[data-theme="light"] {
+  /* @theme token value overrides — a soft, cool-tinted light theme (not white),
+     so white cards pop off it and the page carries colour throughout. */
+  --color-white-50: #46536a; /* muted body text */
+  --color-black-50: #d3dcec; /* borders (cool, defined) */
+  --color-black-100: #ffffff; /* card surfaces — stay white to pop off the tint */
+  --color-black-200: #e6ecf7; /* hover / chip surfaces */
+  --color-blue-50: #586378; /* subtle labels/eyebrows */
+  --color-black-surface: #e7edf8; /* alternating band base tint */
+
+  /* semantic overrides */
+  --page-bg: #e6ebf5; /* tinted base, clearly not white */
+  --fg-strong: #141a27;
+  --btn-bg: #141a27; /* inverse: dark pill, light text */
+  --btn-fg: #ffffff;
+  --nav-bg: rgba(240, 243, 250, 0.78);
+  --input-bg: #ffffff;
+  --hero-glow-1: rgba(76, 201, 240, 0.2);
+  --hero-glow-2: rgba(157, 78, 221, 0.16);
+  --hero-tint: radial-gradient(120% 90% at 70% 25%, rgba(22, 30, 52, 0.05), transparent 60%);
+  --counter-grad: linear-gradient(180deg, #2e3646 0%, #5a6576 50%, #8792a4 100%);
+  --kinesin-cargo: #8593a8;
+  --tub-a: #7f8ea8;
+  --tub-b: #5f6b82;
+  --card-shadow: 0 18px 44px -20px rgba(28, 46, 92, 0.28);
+  --switch-track: #cfe6f4;
+  --switch-knob: #ffffff;
+  --switch-ink: #e0892b;
+}
+
+/* Ambient colour wash echoing the DNA-hero palette, so the light page has a
+   living atmosphere rather than flat white. Fixed behind all content. */
+:root[data-theme="light"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(46% 40% at 84% 6%, rgba(76, 201, 240, 0.12), transparent 62%),
+    radial-gradient(42% 46% at 8% 40%, rgba(157, 78, 221, 0.1), transparent 62%),
+    radial-gradient(52% 42% at 70% 92%, rgba(82, 209, 164, 0.09), transparent 62%);
+}
+
+/* Give the two alternating bands distinct soft brand tints (gently graded for
+   depth) for a colourful rhythm down the page; base sections show the ambient
+   wash through. */
+:root[data-theme="light"] .drugs-section.is-alt {
+  background: linear-gradient(180deg, #e7f2fb 0%, #d8e8f5 100%); /* soft cyan band */
+}
+
+:root[data-theme="light"] .contact-section.is-alt {
+  background: linear-gradient(180deg, #efecfa 0%, #e4e0f5 100%); /* soft lavender band */
+}
+
+/* Accent-tinted eyebrows add pops of brand colour to every section header. */
+:root[data-theme="light"] .section-eyebrow {
+  color: #1596c9;
+}
+
+/* Accent-coloured small text needs a darker tint on the white surfaces so it
+   keeps enough contrast (hue preserved, mixed toward ink). */
+:root[data-theme="light"] .work-molecule,
+:root[data-theme="light"] .distill-trial,
+:root[data-theme="light"] .distill-trial sup {
+  color: color-mix(in srgb, var(--accent) 68%, #0f131b);
+}
+:root[data-theme="light"] .distill-metric {
+  color: color-mix(in srgb, var(--accent) 84%, #0f131b);
+}
+
+/* The Immune Defense game stays dark in both themes: re-pin the dark token
+   values onto the overlay so its whole modal subtree ignores the page theme. */
+.game-overlay {
+  --color-black-100: #1c1f28;
+  --color-black-200: #262b37;
+  --color-black-50: #2b3040;
+  --color-white-50: #c4cdda;
+  --color-blue-50: #8b97ad;
+  --fg-strong: #e8ebf2;
+  --btn-bg: #ffffff;
+  --btn-fg: #0b0d12;
+  --card-shadow: none;
 }
 
 @layer utilities {
@@ -69,7 +181,8 @@ section {
   }
 
   .section-title {
-    @apply text-3xl md:text-5xl font-bold leading-[1.08] tracking-tight text-white;
+    @apply text-3xl md:text-5xl font-bold leading-[1.08] tracking-tight;
+    color: var(--fg-strong);
   }
 
   .section-lead {
@@ -98,12 +211,15 @@ section {
     @apply xl:w-[70%] w-full h-full min-h-[50vh] absolute xl:-top-20 top-24 xl:-right-20 right-0;
   }
 
-  /* original hero backdrop: soft accent light-wells echoing the DNA-helix palette */
+  /* original hero backdrop: soft accent light-wells echoing the DNA-helix palette.
+     --hero-tint adds a faint cool wash in light mode so the glowing 3D helix and
+     particles stay legible against the light page. */
   .hero-glow {
     @apply absolute inset-0 -z-10 pointer-events-none;
     background:
-      radial-gradient(42% 55% at 72% 30%, rgba(76, 201, 240, 0.16), transparent 70%),
-      radial-gradient(38% 50% at 56% 68%, rgba(157, 78, 221, 0.14), transparent 72%);
+      var(--hero-tint),
+      radial-gradient(42% 55% at 72% 30%, var(--hero-glow-1), transparent 70%),
+      radial-gradient(38% 50% at 56% 68%, var(--hero-glow-2), transparent 72%);
   }
 
   .navbar {
@@ -111,7 +227,7 @@ section {
 
     &.scrolled {
       @apply top-0;
-      background-color: rgba(21, 23, 30, 0.85);
+      background-color: var(--nav-bg);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--color-black-50);
     }
@@ -121,15 +237,16 @@ section {
     }
 
     .inner {
-      @apply mx-auto flex items-center justify-between;
+      @apply relative mx-auto flex items-center justify-between;
     }
 
     .logo {
       @apply text-white-50 text-xl md:text-2xl font-semibold transition-transform duration-300 hover:scale-105;
     }
 
+    /* tabs are absolutely centred on the bar, independent of the side clusters */
     nav.desktop {
-      @apply hidden lg:flex items-center;
+      @apply hidden lg:flex items-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
 
       ul {
         @apply flex space-x-8;
@@ -138,15 +255,20 @@ section {
           @apply text-white-50 relative;
 
           span {
-            @apply transition-colors duration-300 hover:text-white;
+            @apply transition-colors duration-300;
+          }
+
+          span:hover {
+            color: var(--fg-strong);
           }
 
           .underline {
-            @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full;
+            @apply absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full;
+            background: var(--fg-strong);
           }
 
           a.active span {
-            @apply text-white;
+            color: var(--fg-strong);
           }
 
           a.active .underline {
@@ -160,11 +282,17 @@ section {
       @apply hidden lg:flex;
 
       .inner {
-        @apply px-5 py-2 rounded-lg bg-white text-black group-hover:bg-black-50 transition-colors duration-300;
+        @apply px-5 py-2 rounded-lg group-hover:bg-black-50 transition-colors duration-300;
+        background: var(--btn-bg);
+        color: var(--btn-fg);
 
         span {
-          @apply group-hover:text-white transition-colors duration-300;
+          @apply transition-colors duration-300;
         }
+      }
+
+      &:hover .inner span {
+        color: var(--fg-strong);
       }
     }
 
@@ -175,6 +303,34 @@ section {
         @apply size-7;
       }
     }
+
+    /* right cluster: theme switch · Contact me · hamburger */
+    .nav-right {
+      @apply flex items-center gap-3 md:gap-4;
+    }
+
+    .theme-switch {
+      @apply relative inline-flex items-center w-[52px] h-7 shrink-0 rounded-full border cursor-pointer p-0 transition-colors duration-300;
+      border-color: var(--color-black-50);
+      background: var(--switch-track);
+
+      .knob {
+        @apply absolute flex items-center justify-center size-5 rounded-full transition-transform duration-300 ease-out;
+        left: 3px;
+        top: 3px;
+        background: var(--switch-knob);
+        color: var(--switch-ink);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+      }
+
+      svg {
+        @apply size-3;
+      }
+    }
+  }
+
+  :root[data-theme="light"] .theme-switch .knob {
+    transform: translateX(24px);
   }
 
   /* mobile dropdown menu: animates height via a 0fr -> 1fr grid row */
@@ -191,17 +347,29 @@ section {
 
     ul {
       @apply flex flex-col gap-1 mt-4 p-3 rounded-2xl bg-black-100 border border-black-50;
+      box-shadow: var(--card-shadow);
 
       a {
-        @apply block py-3 px-4 rounded-lg text-white-50 transition-colors duration-300 hover:bg-black-50 hover:text-white;
+        @apply block py-3 px-4 rounded-lg text-white-50 transition-colors duration-300 hover:bg-black-50;
+      }
+
+      a:hover {
+        color: var(--fg-strong);
       }
 
       a.active {
-        @apply text-white bg-black-50;
+        @apply bg-black-50;
+        color: var(--fg-strong);
       }
 
       .mobile-contact {
-        @apply mt-2 bg-white text-black text-center font-semibold hover:bg-black-50 hover:text-white;
+        @apply mt-2 text-center font-semibold hover:bg-black-50;
+        background: var(--btn-bg);
+        color: var(--btn-fg);
+      }
+
+      .mobile-contact:hover {
+        color: var(--fg-strong);
       }
     }
   }
@@ -209,11 +377,12 @@ section {
   /* stats band */
   .counter-card {
     @apply rounded-2xl border border-black-50 bg-black-100 p-8 md:p-10 flex flex-col justify-center transition-colors duration-300 hover:border-blue-50;
+    box-shadow: var(--card-shadow);
   }
 
   .counter-number {
     @apply text-5xl font-bold mb-2;
-    background: linear-gradient(180deg, #f5f7fa 0%, #c3cad6 45%, #8a93a3 100%);
+    background: var(--counter-grad);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -235,6 +404,7 @@ section {
   .work-card {
     @apply relative overflow-hidden rounded-2xl border border-black-50 bg-black-100 p-7
       transition-all duration-500 hover:-translate-y-2;
+    box-shadow: var(--card-shadow);
 
     &:hover {
       border-color: var(--accent);
@@ -411,7 +581,8 @@ section {
   }
 
   .distill-source {
-    @apply mt-1 text-white text-base md:text-lg font-medium leading-snug;
+    @apply mt-1 text-base md:text-lg font-medium leading-snug;
+    color: var(--fg-strong);
     font-variant-numeric: tabular-nums;
   }
 
@@ -490,7 +661,8 @@ section {
   }
 
   .distill-statement {
-    @apply mt-4 flex items-center gap-2 text-base md:text-lg text-white;
+    @apply mt-4 flex items-center gap-2 text-base md:text-lg;
+    color: var(--fg-strong);
   }
 
   .distill-arrow-glyph {
@@ -536,7 +708,8 @@ section {
   }
 
   .distill-bar-value {
-    @apply text-xs font-semibold text-white;
+    @apply text-xs font-semibold;
+    color: var(--fg-strong);
     font-variant-numeric: tabular-nums;
   }
 
@@ -565,7 +738,8 @@ section {
   }
 
   .contact-link {
-    @apply flex items-center gap-4 py-2 w-fit text-white transition-colors duration-300;
+    @apply flex items-center gap-4 py-2 w-fit transition-colors duration-300;
+    color: var(--fg-strong);
 
     .label {
       @apply text-xs uppercase tracking-wider text-blue-50 w-24 flex-none;
@@ -595,6 +769,7 @@ section {
 
   .contact-form {
     @apply rounded-2xl border border-black-50 bg-black-100 p-6 md:p-8 flex flex-col gap-5;
+    box-shadow: var(--card-shadow);
   }
 
   .contact-field {
@@ -606,8 +781,9 @@ section {
 
     input,
     textarea {
-      @apply w-full rounded-lg border border-black-50 px-4 py-3 text-white outline-none transition-colors duration-200;
-      background-color: #15171e;
+      @apply w-full rounded-lg border border-black-50 px-4 py-3 outline-none transition-colors duration-200;
+      color: var(--fg-strong);
+      background-color: var(--input-bg);
       resize: vertical;
     }
 
@@ -624,11 +800,14 @@ section {
   }
 
   .contact-submit {
-    @apply mt-1 inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-3.5 font-semibold text-black transition-colors duration-300;
+    @apply mt-1 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 font-semibold transition-colors duration-300;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
   }
 
   .contact-submit:hover {
     background-color: var(--accent);
+    color: #0b0d12; /* dark ink stays legible on the cyan hover in both themes */
   }
 
   .contact-submit:disabled {
@@ -656,7 +835,8 @@ section {
     }
 
     .footer-name {
-      @apply text-white font-semibold text-lg;
+      @apply font-semibold text-lg;
+      color: var(--fg-strong);
     }
 
     .footer-tag {
@@ -667,7 +847,11 @@ section {
       @apply flex flex-wrap justify-center gap-x-6 gap-y-2;
 
       a {
-        @apply text-white-50 hover:text-white transition-colors duration-300;
+        @apply text-white-50 transition-colors duration-300;
+      }
+
+      a:hover {
+        color: var(--fg-strong);
       }
     }
 
@@ -681,7 +865,8 @@ section {
   }
 
   .footer-funbtn:hover {
-    @apply border-blue-50 text-white;
+    @apply border-blue-50;
+    color: var(--fg-strong);
   }
 
   /* ---- "Immune Defense" mini-game overlay ---- */
@@ -823,11 +1008,11 @@ section {
   }
 
   .tub-a {
-    fill: #55617a;
+    fill: var(--tub-a);
   }
 
   .tub-b {
-    fill: #3c4557;
+    fill: var(--tub-b);
   }
 
   .kinesin {
@@ -866,7 +1051,7 @@ section {
   }
 
   .kinesin-cargo {
-    fill: #c9d4e1;
+    fill: var(--kinesin-cargo);
   }
 
   .kinesin-cargo-hl {
@@ -936,12 +1121,14 @@ section {
     .bg-circle {
       @apply absolute -right-10 origin-center top-1/2 -translate-y-1/2
         w-[120%] h-[120%] group-hover:size-10 group-hover:right-10
-        rounded-full bg-white-50 transition-all duration-500;
+        rounded-full transition-all duration-500;
+      background: var(--btn-bg);
     }
 
     .text {
-      @apply uppercase md:text-lg text-black transition-all duration-500
+      @apply uppercase md:text-lg transition-all duration-500
         group-hover:text-white-50 group-hover:-translate-x-5 xl:translate-x-0 -translate-x-5;
+      color: var(--btn-fg);
     }
 
     .arrow-wrapper {

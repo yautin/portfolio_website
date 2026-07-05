@@ -9,6 +9,24 @@ const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   // track which section is currently in view (scroll-spy)
   const [activeId, setActiveId] = useState("hero");
+  // light / dark theme — seeded from the pre-paint value set in index.html
+  const [theme, setTheme] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.dataset.theme === "light"
+      ? "light"
+      : "dark"
+  );
+
+  // apply + persist the theme; dark is the default
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {
+      /* storage may be unavailable (private mode) */
+    }
+  }, [theme]);
+
+  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
   useEffect(() => {
     // create an event listener for when the user scrolls
@@ -74,26 +92,52 @@ const NavBar = () => {
           </ul>
         </nav>
 
-        <a
-          href="#contact"
-          className={`contact-btn group ${isActive("#contact") ? "active" : ""}`}
-          aria-current={isActive("#contact") ? "true" : undefined}
-        >
-          <div className="inner">
-            <span>Contact me</span>
-          </div>
-        </a>
+        {/* right cluster: theme switch sits directly left of Contact me
+            (and directly beside the hamburger on mobile) */}
+        <div className="nav-right">
+          <button
+            type="button"
+            className="theme-switch"
+            role="switch"
+            aria-checked={theme === "light"}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            onClick={toggleTheme}
+          >
+            <span className="knob">
+              {theme === "dark" ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4.5" />
+                  <path d="M12 2.5v2M12 19.5v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2.5 12h2M19.5 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+                </svg>
+              )}
+            </span>
+          </button>
 
-        {/* mobile hamburger toggle */}
-        <button
-          type="button"
-          className="menu-toggle"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <img src={menuOpen ? "/images/x.svg" : "/images/menu.svg"} alt="" />
-        </button>
+          <a
+            href="#contact"
+            className={`contact-btn group ${isActive("#contact") ? "active" : ""}`}
+            aria-current={isActive("#contact") ? "true" : undefined}
+          >
+            <div className="inner">
+              <span>Contact me</span>
+            </div>
+          </a>
+
+          {/* mobile hamburger toggle */}
+          <button
+            type="button"
+            className="menu-toggle"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <img src={menuOpen ? "/images/x.svg" : "/images/menu.svg"} alt="" />
+          </button>
+        </div>
       </div>
 
       {/* mobile dropdown menu */}
