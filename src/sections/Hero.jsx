@@ -17,58 +17,58 @@ const Hero = () => {
         )
     })
 
-  return (
-    <section id="hero" className="relative overflow-hidden">
-        <div className="hero-glow" />
+    return (
+        <section id="hero" className="relative overflow-hidden">
+            <div className="hero-glow" />
 
-        <div className="hero-layout">
-            {/* {LEFT: HERO CONTENT} */}
-            <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
-                <div className="flex flex-col gap-7">
-                    <h1 className="hero-text">
-                        <span className="hero-line">
-                            Shaping
-                            <span className="slide">
-                                <span className="wrapper">
-                                    {words.map((word, index) => (
-                                        <span key={`${word.text}-${index}`} className="flex items-center md:gap-3 gap-1 pb-2">
-                                            <img
-                                            src={word.imgPath}
-                                            alt={word.text}
-                                            className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full"
-                                            style={{ background: `color-mix(in srgb, ${word.accent} 32%, white)` }}/>
-                                            <span>{word.text}</span>
-                                        </span>
-                                    ))}
+            <div className="hero-layout">
+                {/* {LEFT: HERO CONTENT} */}
+                <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
+                    <div className="flex flex-col gap-7">
+                        <h1 className="hero-text">
+                            <span className="hero-line">
+                                Shaping
+                                <span className="slide">
+                                    <span className="wrapper">
+                                        {words.map((word, index) => (
+                                            <span key={`${word.text}-${index}`} className="flex items-center md:gap-3 gap-1 pb-2">
+                                                <img
+                                                    src={word.imgPath}
+                                                    alt={word.text}
+                                                    className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full"
+                                                    style={{ background: `color-mix(in srgb, ${word.accent} 32%, white)` }} />
+                                                <span>{word.text}</span>
+                                            </span>
+                                        ))}
 
+                                    </span>
                                 </span>
                             </span>
-                        </span>
-                        <span className="hero-line">into Clear, Accurate</span>
-                        <span className="hero-line">Medical Communications</span>
-                    </h1>
-                    <p className="text-white-50 md:text-xl relative z-10 pointer-events-none xl:max-w-xl"> 
+                            <span className="hero-line">into Clear, Accurate</span>
+                            <span className="hero-line">Medical Communications</span>
+                        </h1>
+                        <p className="text-white-50 md:text-xl relative z-10 pointer-events-none xl:max-w-xl">
                             Hi! I'm Marco, a medical writer based in Hong Kong with a passion for transforming complex medical information.
-                    </p>
-                    <Button 
-                        className="md:w-80 md:h-16 w-60 h-12"
-                        id="button"
-                        text="See my Work"
-                    />
-                </div>
-            </header>
-            {/* {RIGHT: 3D MODEL} */}
-            <figure>
-                <div className="hero-3d-layout">
-                    <Suspense fallback={null}>
-                        <HeroExperience />
-                    </Suspense>
-                </div>
-            </figure>
-        </div>
-        <AnimatedCounter />
-    </section>
-  )
+                        </p>
+                        <Button
+                            className="md:w-80 md:h-16 w-60 h-12"
+                            id="button"
+                            text="See my Work"
+                        />
+                    </div>
+                </header>
+                {/* {RIGHT: 3D MODEL} */}
+                <figure aria-label="Interactive 3D DNA helix animation">
+                    <div className="hero-3d-layout">
+                        <Suspense fallback={null}>
+                            <HeroExperience />
+                        </Suspense>
+                    </div>
+                </figure>
+            </div>
+            <AnimatedCounter />
+        </section>
+    )
 }
 
 export default Hero
