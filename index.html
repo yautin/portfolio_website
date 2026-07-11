@@ -22,30 +22,84 @@
       href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
     />
 
-    <title>Marco Ng — Medical Writer</title>
+    <title>Marco Ng — Medical Writer in Hong Kong</title>
     <meta
       name="description"
-      content="Marco Ng is a medical writer based in Hong Kong, turning complex science and data into clear, accurate medical communications."
+      content="Marco Ng is a medical writer in Hong Kong creating promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech."
     />
+    <link rel="canonical" href="https://marco-ng.com/" />
+    <meta name="theme-color" content="#15171e" />
 
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Marco Ng — Medical Writer" />
+    <meta property="og:url" content="https://marco-ng.com/" />
+    <meta property="og:site_name" content="Marco Ng — Medical Writer" />
+    <meta property="og:title" content="Marco Ng — Medical Writer in Hong Kong" />
     <meta
       property="og:description"
-      content="Turning complex science and data into clear, accurate medical communications."
+      content="Promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech."
     />
+    <meta property="og:image" content="https://marco-ng.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Marco Ng — Medical Writer in Hong Kong" />
 
     <!-- Twitter card -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Marco Ng — Medical Writer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Marco Ng — Medical Writer in Hong Kong" />
     <meta
       name="twitter:description"
-      content="Turning complex science and data into clear, accurate medical communications."
+      content="Promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech."
     />
+    <meta name="twitter:image" content="https://marco-ng.com/og-image.png" />
+
+    <!-- Structured data: ties the domain to the person entity for name queries.
+         Add professional profile URLs (LinkedIn etc.) to "sameAs" when ready. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://marco-ng.com/#marco-ng",
+            "name": "Marco Ng",
+            "jobTitle": "Medical Writer",
+            "url": "https://marco-ng.com/",
+            "email": "mailto:ngyautin@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Hong Kong"
+            },
+            "knowsAbout": [
+              "Medical writing",
+              "Medical communications",
+              "Promotional medical education",
+              "Detail aids",
+              "HCP education",
+              "Clinical trial data communication"
+            ],
+            "sameAs": []
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://marco-ng.com/#website",
+            "name": "Marco Ng — Medical Writer",
+            "url": "https://marco-ng.com/",
+            "publisher": { "@id": "https://marco-ng.com/#marco-ng" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p>
+        Marco Ng is a medical writer based in Hong Kong, creating promotional
+        and educational content for healthcare professionals across pharma and
+        biotech. Contact: ngyautin@gmail.com
+      </p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
