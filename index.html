@@ -1,61 +1,54 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Apply a saved light theme before first paint (dark is the default) so
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Apply a saved light theme before first paint (dark is the default) so
          there is no flash of the wrong theme. -->
-    <script>
-      try {
-        if (localStorage.getItem("theme") === "light")
-          document.documentElement.dataset.theme = "light";
-      } catch (e) {}
-    </script>
+  <script>
+    try {
+      if (localStorage.getItem("theme") === "light")
+        document.documentElement.dataset.theme = "light";
+    } catch (e) { }
+  </script>
 
-    <!-- fonts: preconnect + non-blocking swap (kept out of the CSS bundle) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
-    />
+  <!-- fonts: preconnect + non-blocking swap (kept out of the CSS bundle) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap" />
 
-    <title>Marco Ng — Medical Writer in Hong Kong</title>
-    <meta
-      name="description"
-      content="Marco Ng is a medical writer in Hong Kong creating promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech."
-    />
-    <link rel="canonical" href="https://marco-ng.com/" />
-    <meta name="theme-color" content="#15171e" />
+  <title>Marco Ng — Medical Writer in Hong Kong</title>
+  <meta name="description"
+    content="Marco Ng is a medical writer in Hong Kong creating promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech." />
+  <link rel="canonical" href="https://marco-ng.com/" />
+  <meta name="theme-color" content="#15171e" />
 
-    <!-- Open Graph / social sharing -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://marco-ng.com/" />
-    <meta property="og:site_name" content="Marco Ng — Medical Writer" />
-    <meta property="og:title" content="Marco Ng — Medical Writer in Hong Kong" />
-    <meta
-      property="og:description"
-      content="Promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech."
-    />
-    <meta property="og:image" content="https://marco-ng.com/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Marco Ng — Medical Writer in Hong Kong" />
+  <!-- Open Graph / social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://marco-ng.com/" />
+  <meta property="og:site_name" content="Marco Ng — Medical Writer" />
+  <meta property="og:title" content="Marco Ng — Medical Writer in Hong Kong" />
+  <meta property="og:description"
+    content="Promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech." />
+  <meta property="og:image" content="https://marco-ng.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Marco Ng — Medical Writer in Hong Kong" />
 
-    <!-- Twitter card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Marco Ng — Medical Writer in Hong Kong" />
-    <meta
-      name="twitter:description"
-      content="Promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech."
-    />
-    <meta name="twitter:image" content="https://marco-ng.com/og-image.png" />
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Marco Ng — Medical Writer in Hong Kong" />
+  <meta name="twitter:description"
+    content="Promotional and educational content for healthcare professionals — detail aids, MOA visuals, and data-driven medical communications for pharma and biotech." />
+  <meta name="twitter:image" content="https://marco-ng.com/og-image.png" />
 
-    <!-- Structured data: ties the domain to the person entity for name queries.
+  <!-- Structured data: ties the domain to the person entity for name queries.
          Add professional profile URLs (LinkedIn etc.) to "sameAs" when ready. -->
-    <script type="application/ld+json">
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@graph": [
@@ -78,6 +71,15 @@
               "HCP education",
               "Clinical trial data communication"
             ],
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "University of Toronto"
+            },
+            "hasCredential": {
+              "@type": "EducationalOccupationalCredential",
+              "credentialCategory": "degree",
+              "name": "Honours Bachelor of Science in Pharmacology and Biomedical Toxicology"
+            },
             "sameAs": []
           },
           {
@@ -90,16 +92,18 @@
         ]
       }
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <noscript>
-      <p>
-        Marco Ng is a medical writer based in Hong Kong, creating promotional
-        and educational content for healthcare professionals across pharma and
-        biotech. Contact: ngyautin@gmail.com
-      </p>
-    </noscript>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+</head>
+
+<body>
+  <div id="root"></div>
+  <noscript>
+    <p>
+      Marco Ng is a medical writer based in Hong Kong, creating promotional
+      and educational content for healthcare professionals across pharma and
+      biotech. Contact: ngyautin@gmail.com
+    </p>
+  </noscript>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>
