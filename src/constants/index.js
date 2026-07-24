@@ -57,7 +57,7 @@ const workProjects = [
     description:
       "Positioned faricimab in the APAC market as an optimal therapy for PCV, a subtype of nAMD prevalent in Asian patients. Drove the narrative that dual-action VEGF and Ang-2 targeting achieves high complete polypoidal regression rates and prevents PCV recurrence without the need for PDT.",
     chips: ["45 slides", "MLR-reviewed", "nAMD"],
-    icon: "/images/work/trending.svg",
+    icon: "/images/work/eye.svg",
     accent: "#60a5fa",
   },
 ];
