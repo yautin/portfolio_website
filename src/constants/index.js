@@ -32,10 +32,10 @@ const counterItems = [
 const workProjects = [
   {
     tag: "Detail Aid · Cardiology",
-    title: "First-in-class cardiac myosin inhibitor for oHCM ",
+    title: "First-in-class cardiac myosin inhibitor for obstructive HCM ",
     molecule: "mavacamten",
     description:
-      "Promoted goal-directed Valsalva maneuver assessment to increase LVOTO gradient detection in oHCM patients. Framed mavacamten as a safe, long-term therapy for obstruction relief that avoids the invasive risks of SRT.",
+      "Promoted goal-directed Valsalva maneuver assessment to enhance the detection of LVOT gradient ≥30 mmHg in obstructive HCM patients. Framed mavacamten as a safe, long-term therapy for obstruction relief that avoids the invasive risks of SRT.",
     chips: ["8-panel", "MLR-reviewed", "oHCM"],
     icon: "/images/work/activity.svg",
     accent: "#ff6b81",
@@ -55,7 +55,7 @@ const workProjects = [
     title: "Dual-action anti-VEGF and anti-Ang-2 agent for nAMD",
     molecule: "faricimab",
     description:
-      "Positioned faricimab in the APAC market as an optimal therapy for PCV, a subtype of nAMD prevalent in Asian patients. Drove the narrative of high complete polypoidal regression rates with dual action anti-VEGF and Ang-2 targeting, leading to low PCV recurrence rates without the need for PDT.",
+      "Positioned faricimab in the APAC market as an optimal therapy for PCV, a subtype of nAMD prevalent in Asian patients. Drove the narrative that dual-action VEGF and Ang-2 targeting achieves high complete polypoidal regression rates and prevents PCV recurrence without the need for PDT.",
     chips: ["45 slides", "MLR-reviewed", "nAMD"],
     icon: "/images/work/trending.svg",
     accent: "#60a5fa",
