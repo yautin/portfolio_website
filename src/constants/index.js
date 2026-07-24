@@ -42,7 +42,7 @@ const workProjects = [
   },
   {
     tag: "Detail Aid · Oncology",
-    title: "PI3K/AKT-pathway–targeted therapy for mBC",
+    title: "PI3K/AKT-targeted therapy for mBC",
     molecule: "capivasertib",
     description:
       "Translated complex AKT signaling biology into a simple visual rationale, highlighting how capivasertib targets a critical chokepoint in the PI3K/AKT signalling pathway.",
