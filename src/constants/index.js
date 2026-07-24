@@ -32,33 +32,33 @@ const counterItems = [
 const workProjects = [
   {
     tag: "Detail Aid · Cardiology",
-    title: "8-panel detail aid for a first-in-class cardiac myosin inhibitor",
+    title: "First-in-class cardiac myosin inhibitor for oHCM ",
     molecule: "mavacamten",
     description:
-      "Visual aid for cardiologists on obstructive HCM that standardised Valsalva-maneuver assessment and framed the therapy as a non-invasive treatment option.",
+      "Promoted goal-directed Valsalva maneuver assessment to increase LVOTO gradient detection in oHCM patients. Framed mavacamten as a safe, long-term therapy for obstruction relief that avoids the invasive risks of SRT.",
     chips: ["8-panel", "MLR-reviewed", "oHCM"],
     icon: "/images/work/activity.svg",
     accent: "#ff6b81",
   },
   {
     tag: "Detail Aid · Oncology",
-    title: "4-panel detail aid on AKT-pathway–targeted therapy",
+    title: "PI3K/AKT-pathway–targeted therapy for mBC",
     molecule: "capivasertib",
     description:
-      "Translated complex AKT signaling biology into a fair-balanced visual rationale, showing oncologists how capivasertib targets a critical choke-point in the pathway.",
+      "Translated complex AKT signaling biology into a simple visual rationale, highlighting how capivasertib targets a critical chokepoint in the PI3K/AKT signalling pathway.",
     chips: ["4-panel", "MLR-reviewed", "mBC"],
     icon: "/images/work/target.svg",
     accent: "#9d4edd",
   },
   {
-    tag: "Reminder Card · Oncology",
-    title: "Overall-survival reminder card for a HER2-low ADC",
-    molecule: "trastuzumab deruxtecan",
+    tag: "Core Visual Aid · Ophthalmology",
+    title: "Dual-action anti-VEGF and anti-Ang-2 agent for nAMD",
+    molecule: "faricimab",
     description:
-      "Leave-behind communicating overall-survival (OS) data for an antibody–drug conjugate in HER2-low breast cancer, designed for fast reference at the point of care.",
-    chips: ["Leave-behind", "MLR-reviewed", "mBC"],
+      "Positioned faricimab in the APAC market as an optimal therapy for PCV, a subtype of nAMD prevalent in Asian patients. Drove the narrative of high complete polypoidal regression rates with dual action anti-VEGF and Ang-2 targeting, leading to low PCV recurrence rates without the need for PDT.",
+    chips: ["45 slides", "MLR-reviewed", "nAMD"],
     icon: "/images/work/trending.svg",
-    accent: "#9d4edd",
+    accent: "#60a5fa",
   },
 ];
 
