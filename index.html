@@ -15,6 +15,13 @@
     } catch (e) { }
   </script>
 
+  <!-- Paint the themed background on the first frame so there's no white flash
+       before the app CSS loads (in dev, CSS is injected by JS). -->
+  <style>
+    html { background: #15171e; }
+    html[data-theme="light"] { background: #e8edf7; }
+  </style>
+
   <!-- fonts: preconnect + non-blocking swap (kept out of the CSS bundle) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

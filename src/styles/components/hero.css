@@ -1,0 +1,31 @@
+@layer components {
+  .hero-layout {
+    @apply relative z-10 xl:mt-20 mt-32 md:h-dvh h-[80vh] flex xl:items-center items-start justify-center;
+  }
+
+  .hero-text {
+    @apply flex flex-col justify-center md:text-[60px] text-[30px] font-semibold relative z-10 pointer-events-none;
+    img {
+      @apply size-8 md:size-10 object-contain;
+    }
+    .slide {
+      @apply absolute pt-0 px-2 md:px-5 py-[30px] h-[48px] md:h-[78px] md:translate-y-1 translate-y-0 overflow-hidden;
+    }
+  }
+
+  .hero-3d-layout {
+    @apply xl:w-[70%] w-full h-full min-h-[50vh] absolute xl:-top-20 top-24 xl:-right-20 right-0;
+  }
+
+  /* original hero backdrop: soft accent light-wells echoing the DNA-helix palette.
+     --hero-tint adds a faint cool wash in light mode so the glowing 3D helix and
+     particles stay legible against the light page. */
+  .hero-glow {
+    @apply absolute inset-0 -z-10 pointer-events-none;
+    background:
+      var(--hero-tint),
+      radial-gradient(42% 55% at 72% 30%, var(--hero-glow-1), transparent 70%),
+      radial-gradient(38% 50% at 56% 68%, var(--hero-glow-2), transparent 72%);
+  }
+
+}

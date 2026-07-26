@@ -1,0 +1,17 @@
+@layer components {
+  /* stats band */
+  .counter-card {
+    @apply rounded-2xl border border-black-50 bg-black-100 p-8 md:p-10 flex flex-col justify-center transition-colors duration-300 hover:border-blue-50;
+    box-shadow: var(--card-shadow);
+  }
+
+  .counter-number {
+    @apply text-5xl font-bold mb-2;
+    background: var(--counter-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+}

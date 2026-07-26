@@ -1,0 +1,53 @@
+html,
+body {
+  width: 100dvw;
+  overflow-x: hidden;
+  background-color: var(--page-bg);
+  color: var(--fg-strong);
+  scroll-behavior: smooth;
+  /* leave room for the fixed navbar so anchored section titles aren't hidden */
+  scroll-padding-top: 6rem;
+  font-family: "Mona Sans", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+section {
+  width: 100dvw;
+}
+
+/* consistent, visible keyboard focus ring for all interactive elements */
+:focus-visible {
+  outline: 2px solid #4cc9f0;
+  outline-offset: 2px;
+}
+
+/* brand text selection */
+::selection {
+  background: #4cc9f0;
+  color: #0b0d12;
+}
+
+/* slim, theme-aware scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-black-50) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-black-50);
+  border-radius: 999px;
+  border: 2px solid var(--page-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-blue-50);
+}
+

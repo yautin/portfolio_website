@@ -1,0 +1,186 @@
+@layer components {
+  /* ---- "For Fun" games hub (/fun) — theme-aware via the same tokens ---- */
+  .fun-page {
+    @apply min-h-screen px-5 md:px-10 py-8 md:py-12 max-w-6xl mx-auto;
+  }
+
+  .fun-header {
+    @apply flex flex-col gap-2 mb-10 md:mb-14;
+  }
+
+  .fun-brand {
+    @apply text-xl md:text-2xl font-semibold no-underline w-fit;
+    color: var(--fg-strong);
+  }
+
+  .fun-brand-dot {
+    background: var(--brand-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .fun-header-tag {
+    @apply text-sm md:text-base text-blue-50;
+  }
+
+  .fun-body {
+    /* minmax(0,1fr) — not bare 1fr — so the flexible column can shrink instead
+       of expanding to its content's width and pushing the 320px panel column
+       off-screen (where body's overflow-x:hidden would clip it) */
+    @apply grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start;
+  }
+
+  .fun-games {
+    /* single column: the card fills the left track; more games stack as the
+       library grows. min-w-0 stops this grid item from overflowing its parent
+       track (grid items default to min-width:auto and won't otherwise shrink). */
+    @apply grid grid-cols-1 gap-6 min-w-0;
+  }
+
+  .fun-card {
+    @apply rounded-2xl border border-black-50 bg-black-100 overflow-hidden flex flex-col transition-colors duration-300 hover:border-blue-50;
+    box-shadow: var(--card-shadow);
+  }
+
+  .fun-card-cover {
+    @apply flex items-center justify-center h-36;
+    background:
+      radial-gradient(80% 120% at 50% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+      color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .fun-card-cover img {
+    @apply size-20;
+    filter: drop-shadow(0 6px 16px color-mix(in srgb, var(--accent) 45%, transparent));
+  }
+
+  .fun-card-body {
+    @apply p-5 flex flex-col gap-2 grow;
+  }
+
+  .fun-card-title {
+    @apply text-lg font-bold;
+    color: var(--fg-strong);
+  }
+
+  .fun-card-tagline {
+    @apply text-xs font-semibold uppercase tracking-wider;
+    color: var(--accent);
+  }
+
+  .fun-card-blurb {
+    @apply text-sm text-white-50 leading-relaxed grow;
+  }
+
+  .fun-card-progress {
+    @apply text-sm font-semibold;
+    color: var(--fg-strong);
+  }
+
+  .fun-card-actions {
+    @apply flex flex-wrap gap-3 mt-2;
+  }
+
+  .fun-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold cursor-pointer border transition-colors duration-200;
+  }
+
+  .fun-btn.is-primary {
+    background: var(--brand-grad);
+    @apply text-white border-transparent;
+  }
+
+  .fun-btn.is-primary:disabled {
+    @apply opacity-60 cursor-not-allowed;
+  }
+
+  .fun-btn.is-ghost {
+    @apply bg-transparent border-black-50 text-white-50 hover:border-blue-50;
+  }
+
+  .fun-btn.is-ghost:hover {
+    color: var(--fg-strong);
+  }
+
+  .fun-btn.is-google {
+    @apply w-full bg-white border-black-50;
+    color: #1f2430;
+  }
+
+  /* ---- account / support side panel ---- */
+  .fun-side {
+    @apply flex flex-col gap-5;
+  }
+
+  .fun-auth {
+    @apply rounded-2xl border border-black-50 bg-black-100 p-5 flex flex-col gap-3;
+    box-shadow: var(--card-shadow);
+  }
+
+  .fun-auth-title {
+    @apply text-base font-bold;
+    color: var(--fg-strong);
+  }
+
+  .fun-auth-user {
+    @apply text-sm font-semibold;
+    color: var(--fg-strong);
+  }
+
+  .fun-auth-note {
+    @apply text-xs text-blue-50 leading-relaxed;
+  }
+
+  .fun-auth-or {
+    @apply relative text-center my-1;
+  }
+
+  .fun-auth-or::before {
+    content: "";
+    @apply absolute left-0 top-1/2 w-full h-px bg-black-50;
+  }
+
+  .fun-auth-or span {
+    @apply relative px-2 text-xs uppercase tracking-wider text-blue-50 bg-black-100;
+  }
+
+  .fun-auth-form {
+    @apply flex flex-col gap-3;
+  }
+
+  .fun-input {
+    @apply rounded-lg border border-black-50 px-3 py-2 text-sm outline-none transition-colors duration-200 focus:border-blue-50;
+    background-color: var(--input-bg);
+    color: var(--fg-strong);
+  }
+
+  .fun-auth-msg {
+    @apply text-xs leading-relaxed;
+  }
+
+  .fun-auth-msg.is-error {
+    color: #f25f5c;
+  }
+
+  .fun-auth-msg.is-info {
+    color: var(--accent, #4cc9f0);
+  }
+
+  .fun-auth-links {
+    @apply flex flex-wrap gap-x-4 gap-y-1 text-xs;
+
+    button {
+      @apply text-blue-50 cursor-pointer hover:underline;
+    }
+  }
+
+  .fun-coffee {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-black-50 px-4 py-2.5 text-sm font-semibold no-underline text-white-50 transition-colors duration-300 hover:border-blue-50;
+  }
+
+  .fun-coffee:hover {
+    color: var(--fg-strong);
+  }
+
+}

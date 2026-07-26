@@ -1,0 +1,115 @@
+@layer components {
+  /* ---- Contact ---- */
+  .contact-section {
+    @apply px-5 md:px-20;
+    --accent: #4cc9f0;
+  }
+
+  .contact-grid {
+    @apply grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-16 items-start;
+  }
+
+  .contact-status {
+    @apply inline-flex items-center gap-2.5 mt-6 text-sm text-white-50;
+
+    .dot {
+      @apply size-2.5 rounded-full flex-none;
+      background: #52d1a4;
+      box-shadow: 0 0 0 4px color-mix(in srgb, #52d1a4 20%, transparent);
+    }
+  }
+
+  .contact-links {
+    @apply mt-8 flex flex-col;
+  }
+
+  .contact-link {
+    @apply flex items-center gap-4 py-2 w-fit transition-colors duration-300;
+    color: var(--fg-strong);
+
+    .label {
+      @apply text-xs uppercase tracking-wider text-blue-50 w-24 flex-none;
+    }
+
+    .value {
+      @apply font-medium;
+    }
+
+    .arrow {
+      @apply text-blue-50 transition-transform duration-300;
+    }
+  }
+
+  a.contact-link:hover .value {
+    color: var(--accent);
+  }
+
+  a.contact-link:hover .arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .contact-link.is-static {
+    @apply text-white-50;
+  }
+
+  .contact-form {
+    @apply rounded-2xl border border-black-50 bg-black-100 p-6 md:p-8 flex flex-col gap-5;
+    box-shadow: var(--card-shadow);
+  }
+
+  .contact-field {
+    @apply flex flex-col gap-2;
+
+    label {
+      @apply text-xs uppercase tracking-wider text-blue-50;
+    }
+
+    input,
+    textarea {
+      @apply w-full rounded-lg border border-black-50 px-4 py-3 outline-none transition-colors duration-200;
+      color: var(--fg-strong);
+      background-color: var(--input-bg);
+      resize: vertical;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: color-mix(in srgb, var(--color-blue-50) 70%, transparent);
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+  }
+
+  .contact-submit {
+    @apply mt-1 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 font-semibold transition-colors duration-300;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+  }
+
+  .contact-submit:hover {
+    background-color: var(--accent);
+    color: #0b0d12; /* dark ink stays legible on the cyan hover in both themes */
+  }
+
+  .contact-submit:disabled {
+    @apply opacity-60 cursor-not-allowed;
+  }
+
+  .contact-formnote {
+    @apply text-xs text-blue-50 text-center;
+  }
+
+  .contact-formnote.is-success {
+    color: #52d1a4;
+  }
+
+  .contact-formnote.is-error {
+    color: #f25f5c;
+  }
+
+}
