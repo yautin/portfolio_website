@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { setMuted } from "../game/audio";
 
 // Design width is normalised to 960; the height is chosen to match the host's
 // landscape shape so FIT fills the device with no distortion.
@@ -10,11 +9,13 @@ const computeDesign = (w, h) => ({
   height: Math.round(Math.min(760, Math.max(400, BASE_W / (w / Math.max(1, h))))),
 });
 
-// Overlay shell for "Immune Defense". Phaser is dynamically imported (code-split)
-// only when this mounts. The React layer owns the modal chrome, focus/scroll,
-// mute + fullscreen, and device-responsive sizing (immersive on small screens,
-// rotate prompt in portrait).
-const ImmuneDefense = ({ onClose }) => {
+// Generic overlay shell for any game in the registry: the entry supplies the
+// title, lazy Phaser factory, mute hook, and controls hint. Phaser is
+// dynamically imported (code-split) only when this mounts. The React layer
+// owns the modal chrome, focus/scroll, mute + fullscreen, and
+// device-responsive sizing (immersive on small screens, rotate prompt in
+// portrait).
+const GameShell = ({ game, onClose }) => {
   const hostRef = useRef(null);
   const closeRef = useRef(null);
   const gameRef = useRef(null);
@@ -48,13 +49,14 @@ const ImmuneDefense = ({ onClose }) => {
     const prevFocus = document.activeElement;
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
-    setMuted(localStorage.getItem("gameMuted") === "1");
+    game.setMuted?.(localStorage.getItem("gameMuted") === "1");
 
     let cancelled = false;
-    import("../game/immuneDefense")
-      .then(({ createImmuneDefense }) => {
+    game
+      .loadFactory()
+      .then((createGame) => {
         if (cancelled) return;
-        factoryRef.current = createImmuneDefense;
+        factoryRef.current = createGame;
         tryCreate();
       })
       .catch(() => setLoading(false));
@@ -90,7 +92,7 @@ const ImmuneDefense = ({ onClose }) => {
       document.body.style.overflow = "";
       if (prevFocus instanceof HTMLElement) prevFocus.focus();
     };
-  }, [onClose, tryCreate]);
+  }, [game, onClose, tryCreate]);
 
   // Pause the running game while the rotate prompt is up; resume (and create if
   // we were waiting on landscape) when it clears.
@@ -108,7 +110,7 @@ const ImmuneDefense = ({ onClose }) => {
   const toggleMute = () => {
     setMutedState((m) => {
       const next = !m;
-      setMuted(next);
+      game.setMuted?.(next);
       localStorage.setItem("gameMuted", next ? "1" : "0");
       return next;
     });
@@ -132,14 +134,14 @@ const ImmuneDefense = ({ onClose }) => {
       className={`game-overlay${isSmall ? " is-immersive" : ""}`}
       role="dialog"
       aria-modal="true"
-      aria-label="Immune Defense game"
+      aria-label={`${game.title} game`}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <div className="game-panel">
         <div className="game-topbar">
-          <span className="game-title">Immune Defense</span>
+          <span className="game-title">{game.title}</span>
           <div className="game-actions">
             <button
               type="button"
@@ -193,12 +195,10 @@ const ImmuneDefense = ({ onClose }) => {
           )}
         </div>
 
-        <p className="game-hint">
-          Tap a card then a lane to place · tap a defender to upgrade, hold (or right-click) to sell · ⛶ fullscreen · Esc to close
-        </p>
+        {game.hint && <p className="game-hint">{game.hint}</p>}
       </div>
     </div>
   );
 };
 
-export default ImmuneDefense;
+export default GameShell;

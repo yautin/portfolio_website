@@ -10,7 +10,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    const svg = (key, w, h = w) => this.load.svg(key, `/game/${key}.svg`, { width: w * RES, height: h * RES });
+    const svg = (key, w, h = w) => this.load.svg(key, `/games/immune-defense/${key}.svg`, { width: w * RES, height: h * RES });
     // defenders
     svg("def-antibody", 46); svg("def-mito", 46); svg("def-macrophage", 46);
     svg("def-mine", 46); svg("def-interferon", 46); svg("def-mastcell", 46); svg("def-neutrophil", 46);

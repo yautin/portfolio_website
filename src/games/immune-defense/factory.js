@@ -6,9 +6,10 @@ import GameScene from "./scenes/GameScene";
 import InterludeScene from "./scenes/InterludeScene";
 
 // Boots the Phaser game into the given DOM parent. Framework-agnostic — the
-// React shell only creates and destroys it. Phaser lives in this module so it
-// gets code-split into a chunk loaded on demand.
-export const createImmuneDefense = ({ parent, width = 960, height = 540 }) =>
+// generic GameShell only creates and destroys it. Phaser lives in this module
+// so it gets code-split into a chunk loaded on demand. Every game's factory
+// exports `createGame` with this signature — the shell relies on it.
+export const createGame = ({ parent, width = 960, height = 540 }) =>
   new Phaser.Game({
     type: Phaser.AUTO,
     parent,

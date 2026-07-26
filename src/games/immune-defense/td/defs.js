@@ -54,8 +54,13 @@ export const DIFFICULTIES = {
   normal: { key: "normal", label: "Normal", atpMul: 1, hpMul: 1, speedMul: 1, countMul: 1, hearts: 5 },
 };
 export const getDifficulty = () => (localStorage.getItem(DIFFICULTY_KEY) === "easy" ? "easy" : "normal");
-export const setDifficulty = (k) => localStorage.setItem(DIFFICULTY_KEY, k);
+export const setDifficulty = (k) => { localStorage.setItem(DIFFICULTY_KEY, k); emitSaveChanged(); };
 export const diff = () => DIFFICULTIES[getDifficulty()];
+
+// Notifies the games hub that the local save changed so it can sync the cloud
+// copy (framework-agnostic: plain window event, no listener = no-op).
+export const SAVE_EVENT = "immune-defense:save-changed";
+const emitSaveChanged = () => window.dispatchEvent(new CustomEvent(SAVE_EVENT));
 
 // The seven defenders. Every one occupies a tile, blocks its lane and has HP;
 // `role` selects behaviour in GameScene. Array order = unlock order.
@@ -157,7 +162,10 @@ export function getProgress() {
   return Math.max(1, Math.min(TOTAL_LEVELS, n));
 }
 export function setProgress(level) {
-  if (level > getProgress()) localStorage.setItem(PROGRESS_KEY, String(Math.min(TOTAL_LEVELS, level)));
+  if (level > getProgress()) {
+    localStorage.setItem(PROGRESS_KEY, String(Math.min(TOTAL_LEVELS, level)));
+    emitSaveChanged();
+  }
 }
 
 export function getStarsMap() {
@@ -170,6 +178,7 @@ export function recordResult(level, stars, score) {
   const prev = m[level] || { stars: 0, score: 0 };
   m[level] = { stars: Math.max(prev.stars, stars), score: Math.max(prev.score, score) };
   localStorage.setItem(STARS_KEY, JSON.stringify(m));
+  emitSaveChanged();
 }
 export const starsForHearts = (hearts, maxHearts) =>
   hearts >= maxHearts ? 3 : hearts >= Math.ceil(maxHearts / 2) ? 2 : 1;

@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 import { contactEmail, contactLinks, navLinks, web3formsKey } from "../constants";
-import ImmuneDefense from "../components/ImmuneDefense";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,7 +14,6 @@ const Contact = () => {
   const sectionRef = useRef(null);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
-  const [gameOpen, setGameOpen] = useState(false);
 
   const onChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -91,7 +90,7 @@ const Contact = () => {
 
             <p className="contact-status contact-reveal">
               <span className="dot" />
-              Currently open to new projects
+              Currently open to new opportunities
             </p>
 
             <ul className="contact-links contact-reveal">
@@ -208,18 +207,12 @@ const Contact = () => {
 
           <div className="footer-meta">
             <p className="footer-copy">© {year} Marco Ng. All rights reserved.</p>
-            <button
-              type="button"
-              className="footer-funbtn"
-              onClick={() => setGameOpen(true)}
-            >
+            <Link className="footer-funbtn" to="/fun">
               🎮 For Fun
-            </button>
+            </Link>
           </div>
         </div>
       </footer>
-
-      {gameOpen && <ImmuneDefense onClose={() => setGameOpen(false)} />}
     </>
   );
 };

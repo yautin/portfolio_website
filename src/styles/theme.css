@@ -1,0 +1,154 @@
+@theme {
+  --font-sans: "Mona Sans", sans-serif;
+  --color-white-50: #c4cdda;
+  --color-black-50: #2b3040;
+  --color-black-100: #1c1f28;
+  --color-black-200: #262b37;
+  --color-blue-50: #8b97ad;
+  /* hair-lighter surface for alternating section bands */
+  --color-black-surface: #191c24;
+}
+
+/* ---- theme tokens ----
+   Dark is the default (the @theme values above + the semantic tokens here).
+   Light mode overrides both under [data-theme="light"]; because Tailwind v4
+   utilities resolve to var(--color-*), redefining the token values flips the
+   whole site. Semantic tokens cover the spots that used literal colors. */
+:root {
+  --page-bg: #15171e;
+  /* brand gradient thread: cyan → violet, used for the logo dot, eyebrows,
+     nav underline, hero CTA and counter numbers in both modes */
+  --brand-1: #4cc9f0;
+  --brand-2: #9d4edd;
+  --brand-grad: linear-gradient(120deg, var(--brand-1), var(--brand-2));
+  --fg-strong: #e8ebf2; /* primary text / headings (was literal white) */
+  --btn-bg: #ffffff; /* the high-contrast pill CTA */
+  --btn-fg: #0b0d12;
+  --nav-bg: rgba(21, 23, 30, 0.85); /* scrolled navbar */
+  --input-bg: #15171e;
+  --hero-glow-1: rgba(76, 201, 240, 0.16);
+  --hero-glow-2: rgba(157, 78, 221, 0.14);
+  --hero-tint: none;
+  --counter-grad: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
+  --kinesin-cargo: #c9d4e1;
+  --tub-a: #55617a;
+  --tub-b: #3c4557;
+  --card-shadow: none;
+  /* theme toggle switch */
+  --switch-track: #262b37;
+  --switch-knob: #e8ebf2;
+  --switch-ink: #3c4557;
+}
+
+:root[data-theme="light"] {
+  /* @theme token value overrides — a soft, cool-tinted light theme (not white),
+     so white cards pop off it and the page carries colour throughout. */
+  --color-white-50: #46536a; /* muted body text */
+  --color-black-50: #d3dcec; /* borders (cool, defined) */
+  --color-black-100: #ffffff; /* card surfaces — stay white to pop off the tint */
+  --color-black-200: #e6ecf7; /* hover / chip surfaces */
+  --color-blue-50: #586378; /* subtle labels/eyebrows */
+  --color-black-surface: #e7edf8; /* alternating band base tint */
+
+  /* semantic overrides */
+  --page-bg: #e8edf7; /* tinted base, clearly not white */
+  --brand-1: #1596c9; /* darker gradient stops for contrast on light */
+  --brand-2: #7b3fc4;
+  --fg-strong: #141a27;
+  --btn-bg: #141a27; /* inverse: dark pill, light text */
+  --btn-fg: #ffffff;
+  --nav-bg: rgba(240, 243, 250, 0.78);
+  --input-bg: #ffffff;
+  --hero-glow-1: rgba(76, 201, 240, 0.2);
+  --hero-glow-2: rgba(157, 78, 221, 0.16);
+  --hero-tint: radial-gradient(120% 90% at 70% 25%, rgba(22, 30, 52, 0.05), transparent 60%);
+  --kinesin-cargo: #8593a8;
+  --tub-a: #7f8ea8;
+  --tub-b: #5f6b82;
+  --card-shadow: 0 18px 44px -20px rgba(28, 46, 92, 0.28);
+  --switch-track: #cfe6f4;
+  --switch-knob: #ffffff;
+  --switch-ink: #e0892b;
+}
+
+/* Ambient colour wash echoing the DNA-hero palette, so both themes have a
+   living atmosphere rather than a flat field. Fixed behind all content. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(46% 40% at 84% 6%, rgba(76, 201, 240, 0.06), transparent 62%),
+    radial-gradient(42% 46% at 8% 40%, rgba(157, 78, 221, 0.055), transparent 62%),
+    radial-gradient(52% 42% at 70% 92%, rgba(82, 209, 164, 0.05), transparent 62%);
+}
+
+:root[data-theme="light"] body::before {
+  background:
+    radial-gradient(46% 40% at 84% 6%, rgba(76, 201, 240, 0.1), transparent 62%),
+    radial-gradient(42% 46% at 8% 40%, rgba(157, 78, 221, 0.09), transparent 62%),
+    radial-gradient(52% 42% at 70% 92%, rgba(82, 209, 164, 0.07), transparent 62%);
+}
+
+/* fine grain over the washes: kills radial-gradient banding and adds material
+   quality; invisible at reading distance */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.055;
+}
+
+/* Give the two alternating bands distinct brand tints (gently graded for
+   depth) for a colourful rhythm down the page in BOTH modes; base sections
+   show the ambient wash through. */
+.drugs-section.is-alt {
+  background: linear-gradient(180deg, #161f2b 0%, #131a24 100%); /* deep blue-teal band */
+}
+
+.contact-section.is-alt {
+  background: linear-gradient(180deg, #1a1726 0%, #161320 100%); /* deep violet band */
+}
+
+:root[data-theme="light"] .drugs-section.is-alt {
+  background: linear-gradient(180deg, #e0eefa 0%, #d4e7f6 100%); /* soft cyan band */
+}
+
+:root[data-theme="light"] .contact-section.is-alt {
+  background: linear-gradient(180deg, #ece9fa 0%, #e0dcf4 100%); /* soft lavender band */
+}
+
+
+/* Accent-coloured small text needs a darker tint on the white surfaces so it
+   keeps enough contrast (hue preserved, mixed toward ink). */
+:root[data-theme="light"] .work-molecule,
+:root[data-theme="light"] .distill-trial,
+:root[data-theme="light"] .distill-trial sup {
+  color: color-mix(in srgb, var(--accent) 68%, #0f131b);
+}
+:root[data-theme="light"] .distill-metric {
+  color: color-mix(in srgb, var(--accent) 84%, #0f131b);
+}
+
+/* The Immune Defense game stays dark in both themes: re-pin the dark token
+   values onto the overlay so its whole modal subtree ignores the page theme. */
+.game-overlay {
+  --color-black-100: #1c1f28;
+  --color-black-200: #262b37;
+  --color-black-50: #2b3040;
+  --color-white-50: #c4cdda;
+  --color-blue-50: #8b97ad;
+  --fg-strong: #e8ebf2;
+  --btn-bg: #ffffff;
+  --btn-fg: #0b0d12;
+  --card-shadow: none;
+}

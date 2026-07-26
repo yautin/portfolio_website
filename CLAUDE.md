@@ -19,24 +19,39 @@ A single-page personal portfolio for Marco Ng (a medical writer in Hong Kong), b
 
 The page is assembled in [src/App.jsx](src/App.jsx) by stacking section components (`NavBar`, `Hero`, `ShowcaseSection`). Adding a new region of the page means creating a section and slotting it here.
 
-- **`src/sections/`** — full-width page sections (Hero, ShowcaseSection), each wrapping its own content and animations.
-- **`src/components/`** — reusable pieces (Button, NavBar, AnimatedCounter).
-- **`src/components/HeroModels/`** — the React Three Fiber 3D scene for the hero. `HeroExperience.jsx` is the `<Canvas>` root that composes `Room`, `Desk`, `HeroLights`, and `Particles`.
-- **`src/constants/index.js`** — all content data (nav links, words, counters, testimonials, tech stack, etc.) lives here as exported arrays. Components import and `.map()` over these; edit copy/data here, not inline in JSX.
-- **`public/images/`** and **`public/models/`** — static assets referenced by absolute paths (e.g. `/images/foo.png`, `/models/foo.glb`).
+- **`src/sections/`** — full-width page sections (Hero, ShowcaseSection, DrugProducts, DataDistilled, Contact), each wrapping its own content and animations.
+- **`src/components/`** — reusable pieces (Button, NavBar, AnimatedCounter, KinesinWalk).
+- **`src/components/HeroModels/`** — the React Three Fiber 3D scene for the hero. `HeroExperience.jsx` is the `<Canvas>` root that composes `DnaHelix`, `HeroLights`, and `Particles` (a procedural DNA helix — there are no `.glb` models).
+- **`src/games/<id>/`** — self-contained Phaser games (currently `immune-defense/`), each consumed only through its `index.js` facade; **`src/fun/`** is the `/fun` games hub (route in `Root.jsx`) with `GameShell` (generic modal) and `games.js` (registry). Adding a game = a `src/games/` folder + `public/games/<id>/` sprites + one registry entry. See the game section below.
+- **`src/constants/index.js`** — all content data (nav links, words, counters, work projects, drug products, etc.) lives here as exported arrays. Components import and `.map()` over these; edit copy/data here, not inline in JSX.
+- **`public/images/`** and **`public/games/`** — static assets referenced by absolute paths (e.g. `/images/foo.svg`, `/games/immune-defense/foo.svg`).
 
 ### Styling (Tailwind CSS v4 — important)
 
-There is **no `tailwind.config.js`**. Tailwind v4 is wired through the `@tailwindcss/vite` plugin ([vite.config.js](vite.config.js)), and all configuration lives in [src/index.css](src/index.css):
+There is **no `tailwind.config.js`**. Tailwind v4 is wired through the `@tailwindcss/vite` plugin ([vite.config.js](vite.config.js)). [src/index.css](src/index.css) is the stylesheet **entry point**: it imports Tailwind, then the concern-split files under `src/styles/` — **import order is cascade order**, so keep new imports in page order and don't reorder them casually.
 
-- Theme tokens (custom colors like `black-100`, `white-50`, fonts) are defined in the `@theme` block. Reference them as normal Tailwind classes (`bg-black-100`, `text-white-50`).
-- Most styling is done via **semantic component classes** defined in `@layer components` (`.navbar`, `.hero-layout`, `.app-showcase`, `.cta-button`, etc.), often using nested selectors and `@apply`. JSX uses these class names instead of long utility strings, so layout/visual changes usually belong in `index.css`, not the component.
-- Keyframe animations (word slider, marquee, card glow) are plain CSS at the bottom of `index.css`.
+- **Theme tokens** (custom colors like `black-100`, `white-50`, fonts) live in the `@theme` block in [src/styles/theme.css](src/styles/theme.css), alongside the dark/light semantic tokens (`:root` / `[data-theme="light"]`), ambient wash/grain, band tints, and the game's dark-island token re-pin. Reference tokens as normal Tailwind classes (`bg-black-100`, `text-white-50`).
+- Most styling is done via **semantic component classes** in `@layer components`, split **one file per page region** under `src/styles/components/` (`navbar.css`, `hero.css`, `work.css`, `fun.css`, `game.css`, …), often using nested selectors and `@apply`. JSX uses these class names instead of long utility strings, so layout/visual changes belong in the matching `src/styles/components/*.css` file, not the component. New page sections get a new file there, imported from `index.css` in page order.
+- Keyframe animations (word slider, marquee, kinesin walk) plus the touch-device and reduced-motion rules live in [src/styles/animations.css](src/styles/animations.css) — imported **last** so they can override component defaults.
+- Base element styles, focus/selection, and the scrollbar live in [src/styles/base.css](src/styles/base.css).
 
 ### Animation
 
 GSAP drives all motion via the `useGSAP` hook (`@gsap/react`). Components that animate on scroll must `gsap.registerPlugin(ScrollTrigger)` at module scope (see [AnimatedCounter.jsx](src/components/AnimatedCounter.jsx) and [ShowcaseSection.jsx](src/sections/ShowcaseSection.jsx)). ScrollTriggers are wired to element IDs/refs (e.g. `#counter`), so keep those IDs in sync when renaming.
 
-### 3D models
+### 3D hero
 
-Files under `src/components/HeroModels/` like `Room.jsx` and `Desk.jsx` are **auto-generated from `.glb` files via `gltfjsx`** (see the header comment in each). Regenerate them with gltfjsx rather than hand-editing node/mesh structure; custom material overrides applied after generation are the main thing worth editing by hand.
+The hero scene under `src/components/HeroModels/` is **procedural** (no `.glb` assets): `DnaHelix.jsx` builds the double helix from geometry, lit by `HeroLights.jsx`, with a `Particles.jsx` field. Theme-awareness comes from the `useTheme` hook — R3F components read it to swap colors/intensities for light vs dark.
+
+### Games (`/fun` hub)
+
+Each game is a **self-contained folder** under `src/games/<id>/`, framework-agnostic, exposed only through its `index.js` **facade**. Nothing outside the folder may import its internals (`td/`, `audio`, `scenes/`, `factory`) — the facade re-exports the small public surface: `loadFactory` (dynamic-imports the Phaser `createGame`, keeping Phaser in its own lazy chunk), `controlsHint`, the save descriptor (localStorage keys + change event), and progress getters.
+
+The `/fun` hub lives in `src/fun/`:
+- **`games.js`** — the registry: one entry per game wiring its facade exports (`loadFactory`, `setMuted`, `hint`, `save`, `progress`, card copy) into a plain object. **This is the only file you touch to add a game.**
+- **`GameShell.jsx`** — one generic modal shell that renders *any* registry entry (title, canvas host, mute/fullscreen, rotate prompt, hint). Game-specific behavior comes from the passed `game` object, never hardcoded.
+- **`saveSync.js`** — game-agnostic cloud saves (Supabase); reads each game's `save` descriptor from the registry, so it never knows game specifics.
+
+To add a game: create `src/games/<id>/` (with an `index.js` facade exposing that surface), put sprites in `public/games/<id>/`, and add one entry to `games.js`. Hub card, code-splitting, cloud saves, and modal chrome all come for free.
+
+Inside `immune-defense/`, `GameScene` is split by concern: the class (`scenes/GameScene.js`) owns state/geometry/frame-loop, and `scenes/game/*.js` modules (field, hud, toolbar, placement, pause, combat, fx) hold verbatim `this`-based methods mixed onto the prototype via `Object.assign`. Balance/content data is in `td/defs.js`.
