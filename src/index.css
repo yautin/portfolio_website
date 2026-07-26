@@ -27,6 +27,7 @@
 @import "./styles/components/fun.css";
 @import "./styles/components/game.css";
 @import "./styles/components/kinesin.css";
+@import "./styles/components/transition.css";
 
 /* keyframes, marquee/slider timing, touch-device and reduced-motion rules */
 @import "./styles/animations.css";

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router";
+import { usePageTransition } from "../components/pageTransitionContext";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -14,6 +15,7 @@ const Contact = () => {
   const sectionRef = useRef(null);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+  const { portalTo } = usePageTransition();
 
   const onChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -207,7 +209,16 @@ const Contact = () => {
 
           <div className="footer-meta">
             <p className="footer-copy">© {year} Marco Ng. All rights reserved.</p>
-            <Link className="footer-funbtn" to="/fun">
+            <Link
+              className="footer-funbtn"
+              to="/fun"
+              onClick={(e) => {
+                // let modifier-clicks (open in new tab, etc.) behave natively
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                e.preventDefault();
+                portalTo("/fun", e.currentTarget);
+              }}
+            >
               🎮 For Fun
             </Link>
           </div>
