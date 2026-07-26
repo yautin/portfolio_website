@@ -2,7 +2,7 @@
 
 A personal portfolio for **Marco Ng**, a medical writer based in Hong Kong who specialises in promotional and educational content for healthcare professionals (HCPs).
 
-The site is a single-page React application with an interactive 3D hero, scroll-driven animations, and purpose-built sections that reframe a traditional developer portfolio around medical communications. Motion is used deliberately and respects the visitor's reduced-motion preference throughout. Tucked in the footer is a full **browser tower-defense game** ("Immune Defense"), built on Phaser and lazy-loaded so it never affects the site's initial load.
+The site is a single-page React application with an interactive 3D hero, scroll-driven animations, and purpose-built sections that reframe a traditional developer portfolio around medical communications. Motion is used deliberately and respects the visitor's reduced-motion preference throughout. Tucked in the footer is a **"For Fun" games hub** with two Phaser mini-games — **Immune Defense** (a browser tower-defense) and **Microwell** (a live-cell microfluidics minesweeper) — each lazy-loaded so it never affects the site's initial load.
 
 Live site: https://marco-ng.com/
 
@@ -10,7 +10,7 @@ Live site: https://marco-ng.com/
 
 - **Interactive 3D hero** — a DNA-helix scene (React Three Fiber) with a rotating headline and animated stat counters.
 - **Purpose-built content sections** with a consistent type scale and alternating background bands for a clear reading rhythm.
-- **"Immune Defense"** — a 15-level, PvZ-style lane tower defense hidden behind the footer's "For Fun" button (see below).
+- **Two mini-games** behind the footer's "For Fun" button (see below): **Immune Defense**, a 15-level PvZ-style lane tower defense, and **Microwell**, a single-cell-microfluidics twist on minesweeper.
 - **Accessible & responsive** — honours `prefers-reduced-motion`, keyboard-focusable, anchor-aware navigation, and mobile-friendly layouts.
 
 ## Sections
@@ -24,11 +24,11 @@ Live site: https://marco-ng.com/
 
 ## "For Fun" games hub (`/fun`)
 
-The footer's **🎮 For Fun** button links to a dedicated **`/fun`** page — a games hub listing everything playable (currently one game, Immune Defense). Visitors can play in-browser with progress saved locally; if accounts are configured, they can **sign in to sync progress across devices** and **reset progress per game**. A discreet **"Buy me a coffee"** button lives here (hidden until a Stripe Payment Link is set).
+The footer's **🎮 For Fun** button links to a dedicated **`/fun`** page — a games hub listing everything playable (two games: **Immune Defense** and **Microwell**). Visitors can play in-browser with progress saved locally; if accounts are configured, they can **sign in to sync progress across devices** and **reset progress per game**. A discreet **"Buy me a coffee"** button lives here (hidden until a Stripe Payment Link is set).
 
 - **Optional accounts** — email + password and Google sign-in via **Supabase Auth**. Cloud saves live in a single `game_saves` table protected by row-level security (each user only ever touches their own rows).
 - **Graceful degradation** — with no Supabase env vars configured, `/fun` still works fully: games play, progress persists in `localStorage`, and Supabase is **tree-shaken out of the build entirely** (zero added weight). Configure the env vars and Supabase moves into the code-split `/fun` chunk — never the portfolio landing bundle.
-- **Zero risk to gameplay** — the game keeps reading/writing its four `localStorage` keys unchanged; a thin sync layer (`src/fun/saveSync.js`) snapshots them to the cloud on change (debounced) and hydrates them on sign-in.
+- **Zero risk to gameplay** — each game keeps reading/writing its own `localStorage` keys unchanged; a thin sync layer (`src/fun/saveSync.js`) snapshots them to the cloud on change (debounced) and hydrates them on sign-in, driven per-game by a `save` descriptor in the registry.
 
 See [Optional: accounts, cloud saves & the coffee button](#optional-accounts-cloud-saves--the-coffee-button) for setup.
 
@@ -43,7 +43,18 @@ Immune Defense is a self-contained tower-defense game built with **Phaser 3**, t
 - **Presentation** — hand-authored SVG art, synthesised Web-Audio SFX (no audio files), HiDPI rendering, device-responsive sizing (immersive full-screen on small screens with a rotate-to-landscape prompt in portrait).
 - **Performance** — Phaser (~1.2 MB) is loaded through a dynamic `import()`, so it is **code-split into its own chunk** and only fetched when a visitor opens the game; it never bloats the main bundle.
 
-Each game is a self-contained, framework-agnostic folder under `src/games/<id>/` (currently `immune-defense/`), consumed exclusively through its facade (`src/games/<id>/index.js`) — never its internals. The facade's `loadFactory` keeps Phaser behind a dynamic `import()` in its own lazy chunk. One generic React shell (`src/fun/GameShell.jsx`) renders any game from the registry: **adding a game = a folder in `src/games/`, sprites in `public/games/<id>/`, and one entry in `src/fun/games.js`** — hub card, cloud saves, modal chrome, and code-splitting all come free.
+## Microwell (the game)
+
+Microwell is a biology-themed **minesweeper** built with **Phaser 3**, framed as a **live-cell microfluidic assay (Lab-on-a-Chip)**: the board is a grid of microwell traps each holding a live cell, hidden **infected cells** (hijacked and fragile) replace mines, and the goal is to probe every healthy cell without rupturing an infected one. Under the hood it is true minesweeper (first-click-safe seeding, flood-fill reveal, 1–8 adjacency counts, flagging, chording). The live-cell framing makes the mechanics airtight — you actively *probe* cells (microinjection / electroporation / optical tweezers), and a ruptured cell's payload rides the microfluidic channels to its neighbours.
+
+- **Reframed mechanics** — a reveal is a physical **probe**; the number is the **viral load** from infected neighbours, colour-graded cyan→teal→violet→amber→red; flags are **antibody (IgG) markers**; a win is **Assay Complete**, a loss is **Contamination** (a fragile infected cell ruptures and its payload spreads through the flow).
+- **Signature twist — non-invasive scans** — each board grants a few 🔬 scans (3 Easy / 2 Normal / 2 Hard). Arm one and click any trap to image it **safely** (non-destructively): a healthy cell reveals (flooding if empty), while an infected cell is **auto-flagged with an antibody** instead of rupturing. A limited strategic lifeline.
+- **Three difficulties** — Easy 9×9 / 10 infected cells, Normal 12×12 / 26, Hard 20×16 / 58 — with per-difficulty best times and a total "assays cleared" tally saved to `localStorage`.
+- **Presentation** — brand cyan→violet gradient titles, a lab-on-a-chip menu motif, live-cell wells (cyan/teal viability glow) linked by faint microfluidic channels, synthesised Web-Audio SFX, and juice (a staggered "healing wave" on flood, an assay-complete pulse on win, a contamination ripple + shake on loss) — all gated on `prefers-reduced-motion`.
+
+Balance and persistence live in **`src/games/microwell/td/defs.js`** (difficulties, palette, save helpers).
+
+Each game is a self-contained, framework-agnostic folder under `src/games/<id>/` (`immune-defense/`, `microwell/`), consumed exclusively through its facade (`src/games/<id>/index.js`) — never its internals. The facade's `loadFactory` keeps Phaser behind a dynamic `import()` in its own lazy chunk. One generic React shell (`src/fun/GameShell.jsx`) renders any game from the registry: **adding a game = a folder in `src/games/`, sprites in `public/games/<id>/`, and one entry in `src/fun/games.js`** (whose `progress()` returns a `{ label }` the hub card shows verbatim) — hub card, cloud saves, modal chrome, and code-splitting all come free.
 
 ## Easter eggs
 
@@ -57,8 +68,8 @@ Each game is a self-contained, framework-agnostic folder under `src/games/<id>/`
 - **Tailwind CSS v4** (via `@tailwindcss/vite`) — styling; the theme and component classes live entirely in `src/index.css` (there is no `tailwind.config.js`).
 - **GSAP** (`@gsap/react`, `ScrollTrigger`) — entrance and scroll-driven animations.
 - **React Three Fiber** (`@react-three/fiber`, `@react-three/drei`, `@react-three/postprocessing`, `three`) — the 3D hero scene.
-- **Phaser 3** — the code-split "Immune Defense" mini-game.
-- **react-responsive** — device/orientation detection for the game's responsive shell.
+- **Phaser 3** — the two code-split mini-games ("Immune Defense" and "Microwell").
+- **react-responsive** — device/orientation detection for the games' responsive shell.
 - **React Router** — client-side routing (`/` portfolio, `/fun` games hub).
 - **Supabase** (`@supabase/supabase-js`) — optional managed auth + Postgres for game accounts and cloud saves (lazy-loaded with `/fun`; omitted from the build when unconfigured).
 - **Web3Forms** — serverless contact-form submissions (no backend required).
@@ -100,7 +111,7 @@ Then open the local URL printed in the terminal (default: `http://localhost:5173
 ```
 public/
   images/            Icons and section assets (SVG)
-  games/             Per-game sprite folders (immune-defense/…)
+  games/             Per-game sprite folders (immune-defense/, microwell/)
   favicon.svg
 src/
   components/        Reusable site UI and the hero 3D scene (HeroModels/)
@@ -116,6 +127,10 @@ src/
       td/                defs.js (all tuning data) + entities.js
       ui.js              shared canvas UI kit + HiDPI camera helper
       audio.js           synthesised Web-Audio SFX
+    microwell/           live-cell microfluidics minesweeper (same contract)
+      index.js  factory.js  audio.js  ui.js
+      scenes/            Boot / Menu / Game / End scenes
+      td/                defs.js (difficulties, palette, save helpers)
   fun/               The /fun games hub (code-split): FunPage, AuthCard,
                      GameShell (one generic React modal shell for any game),
                      the games registry (per-game card + facade wiring +
@@ -145,7 +160,7 @@ Nearly all site copy and data live in **`src/constants/index.js`**, so most upda
 - `contactEmail`, `contactLinks`, `web3formsKey` — contact details and form key
 - `supportUrl` — Stripe Payment Link for the `/fun` "Buy me a coffee" button (empty = hidden)
 
-The game's balance and content (defenders, pathogens, levels, difficulty) live in **`src/games/immune-defense/td/defs.js`**.
+Each game's balance and content live in its own `td/defs.js` — **`src/games/immune-defense/td/defs.js`** (defenders, pathogens, levels, difficulty) and **`src/games/microwell/td/defs.js`** (board sizes, infected-cell/scan counts, palette).
 
 > **Note:** the trial figures in `dataDistillExamples` are illustrative placeholders and should be verified against the primary publications before publishing.
 

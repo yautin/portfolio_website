@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" fill="none">
+  <!-- hijacked host cell: irregular membrane, displaced nucleus, packed with viral inclusions -->
+  <path d="M22 4 C31 4 40 11 39.5 22 C39 31 33 40 21.5 39.5 C12 39 4.5 32 4.5 21 C4.5 11 13 4 22 4 Z"
+        fill="#441426" stroke="#f25f5c" stroke-width="2.5" />
+  <!-- displaced nucleus (pushed to the side) -->
+  <ellipse cx="15" cy="16" rx="6" ry="5" fill="#7a2f45" stroke="#e0899a" stroke-width="1.4" />
+  <!-- viral inclusion bodies -->
+  <g fill="#ff8f8c">
+    <circle cx="27" cy="15" r="2.2" />
+    <circle cx="31" cy="22" r="2.4" />
+    <circle cx="25" cy="24" r="2" />
+    <circle cx="29" cy="29" r="2.2" />
+    <circle cx="22" cy="31" r="1.9" />
+    <circle cx="19" cy="26" r="1.7" />
+  </g>
+  <g fill="#f25f5c">
+    <circle cx="24" cy="19" r="1.4" />
+    <circle cx="34" cy="27" r="1.4" />
+  </g>
+  <!-- virions budding at the membrane -->
+  <circle cx="38.5" cy="27" r="2.3" fill="#ffb0ae" stroke="#f25f5c" stroke-width="1" />
+  <circle cx="34" cy="37" r="2" fill="#ffb0ae" stroke="#f25f5c" stroke-width="1" />
+</svg>

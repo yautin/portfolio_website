@@ -143,9 +143,7 @@ const FunPage = () => {
                   <h2 className="fun-card-title">{game.title}</h2>
                   <p className="fun-card-tagline">{game.tagline}</p>
                   <p className="fun-card-blurb">{game.blurb}</p>
-                  <p className="fun-card-progress">
-                    Level {p.level}/{p.total} · {p.stars}★
-                  </p>
+                  <p className="fun-card-progress">{p.label}</p>
                   <div className="fun-card-actions">
                     <button
                       type="button"
