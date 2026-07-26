@@ -1,7 +1,10 @@
-import { Suspense, lazy, useCallback, useEffect, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { supabase } from "../lib/supabase";
 import { supportUrl } from "../constants";
+import { usePageTransition } from "../components/pageTransitionContext";
 import { GAMES, gameById } from "./games";
 
 // One generic shell renders whichever registry game is active (lazy so the
@@ -19,8 +22,35 @@ const FunPage = () => {
   const [session, setSession] = useState(null);
   const [active, setActive] = useState(null); // the currently-open game id
   const [, setTick] = useState(0); // bump to re-read local progress
+  const pageRef = useRef(null);
+  const { portalReveal } = usePageTransition();
 
   const refresh = useCallback(() => setTick((t) => t + 1), []);
+
+  // Iris the transition portal back open now that the page has mounted (no-op
+  // on a direct visit). MUST be a plain effect, not useGSAP — a tween created
+  // inside a useGSAP context is reverted on unmount (the back nav), which would
+  // rewind the persistent overlay to its covering state and flood the previous
+  // page with gradient.
+  useEffect(() => {
+    portalReveal?.();
+  }, [portalReveal]);
+
+  // Stagger the hub content in behind the opening portal (safe to revert).
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      gsap.from(".fun-header, .fun-card, .fun-side", {
+        opacity: 0,
+        y: 24,
+        duration: 0.6,
+        stagger: 0.12,
+        ease: "power2.out",
+        delay: 0.15,
+      });
+    },
+    { scope: pageRef }
+  );
 
   // track the auth session
   useEffect(() => {
@@ -87,7 +117,7 @@ const FunPage = () => {
   const activeGame = active ? gameById(active) : null;
 
   return (
-    <main className="fun-page">
+    <main className="fun-page" ref={pageRef}>
       <header className="fun-header">
         <Link to="/" className="fun-brand">
           ← Marco Ng<span className="fun-brand-dot">.</span>
