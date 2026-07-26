@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" fill="none">
+  <!-- host cell colonised from within: intracellular bacterial rods + cocci -->
+  <path d="M22 4 C31 4 40 11 39.5 22 C39 31 33 40 21.5 39.5 C12 39 4.5 32 4.5 21 C4.5 11 13 4 22 4 Z"
+        fill="#441426" stroke="#f25f5c" stroke-width="2.5" />
+  <!-- displaced nucleus -->
+  <ellipse cx="13.5" cy="15" rx="5" ry="4.2" fill="#7a2f45" stroke="#e0899a" stroke-width="1.3" />
+  <!-- intracellular bacterial rods -->
+  <g fill="#de5b52" stroke="#ffb0ae" stroke-width="1">
+    <rect x="18" y="14" width="8" height="3.2" rx="1.6" transform="rotate(22 22 15.6)" />
+    <rect x="22" y="24" width="8.4" height="3.2" rx="1.6" transform="rotate(-32 26.2 25.6)" />
+    <rect x="14" y="25" width="7" height="3" rx="1.5" transform="rotate(64 17.5 26.5)" />
+    <rect x="27" y="30" width="6.6" height="3" rx="1.5" transform="rotate(12 30.3 31.5)" />
+  </g>
+  <!-- cocci -->
+  <g fill="#f25f5c" stroke="#ffb0ae" stroke-width="0.9">
+    <circle cx="31" cy="16" r="2.1" />
+    <circle cx="34.5" cy="18.5" r="1.9" />
+  </g>
+</svg>
