@@ -6,6 +6,7 @@ import { supabase } from "../lib/supabase";
 import { supportUrl } from "../constants";
 import { usePageTransition } from "../components/pageTransitionContext";
 import { GAMES, gameById } from "./games";
+import CellField from "./CellField";
 
 // One generic shell renders whichever registry game is active (lazy so the
 // modal chrome stays out of the hub's initial paint).
@@ -118,6 +119,7 @@ const FunPage = () => {
 
   return (
     <main className="fun-page" ref={pageRef}>
+      <CellField />
       <header className="fun-header">
         <Link to="/" className="fun-brand">
           ← Marco Ng<span className="fun-brand-dot">.</span>
