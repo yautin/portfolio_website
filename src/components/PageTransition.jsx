@@ -29,7 +29,9 @@ const coverRadius = (x, y) => {
 const CYAN = [76, 201, 240];
 const VIOLET = [157, 78, 221];
 const RING_DOTS = 130;
-const MAX_SPARKS = 420;
+const MAX_SPARKS = 520;
+const SPIN_DIR = 1; // 1 = clockwise, -1 = counter-clockwise
+const SPIN_RATE = 3.2; // rad/s
 
 // additive radial glow: white core → coloured halo → transparent
 const glow = (ctx, x, y, radius, rgb, a) => {
@@ -64,8 +66,10 @@ export function TransitionProvider({ children }) {
     for (let i = 0; i < count && st.sparks.length < MAX_SPARKS; i++) {
       const a = Math.random() * Math.PI * 2;
       const rad = st.r + (Math.random() - 0.4) * 10;
-      const out = 60 + Math.random() * 180; // radial speed
-      const tan = (Math.random() - 0.5) * 160; // tangential jitter
+      const out = 40 + Math.random() * 150; // radial speed
+      // strong, consistent-direction tangential velocity → sparks whip AROUND
+      // the rim (spiral outward) instead of flying straight out
+      const tan = SPIN_DIR * (260 + Math.random() * 260);
       const vx = Math.cos(a) * out - Math.sin(a) * tan;
       const vy = Math.sin(a) * out + Math.cos(a) * tan;
       st.sparks.push({
@@ -73,7 +77,7 @@ export function TransitionProvider({ children }) {
         y: st.cy + Math.sin(a) * rad,
         vx: vx * speedMul,
         vy: vy * speedMul,
-        life: 0.3 + Math.random() * 0.35,
+        life: 0.3 + Math.random() * 0.4,
         age: 0,
         size: 1 + Math.random() * 2.4,
         rgb: Math.random() < 0.5 ? CYAN : VIOLET,
@@ -88,7 +92,7 @@ export function TransitionProvider({ children }) {
     const ctx = canvas.getContext("2d");
     const dt = Math.min(deltaMs, 40) / 1000;
     st.t += dt;
-    st.spin += dt * 1.6;
+    st.spin += dt * SPIN_RATE * SPIN_DIR;
 
     ctx.setTransform(st.dpr, 0, 0, st.dpr, 0, 0);
     ctx.clearRect(0, 0, canvas.width / st.dpr, canvas.height / st.dpr);
@@ -111,45 +115,73 @@ export function TransitionProvider({ children }) {
 
     // the crackling energy rim
     if (r > 2) {
-      // glowing brand-coloured energy edge (blurred stroke)
+      // rotating "mandala" arc segments (with gaps) — one spinning each way, so
+      // the rotation is unmistakable (a full circle would look static)
       ctx.save();
-      ctx.lineWidth = 4.5;
-      ctx.strokeStyle = `rgba(${CYAN[0]},${CYAN[1]},${CYAN[2]},0.7)`;
-      ctx.shadowColor = `rgba(${VIOLET[0]},${VIOLET[1]},${VIOLET[2]},0.95)`;
-      ctx.shadowBlur = 34;
-      ctx.beginPath();
-      ctx.arc(cx, cy, r, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.lineCap = "round";
+      const arcs = [
+        { rr: r, w: 5, off: st.spin, col: CYAN, segs: 3, fill: 0.62 },
+        { rr: Math.max(4, r - 9), w: 3, off: -st.spin * 0.7, col: VIOLET, segs: 5, fill: 0.5 },
+      ];
+      for (const A of arcs) {
+        ctx.lineWidth = A.w;
+        ctx.strokeStyle = `rgba(${A.col[0]},${A.col[1]},${A.col[2]},0.75)`;
+        ctx.shadowColor = `rgba(${A.col[0]},${A.col[1]},${A.col[2]},0.95)`;
+        ctx.shadowBlur = 22;
+        const span = (Math.PI * 2) / A.segs;
+        for (let s = 0; s < A.segs; s++) {
+          const start = A.off + s * span;
+          ctx.beginPath();
+          ctx.arc(cx, cy, A.rr, start, start + span * A.fill);
+          ctx.stroke();
+        }
+      }
       ctx.restore();
 
-      // glowing dots around the circle with flicker + white-hot cores
+      // glowing dots — a FIXED per-index brightness pattern (3 bright clusters)
+      // drawn at a spinning angle, so the bright arcs visibly travel around
       for (let i = 0; i < RING_DOTS; i++) {
-        const ang = (i / RING_DOTS) * Math.PI * 2 + st.spin;
+        const base = (i / RING_DOTS) * Math.PI * 2;
+        const ang = base + st.spin;
+        const cluster = Math.pow(0.5 + 0.5 * Math.sin(base * 3), 2); // 0..1, 3 peaks
         const flick = Math.sin(st.t * 22 + i * 1.7) * 5 + (Math.random() - 0.5) * 6;
         const rr = r + flick;
         const x = cx + Math.cos(ang) * rr;
         const y = cy + Math.sin(ang) * rr;
         const rgb = i % 2 ? CYAN : VIOLET;
-        const size = 3.5 + Math.abs(Math.sin(st.t * 18 + i)) * 4;
-        glow(ctx, x, y, size * 3.2, rgb, 0.65);
-        ctx.fillStyle = "rgba(255,255,255,0.95)";
-        ctx.beginPath();
-        ctx.arc(x, y, size * 0.55, 0, Math.PI * 2);
-        ctx.fill();
+        const size = 1.5 + cluster * 6 + Math.abs(Math.sin(st.t * 18 + i)) * 1.5;
+        glow(ctx, x, y, size * 3.2, rgb, 0.35 + cluster * 0.45);
+        if (cluster > 0.25) {
+          ctx.fillStyle = `rgba(255,255,255,${0.5 + cluster * 0.45})`;
+          ctx.beginPath();
+          ctx.arc(x, y, size * 0.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     }
 
-    // update + draw flung sparks
+    // update + draw flung sparks as tangential STREAKS (motion-blur) so they
+    // read as whipping around the spinning rim
+    ctx.lineCap = "round";
     for (let i = st.sparks.length - 1; i >= 0; i--) {
       const s = st.sparks[i];
       s.age += dt;
       if (s.age >= s.life) { st.sparks.splice(i, 1); continue; }
       s.x += s.vx * dt;
       s.y += s.vy * dt;
-      s.vx *= 0.94;
-      s.vy *= 0.94;
+      s.vx *= 0.965;
+      s.vy *= 0.965;
       const a = (1 - s.age / s.life) * 0.9;
-      glow(ctx, s.x, s.y, s.size * 3, s.rgb, a);
+      const sp = Math.hypot(s.vx, s.vy) || 1;
+      const tail = Math.min(sp * 0.035, 26);
+      const nx = s.vx / sp, ny = s.vy / sp;
+      ctx.strokeStyle = `rgba(${s.rgb[0]},${s.rgb[1]},${s.rgb[2]},${a})`;
+      ctx.lineWidth = s.size;
+      ctx.beginPath();
+      ctx.moveTo(s.x - nx * tail, s.y - ny * tail);
+      ctx.lineTo(s.x, s.y);
+      ctx.stroke();
+      glow(ctx, s.x, s.y, s.size * 2.4, s.rgb, a * 0.85); // glowing head
     }
 
     ctx.globalCompositeOperation = "source-over";
