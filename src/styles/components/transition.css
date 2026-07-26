@@ -1,0 +1,26 @@
+/* The "dimension" fill of the route portal — a brand-gradient disc revealed by
+   the expanding clip-path circle (driven by GSAP in PageTransition.jsx).
+   Themes automatically via the brand token; hidden by default. */
+.route-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  /* a dark "other dimension" the portal opens into — brand-tinted nebula over
+     near-black, so the bright cyan/violet spark ring pops against it */
+  background:
+    radial-gradient(75% 75% at 50% 45%, rgba(157, 78, 221, 0.22), transparent 60%),
+    radial-gradient(55% 55% at 62% 62%, rgba(76, 201, 240, 0.16), transparent 60%),
+    #080b14;
+  clip-path: circle(0px at 50% 50%);
+  will-change: clip-path;
+}
+
+/* The Doctor-Strange spark ring, drawn on top of the dimension fill. Sized in
+   JS to the viewport × DPR; transparent except where sparks are painted. */
+.route-portal-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 201;
+  pointer-events: none;
+}
