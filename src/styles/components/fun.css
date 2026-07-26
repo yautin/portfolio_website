@@ -2,6 +2,17 @@
   /* ---- "For Fun" games hub (/fun) — theme-aware via the same tokens ---- */
   .fun-page {
     @apply min-h-screen px-5 md:px-10 py-8 md:py-12 max-w-6xl mx-auto;
+    /* sit above the ambient cell field (z-0) so cards stay crisp/clickable */
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ambient "living cell" canvas behind the hub content */
+  .fun-cellfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
   }
 
   .fun-header {
