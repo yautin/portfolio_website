@@ -1,0 +1,171 @@
+/* Hero word slider */
+.slide {
+  display: inline-block;
+  flex-direction: column;
+  transition: all cubic-bezier(0.71, 0.03, 0.34, 1);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  animation: wordSlider 21s infinite cubic-bezier(0.9, 0.01, 0.3, 0.99);
+}
+
+@keyframes wordSlider {
+  0%     { transform: translateY(0%); }
+  16.67% { transform: translateY(-16.67%); }
+  33.33% { transform: translateY(-33.33%); }
+  50%    { transform: translateY(-50%); }
+  66.67% { transform: translateY(-66.67%); }
+  83.33% { transform: translateY(-83.33%); }
+}
+
+/* On touch devices (phones, tablets, iPad — keyed off "can't hover / coarse
+   pointer" rather than width so iPads are covered), let the page scroll past
+   the hero 3D scene instead of it swallowing the swipe. Targets the layout AND
+   every descendant (the react-three-fiber wrapper div + the <canvas>), with
+   !important to beat R3F's inline touch-action/pointer-events. */
+@media (hover: none), (pointer: coarse) {
+  .hero-3d-layout,
+  .hero-3d-layout * {
+    pointer-events: none !important;
+    touch-action: pan-y !important;
+  }
+}
+
+/* drug-products marquee: scroll one full (duplicated) set, then loop seamlessly */
+@keyframes drug-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* kinesin walking a microtubule: body glides across, legs step, cargo bobs */
+@keyframes kinesin-walk {
+  from {
+    transform: translateX(-160px);
+  }
+  to {
+    transform: translateX(calc(100vw + 80px));
+  }
+}
+
+@keyframes kinesin-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+/* thigh swings about the hip. STANCE (0-45%): foot planted, dragging backward
+   (−angle=foot forward → +angle=foot back) as the body advances → no moonwalk.
+   SWING (55-100%): leg lifts and swings forward to the next foothold. */
+@keyframes kinesin-thigh {
+  0% {
+    transform: rotate(-22deg);
+  }
+  25% {
+    transform: rotate(0deg);
+  }
+  45% {
+    transform: rotate(22deg);
+  }
+  55% {
+    transform: rotate(16deg);
+  }
+  72% {
+    transform: rotate(-8deg);
+  }
+  100% {
+    transform: rotate(-22deg);
+  }
+}
+
+/* shin stays straight through stance, then bends at the knee to lift the foot
+   clear of the track during the swing */
+@keyframes kinesin-shin {
+  0%,
+  45% {
+    transform: rotate(0deg);
+  }
+  55% {
+    transform: rotate(-52deg);
+  }
+  72% {
+    transform: rotate(-60deg);
+  }
+  88% {
+    transform: rotate(-16deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* cargo suspended in fluid: slow buoyant bob + gentle sway about the hip */
+@keyframes kinesin-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(2deg);
+  }
+}
+
+/* mini-game overlay fade-in */
+@keyframes game-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* nudge the rotate-device glyph toward landscape and back */
+@keyframes rotate-nudge {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-90deg);
+  }
+}
+
+/* speech bubble entrance when the kinesin is poked */
+@keyframes kinesin-bubble-pop {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drug-track {
+    animation: none;
+  }
+
+  .kinesin,
+  .kinesin-body,
+  .kinesin-thigh,
+  .kinesin-shin,
+  .kinesin-cargo-group,
+  .kinesin-bubble {
+    animation: none;
+  }
+}

@@ -1,0 +1,43 @@
+@layer components {
+  .padding-x-lg {
+    @apply px-5 md:px-20;
+  }
+
+  /* ---- shared section rhythm + type scale ----
+     one consistent vertical beat and one header scale across every section,
+     with subtly alternating background bands so the page reads as distinct
+     sections rather than one flat scroll. */
+  .section-band {
+    @apply py-24 md:py-32;
+  }
+
+  .section-band.is-alt {
+    background: var(--color-black-surface);
+  }
+
+  .section-head {
+    @apply max-w-3xl;
+  }
+
+  .section-eyebrow {
+    @apply text-xs md:text-sm font-semibold uppercase tracking-[0.28em] mb-4 w-fit;
+    background: var(--brand-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-5xl font-bold leading-[1.08] tracking-tight;
+    color: var(--fg-strong);
+  }
+
+  .section-lead {
+    @apply mt-5 text-base md:text-lg text-white-50 leading-relaxed max-w-[60ch];
+  }
+
+  .grid-3-cols {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6;
+  }
+
+}

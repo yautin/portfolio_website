@@ -1,0 +1,66 @@
+@layer components {
+  .drugs-section {
+    @apply overflow-hidden;
+  }
+
+  .drugs-head {
+    @apply px-5 md:px-20 max-w-3xl;
+  }
+
+  .drug-legend {
+    @apply flex flex-wrap gap-x-5 gap-y-2 mt-7;
+
+    span {
+      @apply inline-flex items-center gap-2 text-xs uppercase tracking-wider text-white-50;
+    }
+
+    .dot {
+      @apply size-2 rounded-full;
+    }
+  }
+
+  .drug-rows {
+    @apply flex flex-col gap-4 md:gap-5 mt-12;
+  }
+
+  .drug-marquee {
+    @apply relative flex overflow-hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+
+    &:hover .drug-track {
+      animation-play-state: paused;
+    }
+  }
+
+  .drug-track {
+    @apply flex shrink-0 items-center w-max;
+    animation: drug-scroll var(--duration, 40s) linear infinite;
+
+    &.reverse {
+      animation-direction: reverse;
+    }
+  }
+
+  .drug-pill {
+    @apply inline-flex items-center gap-2 mr-4 md:mr-5 whitespace-nowrap rounded-full
+      border border-black-50 bg-black-100 px-5 py-2.5 text-sm md:text-base text-white-50
+      transition-colors duration-300 cursor-default select-none;
+
+    .drug-dot {
+      @apply size-2 rounded-full flex-none;
+      background: var(--accent);
+    }
+
+    &:hover {
+      @apply text-black;
+      background: var(--accent);
+      border-color: var(--accent);
+
+      .drug-dot {
+        @apply bg-black/40;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,87 @@
+@layer components {
+  .work-section {
+    @apply px-5 md:px-20;
+  }
+
+  .work-head {
+    @apply max-w-3xl;
+  }
+
+  .work-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-14;
+  }
+
+  .work-card {
+    @apply relative overflow-hidden rounded-2xl border border-black-50 bg-black-100 p-7
+      transition-all duration-500 hover:-translate-y-2;
+    box-shadow: var(--card-shadow);
+
+    &:hover {
+      border-color: var(--accent);
+      box-shadow: 0 24px 60px -24px var(--accent);
+    }
+
+    /* gradient accent line along the top edge, revealed on hover */
+    &::before {
+      content: "";
+      @apply absolute left-0 top-0 h-[3px] w-full opacity-0 transition-opacity duration-500;
+      background: linear-gradient(90deg, var(--accent), transparent 80%);
+    }
+
+    &:hover::before {
+      @apply opacity-100;
+    }
+
+    h3 {
+      @apply text-xl md:text-2xl font-semibold leading-snug;
+    }
+  }
+
+  /* oversized faint echo of the card's own icon, bleeding off the corner */
+  .work-watermark {
+    @apply absolute -top-8 -right-8 size-40 pointer-events-none select-none;
+    background-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
+  }
+
+  .work-card-body {
+    @apply relative z-10 flex flex-col h-full;
+  }
+
+  .work-icon {
+    @apply flex items-center justify-center size-12 rounded-xl mb-6;
+    background: var(--accent);
+
+    img {
+      @apply size-6;
+    }
+  }
+
+  .work-tag {
+    @apply flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white-50 mb-3;
+
+    .work-dot {
+      @apply size-1.5 rounded-full flex-none;
+      background: var(--accent);
+    }
+  }
+
+  .work-molecule {
+    @apply text-sm font-medium italic mt-2 mb-4;
+    color: var(--accent);
+  }
+
+  .work-desc {
+    @apply text-white-50 text-sm md:text-[15px] leading-relaxed;
+  }
+
+  .work-chips {
+    @apply flex flex-wrap gap-2 mt-auto pt-6;
+
+    .work-chip {
+      @apply text-xs px-3 py-1 rounded-full border border-black-50 text-white-50;
+    }
+  }
+
+}

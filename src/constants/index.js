@@ -148,7 +148,7 @@ const dataDistillExamples = [
     citation: "Desai MY, et al. J Am Coll Cardiol. 2022;80(2):95-108.",
     metricValue: 59,
     decimals: 0,
-    suffix: " pts",
+    suffix: "%",
     metricLabel: "absolute reduction",
     statement: "Fewer patients still eligible for septal reduction therapy",
     direction: "down",
@@ -158,6 +158,11 @@ const dataDistillExamples = [
     ],
   },
 ];
+
+// Stripe Payment Link for the optional "buy me a coffee" tip on the /fun page
+// (create in the Stripe dashboard: Product → "customers choose what to pay" →
+// Payment Link). Leave empty to hide the button entirely.
+const supportUrl = "https://buy.stripe.com/fZu8wRcdB32s2H6bB14sE00";
 
 // Contact details — update the email and LinkedIn URL to your own.
 const contactEmail = "ngyautin@gmail.com";
@@ -193,6 +198,7 @@ export {
   drugProducts,
   drugAreaColors,
   dataDistillExamples,
+  supportUrl,
   contactEmail,
   contactLinks,
   web3formsKey,

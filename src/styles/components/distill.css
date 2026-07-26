@@ -1,0 +1,177 @@
+@layer components {
+  .distill-section {
+    @apply px-5 md:px-20;
+  }
+
+  .distill-head {
+    @apply max-w-3xl;
+  }
+
+  /* transformation flow: raw readout -> connector -> distilled hero figure */
+  .distill-flow {
+    @apply mt-12 flex flex-col;
+  }
+
+  .distill-row {
+    @apply grid items-center gap-6 py-10 md:gap-10;
+    grid-template-columns: 1fr;
+  }
+
+  .distill-row + .distill-row {
+    @apply border-t border-black-50;
+  }
+
+  @media (min-width: 768px) {
+    .distill-row {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.1fr);
+    }
+  }
+
+  /* left: the raw statistic (the "before") */
+  .distill-raw {
+    @apply flex flex-col gap-2;
+  }
+
+  .distill-trial {
+    @apply text-base md:text-lg font-semibold;
+    color: var(--accent);
+  }
+
+  .distill-population {
+    @apply text-xs text-blue-50;
+  }
+
+  .distill-source {
+    @apply mt-1 text-base md:text-lg font-medium leading-snug;
+    color: var(--fg-strong);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .distill-trial sup {
+    @apply text-[0.6em] font-semibold ml-0.5;
+    color: var(--accent);
+  }
+
+  .distill-refs {
+    @apply mt-10 pt-5 border-t border-black-50;
+  }
+
+  .distill-footnote {
+    @apply flex gap-2 text-[11px] text-white-50 leading-relaxed mb-2;
+  }
+
+  .distill-ref-list {
+    @apply flex flex-wrap gap-x-4 gap-y-1;
+  }
+
+  .distill-ref-list li {
+    @apply inline-flex gap-1 text-[11px] text-white-50 leading-relaxed;
+  }
+
+  .distill-ref-num {
+    @apply flex-none font-semibold text-blue-50;
+  }
+
+  .distill-population sup {
+    @apply text-[0.8em];
+  }
+
+  .distill-statement sup {
+    @apply text-[0.6em];
+  }
+
+  /* middle: connector — horizontal line on desktop, down-arrow on mobile */
+  .distill-connector {
+    @apply relative flex items-center justify-center w-full min-h-16 md:min-h-0;
+  }
+
+  /* futuristic connector: a glowing accent arrow pointing from the trial
+     readout to the distilled figure (rotates to point down on mobile) */
+  .distill-arrow {
+    @apply w-16 md:w-32 h-6 rotate-90 md:rotate-0;
+    overflow: visible;
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 65%, transparent));
+  }
+
+  .distill-arrow-rail {
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  .distill-arrow-head {
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* right: the distilled hero figure */
+  .distill-result {
+    @apply flex flex-col;
+  }
+
+  .distill-metric {
+    @apply text-6xl md:text-7xl font-bold leading-none;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .distill-metric-label {
+    @apply mt-2 text-sm uppercase tracking-wider text-white-50;
+  }
+
+  .distill-statement {
+    @apply mt-4 flex items-center gap-2 text-base md:text-lg;
+    color: var(--fg-strong);
+  }
+
+  .distill-arrow-glyph {
+    @apply size-5 flex-none;
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .distill-arrow-glyph.is-up {
+    transform: rotate(180deg);
+  }
+
+  /* comparison bars: the two trial arms behind the distilled figure */
+  .distill-bars {
+    @apply mt-6 flex flex-col gap-2.5 max-w-sm;
+  }
+
+  .distill-bar {
+    @apply grid items-center gap-3;
+    grid-template-columns: 6rem 1fr auto;
+  }
+
+  .distill-bar-label {
+    @apply text-xs text-white-50 truncate;
+  }
+
+  .distill-bar-track {
+    @apply h-2.5 w-full rounded-full overflow-hidden;
+    background: var(--color-black-50);
+  }
+
+  .distill-bar-fill {
+    @apply block h-full w-full origin-left rounded-full;
+    background: var(--color-blue-50);
+    transform: scaleX(0);
+  }
+
+  .distill-bar.is-drug .distill-bar-fill {
+    background: var(--accent);
+  }
+
+  .distill-bar-value {
+    @apply text-xs font-semibold;
+    color: var(--fg-strong);
+    font-variant-numeric: tabular-nums;
+  }
+
+}
