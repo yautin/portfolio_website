@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { FLAGS } from "../config/flags";
 
 // Null when the env vars are absent OR still hold the .env.example
 // placeholders — the hub then degrades gracefully (games playable with local
@@ -8,10 +9,8 @@ import { createClient } from "@supabase/supabase-js";
 const url = import.meta.env.VITE_SUPABASE_URL;
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const configured =
-  url &&
-  anonKey &&
-  !url.includes("your-project-ref") &&
-  !anonKey.includes("your-anon-key");
+// Gate shared with the build banner (see src/config/features.js) so what the app
+// does and what the build log reports can never disagree.
+const configured = FLAGS.accounts.enabled;
 
 export const supabase = configured ? createClient(url, anonKey) : null;

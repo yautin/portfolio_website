@@ -1,4 +1,5 @@
 import { gameById } from "./games";
+import { FLAGS } from "../config/flags";
 
 // Client-side view of which (game, level) show the reward toast, plus a display
 // label.
@@ -19,8 +20,11 @@ export function rewardLabel(gameId, level) {
 }
 
 // The reward feature is "on" only when both the token address and a functions
-// URL (explicit, or derivable from the Supabase URL) are configured at build
-// time. Read straight from env so this stays wagmi-free.
-export const rewardsEnabled =
-  Boolean(import.meta.env.VITE_REWARD_TOKEN_ADDRESS) &&
-  Boolean(import.meta.env.VITE_REWARD_FUNCTIONS_URL || import.meta.env.VITE_SUPABASE_URL);
+// URL (explicit, or derivable from the Supabase URL) are configured at BUILD
+// time — Vite inlines these, so changing them in Vercel requires a redeploy.
+//
+// The predicate lives in src/config/features.js, shared with the build banner,
+// so a forgotten variable shows up in the deploy log instead of silently
+// removing the wallet card. Reads env directly (no wagmi), keeping this module
+// out of the lazy web3 chunk.
+export const rewardsEnabled = FLAGS.rewards.enabled;

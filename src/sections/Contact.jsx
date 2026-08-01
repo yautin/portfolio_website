@@ -6,8 +6,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 import { contactEmail, contactLinks, navLinks, web3formsKey } from "../constants";
+import { FLAGS } from "../config/flags";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const contactFormEnabled = FLAGS.contact.enabled;
 
 const year = new Date().getFullYear();
 
@@ -35,7 +38,8 @@ const Contact = () => {
     }
 
     // Until a Web3Forms key is configured, fall back to a pre-filled mail draft.
-    if (!web3formsKey || web3formsKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
+    // Same predicate the build banner reports on — see src/config/features.js.
+    if (!contactFormEnabled) {
       const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
       const body = encodeURIComponent(
         `${form.message}\n\n— ${form.name}\n${form.email}`
