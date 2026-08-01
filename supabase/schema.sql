@@ -46,17 +46,22 @@ create policy "delete own saves"
   to authenticated
   using (auth.uid() = user_id);
 
--- keep updated_at fresh on every save
+-- keep updated_at fresh on every save. SECURITY INVOKER (a trigger invokes this
+-- directly; it needs no elevated rights) and EXECUTE revoked from the API roles
+-- so it never appears on the PostgREST RPC surface — see the Supabase security
+-- advisor "SECURITY DEFINER function executable by anon/authenticated".
 create or replace function public.touch_updated_at()
 returns trigger
 language plpgsql
-security definer set search_path = ''
+security invoker set search_path = ''
 as $$
 begin
   new.updated_at = now();
   return new;
 end;
 $$;
+
+revoke execute on function public.touch_updated_at() from anon, authenticated, public;
 
 drop trigger if exists game_saves_touch on public.game_saves;
 create trigger game_saves_touch

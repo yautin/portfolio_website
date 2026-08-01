@@ -29,6 +29,7 @@ The footer's **🎮 For Fun** button links to a dedicated **`/fun`** page — a 
 - **Optional accounts** — email + password and Google sign-in via **Supabase Auth**. Cloud saves live in a single `game_saves` table protected by row-level security (each user only ever touches their own rows).
 - **Graceful degradation** — with no Supabase env vars configured, `/fun` still works fully: games play, progress persists in `localStorage`, and Supabase is **tree-shaken out of the build entirely** (zero added weight). Configure the env vars and Supabase moves into the code-split `/fun` chunk — never the portfolio landing bundle.
 - **Zero risk to gameplay** — each game keeps reading/writing its own `localStorage` keys unchanged; a thin sync layer (`src/fun/saveSync.js`) snapshots them to the cloud on change (debounced) and hydrates them on sign-in, driven per-game by a `save` descriptor in the registry.
+- **Optional Web3 reward easter egg** — when configured, beating a level lets signed-in players connect MetaMask and claim a `$CULT` ERC-20 reward on Base Sepolia. It's off (and zero-bundle-cost) unless the env vars are set; the wagmi/viem stack is a separate lazy chunk fetched only when a reward is actually offered. Minting is admin-only + server-side (a Supabase edge function using viem) with a per-level, per-account emission cap and an on-chain supply cap. Full write-up + setup: [docs/web3-setup.md](docs/web3-setup.md).
 
 See [Optional: accounts, cloud saves & the coffee button](#optional-accounts-cloud-saves--the-coffee-button) for setup.
 
@@ -166,7 +167,9 @@ Each game's balance and content live in its own `td/defs.js` — **`src/games/im
 
 ## Contact form
 
-The contact form submits via [Web3Forms](https://web3forms.com). The access key is set in `web3formsKey` in `src/constants/index.js` (it is designed to be public / safe to expose client-side). If no key is configured, the form gracefully falls back to opening a pre-filled draft in the visitor's email client.
+The contact form submits via [Web3Forms](https://web3forms.com). Set the access key as **`VITE_WEB3FORMS_KEY`** in `.env.local` and in Vercel → Environment Variables. If no key is configured, the form gracefully falls back to opening a pre-filled draft in the visitor's email client.
+
+The key is unavoidably public (the browser posts it directly), but it lives in the environment rather than in source so it can be **rotated without a commit** — which matters, because a key committed to a public repo stays readable in git history forever. Two further mitigations are in place: restrict the key to your domain in the Web3Forms dashboard, and the form carries an off-screen `botcheck` honeypot that Web3Forms rejects server-side.
 
 ## Optional: accounts, cloud saves & the coffee button
 
@@ -180,6 +183,17 @@ The `/fun` hub works with no setup (local saves only). To enable **accounts + cr
    VITE_SUPABASE_ANON_KEY=<your-anon-key>
    ```
    Add the same two variables in **Vercel → Project → Settings → Environment Variables** for production. (The anon key is safe to expose — RLS restricts every request to the signed-in user.)
+
+   The full set of client env vars — all optional except the two above, and all documented in [`.env.example`](.env.example):
+
+   | Variable | Purpose |
+   |---|---|
+   | `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | accounts + cloud saves |
+   | `VITE_WEB3FORMS_KEY` | contact form (see [Contact form](#contact-form)) |
+   | `VITE_REWARD_TOKEN_ADDRESS` | `$CULT` token address — enables the reward easter egg |
+   | `VITE_REWARD_FUNCTIONS_URL` | override for the edge-function base URL; defaults to `${VITE_SUPABASE_URL}/functions/v1` |
+
+   Vite inlines these at **build** time, so changing one in Vercel requires a redeploy, not just a restart.
 4. **Redirect allow-list** — in *Supabase → Authentication → URL Configuration*, set **Site URL** to `https://marco-ng.com` and add both `http://localhost:5173/fun` and `https://marco-ng.com/fun` to the **Redirect URLs** allow-list. (These are the app's own post-auth destinations — distinct from Google's redirect URI in the next step.)
 
 5. **Enable Google sign-in** (optional) — this trips people up because *two different* redirect settings are involved:

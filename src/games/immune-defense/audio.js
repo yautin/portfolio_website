@@ -1,38 +1,11 @@
-// Tiny Web-Audio synthesized SFX for Immune Defense — no audio files.
-// A shared `muted` flag is toggled from the React shell.
-let audioCtx = null;
-let muted = false;
+import { createAudioKit } from "../shared/audio";
 
-const getCtx = () => {
-  if (!audioCtx) {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (AC) audioCtx = new AC();
-  }
-  return audioCtx;
-};
+// Immune Defense's SFX set. The synth itself (AudioContext, mute flag, the
+// oscillator envelope) is shared — see ../shared/audio.js; this file is just the
+// game's sound design.
+const { setMuted, blip } = createAudioKit({ defaultVol: 0.14 });
 
-export const setMuted = (value) => {
-  muted = value;
-};
-
-const blip = ({ freq = 440, slideTo, dur = 0.12, type = "square", vol = 0.14 }) => {
-  if (muted) return;
-  const ctx = getCtx();
-  if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
-
-  const t = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, t);
-  if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
-  gain.gain.setValueAtTime(vol, t);
-  gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  osc.connect(gain).connect(ctx.destination);
-  osc.start(t);
-  osc.stop(t + dur + 0.03);
-};
+export { setMuted };
 
 export const sfx = {
   place: () => blip({ freq: 260, slideTo: 460, dur: 0.12, type: "triangle", vol: 0.12 }),

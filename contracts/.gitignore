@@ -1,0 +1,13 @@
+# Foundry build output
+out/
+cache/
+# Deploy transaction logs (may reveal addresses; regenerate as needed)
+broadcast/
+# Secrets — NEVER commit
+.env
+
+# NOTE: lib/ is deliberately NOT ignored. OpenZeppelin and forge-std are pinned
+# as git submodules (see ../.gitmodules), so their exact commits are part of the
+# repo — that's what makes a build reproducible and lets a reviewer see which
+# version of OpenZeppelin the token actually inherits. Fetch them with
+# `git submodule update --init --recursive`, not `forge install`.

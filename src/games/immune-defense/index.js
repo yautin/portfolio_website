@@ -19,6 +19,8 @@ import {
   DIFFICULTY_KEY,
   TUTORIAL_KEY,
   SAVE_EVENT,
+  TOTAL_LEVELS,
+  getProgress,
 } from "./td/defs";
 
 // Lazy factory loader consumed by the generic GameShell (resolves to the
@@ -35,3 +37,22 @@ export const immuneDefenseSave = {
   event: SAVE_EVENT,
   keys: [PROGRESS_KEY, STARS_KEY, DIFFICULTY_KEY, TUTORIAL_KEY],
 };
+
+// ---- reward vocabulary ----------------------------------------------------
+// The game owns the list of levels a reward can exist for, and what to call
+// them. The hub (and src/fun/rewards.js) reads it from here instead of
+// re-listing "1..15" of its own, so there is one client-side source of truth.
+// The SERVER keeps its own independent copy in
+// supabase/functions/_shared/rewards.ts — that duplication is deliberate: it is
+// the security boundary and must never trust anything shipped to the browser.
+
+/** Every level a reward can be claimed for, as strings. */
+export const rewardLevels = Array.from({ length: TOTAL_LEVELS }, (_, i) => String(i + 1));
+
+/** Display name for a level, or null if it isn't rewardable. */
+export const levelLabel = (level) =>
+  rewardLevels.includes(String(level)) ? `Level ${level}` : null;
+
+/** Levels beaten so far (for retroactive claims): 1..(progress-1). */
+export const beatenLevels = () =>
+  rewardLevels.slice(0, Math.max(0, Math.min(getProgress() - 1, TOTAL_LEVELS)));
