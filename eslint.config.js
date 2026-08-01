@@ -21,6 +21,13 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  // Build-tooling config that runs in Node, not the browser (vite.config.js
+  // reads process.cwd() for the feature banner). Without this it inherits the
+  // browser globals above and `process` reads as undefined.
+  {
+    files: ['*.config.js'],
+    languageOptions: { globals: globals.node },
+  },
   // Strict-typed Web3 modules (src/web3/**).
   {
     files: ['**/*.{ts,tsx}'],
