@@ -63,6 +63,18 @@
     background-clip: text;
     color: transparent;
   }
+  /* Shown while the post-claim balance poll is in flight, so a number that
+     hasn't moved yet reads as "settling" rather than "broken". */
+  .reward-wallet-settling {
+    @apply text-xs text-white-50;
+    animation: reward-pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes reward-pulse {
+    0%, 100% { opacity: 0.45; }
+    50%      { opacity: 1; }
+  }
+
   .reward-wallet-sub { @apply text-xs text-white-50; }
   .reward-wallet-actions { @apply flex flex-wrap gap-2; }
   .reward-wallet-signin {
@@ -78,4 +90,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .reward-toast { animation: none; transform: translateX(-50%); }
+  /* the label still reads as "updating…", it just stops pulsing */
+  .reward-wallet-settling { animation: none; opacity: 0.75; }
 }
