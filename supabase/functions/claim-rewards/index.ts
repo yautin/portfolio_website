@@ -138,7 +138,22 @@ Deno.serve(async (req) => {
   };
 
   // 6) Mint the whole batch in one transaction (admin pays gas).
-  const { account, wallet, pub, token } = adminClients();
+  //
+  // adminClients() is guarded on its own: it calls requireEnv() and
+  // privateKeyToAccount(), either of which throws on a missing or malformed
+  // secret. Unguarded, that throw escaped the handler entirely and the caller got
+  // a raw non-JSON 500 — which the client could only report as an opaque
+  // "http_500", with nothing to indicate a secret was at fault.
+  let clients: ReturnType<typeof adminClients>;
+  try {
+    clients = adminClients();
+  } catch (err) {
+    await markAll("failed");
+    console.error("admin client init failed (check ADMIN_PRIVATE_KEY / BASE_SEPOLIA_RPC_URL / REWARD_TOKEN_ADDRESS):", safeErrorMessage(err));
+    return jsonResponse(req, { error: "reward_service_unavailable" }, 503);
+  }
+  const { account, wallet, pub, token } = clients;
+
   let txHash: Hex;
   try {
     const balance = await pub.getBalance({ address: account.address });

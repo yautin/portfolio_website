@@ -1,3 +1,8 @@
+// viem is PINNED to the exact version the browser signs with (see package.json).
+// `npm:viem` unpinned resolves to whatever is latest at deploy time, which means
+// the signature this file verifies could be checked by a different release than
+// the one that produced it, and `isAddress` checksum strictness has changed
+// across viem minors before. Bump this and package.json together, never alone.
 import {
   createPublicClient,
   createWalletClient,
@@ -6,9 +11,9 @@ import {
   isAddress,
   verifyMessage,
   type Hex,
-} from "npm:viem";
-import { privateKeyToAccount } from "npm:viem/accounts";
-import { baseSepolia } from "npm:viem/chains";
+} from "npm:viem@2.55.10";
+import { privateKeyToAccount } from "npm:viem@2.55.10/accounts";
+import { baseSepolia } from "npm:viem@2.55.10/chains";
 import { requireEnv } from "./env.ts";
 
 export { isAddress, verifyMessage };
