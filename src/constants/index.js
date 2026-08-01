@@ -167,10 +167,16 @@ const supportUrl = "https://buy.stripe.com/fZu8wRcdB32s2H6bB14sE00";
 // Contact details — update the email and LinkedIn URL to your own.
 const contactEmail = "ngyautin@gmail.com";
 
-// Free access key from https://web3forms.com (safe to expose client-side).
-// Until you paste your key here, the contact form falls back to opening a
-// pre-filled draft in the visitor's mail app.
-const web3formsKey = "6ae7eb9f-c72a-4470-add8-9100d21e31c9";
+// Free access key from https://web3forms.com. It is necessarily public (the
+// browser posts it directly), but it is read from the environment rather than
+// hard-coded so it can be ROTATED without a commit — and so it isn't sitting in
+// git history for a spammer to lift and use to flood the inbox.
+// Set VITE_WEB3FORMS_KEY in .env.local and in Vercel → Environment Variables.
+// Also lock the key down in the Web3Forms dashboard: restrict it to the site's
+// domain, and keep the honeypot field in Contact.jsx in place.
+// When unset, the contact form falls back to opening a pre-filled draft in the
+// visitor's mail app.
+const web3formsKey = import.meta.env.VITE_WEB3FORMS_KEY ?? "";
 
 const contactLinks = [
   {

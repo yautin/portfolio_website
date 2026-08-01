@@ -14,6 +14,9 @@ const year = new Date().getFullYear();
 const Contact = () => {
   const sectionRef = useRef(null);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  // Honeypot: hidden from people, irresistible to bots. Web3Forms drops any
+  // submission where `botcheck` is non-empty, and we don't even send those.
+  const [botcheck, setBotcheck] = useState("");
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
   const { portalTo } = usePageTransition();
 
@@ -22,6 +25,14 @@ const Contact = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    // A filled honeypot means a bot: show the normal success state and send
+    // nothing, so the script gets no signal that it was detected.
+    if (botcheck) {
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" });
+      return;
+    }
 
     // Until a Web3Forms key is configured, fall back to a pre-filled mail draft.
     if (!web3formsKey || web3formsKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
@@ -43,6 +54,7 @@ const Contact = () => {
         },
         body: JSON.stringify({
           access_key: web3formsKey,
+          botcheck: "", // second line of defence: Web3Forms rejects non-empty
           subject: `Portfolio enquiry from ${form.name}`,
           from_name: form.name,
           name: form.name,
@@ -127,6 +139,19 @@ const Contact = () => {
           </div>
 
           <form className="contact-form contact-reveal" onSubmit={onSubmit}>
+            {/* Honeypot — off-screen, unfocusable and hidden from assistive
+                tech, so only a form-filling bot ever populates it. */}
+            <input
+              type="text"
+              name="botcheck"
+              className="contact-honeypot"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={botcheck}
+              onChange={(e) => setBotcheck(e.target.value)}
+            />
+
             <div className="contact-field">
               <label htmlFor="cf-name">Name</label>
               <input
