@@ -46,6 +46,15 @@ alter table public.token_rewards enable row level security;
 -- deliberately NO insert/update/delete policy for `authenticated`.
 grant select on public.token_rewards to authenticated;
 
+-- The edge functions are the ONLY writer, and they connect as `service_role`.
+-- service_role bypasses RLS, but RLS is not the same thing as table privileges:
+-- it still needs a plain SQL GRANT to touch the table at all. Do not assume
+-- Supabase's implicit default privileges cover this — on a project where those
+-- defaults have been tightened, omitting this makes every insert fail with
+-- 42501 "permission denied", which surfaces as nonce_store_failed / HTTP 500
+-- and an empty ledger. Grant it explicitly, like everything else in this file.
+grant select, insert, update, delete on public.token_rewards to service_role;
+
 drop policy if exists "read own rewards" on public.token_rewards;
 create policy "read own rewards"
   on public.token_rewards for select
@@ -69,8 +78,11 @@ create table if not exists public.reward_nonces (
 );
 
 -- RLS on with NO policies => the `authenticated` role cannot touch this table at
--- all. Only the service-role edge function reads/writes it.
+-- all. Only the service-role edge function reads/writes it — and that needs a
+-- table GRANT as well as the RLS bypass (see the note above token_rewards).
 alter table public.reward_nonces enable row level security;
+
+grant select, insert, update, delete on public.reward_nonces to service_role;
 
 create index if not exists reward_nonces_expiry_idx on public.reward_nonces (expires_at);
 
