@@ -1,0 +1,17 @@
+# Supabase CLI config.
+# If you already ran `supabase init`, MERGE the [functions.*] blocks below into
+# your existing config.toml rather than replacing it. Replace `your-project-ref`
+# with your project ref (Dashboard → Project Settings → General).
+#
+# verify_jwt = false lets each function answer the CORS preflight (OPTIONS) and
+# verify the Supabase JWT itself (see functions/_shared/supabase.ts). Requests
+# without a valid JWT are still rejected in code — this only moves the check
+# from the gateway into the handler. Equivalent to deploying with
+# `supabase functions deploy <name> --no-verify-jwt`.
+project_id = "your-project-ref"
+
+[functions.reward-nonce]
+verify_jwt = false
+
+[functions.claim-rewards]
+verify_jwt = false
