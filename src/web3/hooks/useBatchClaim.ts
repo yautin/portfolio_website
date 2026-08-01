@@ -23,10 +23,26 @@ const MESSAGES: Record<string, string> = {
   mint_reverted: "The reward transaction was rejected on chain. Please try again.",
   network_error: "Network error reaching the reward service.",
   not_configured: "Rewards aren't configured on this deployment.",
+  // Codes below were previously unmapped, so every one of them rendered the bare
+  // "Something went wrong" fallback — which told the player nothing and made the
+  // failure undiagnosable without reading the network tab. These are the server
+  // errors that indicate a bug or a misconfiguration rather than user action.
+  unauthorized: "Your session expired. Sign out, sign back in, and try again.",
+  invalid_address: "Your wallet address was rejected. Reconnect the wallet and try again.",
+  ledger_error: "The reward ledger is unavailable. Please try again shortly.",
+  nonce_store_failed: "The reward service couldn't start your claim. Please try again shortly.",
+  bad_json: "The claim request was malformed. Please reload and try again.",
+  missing_fields: "The claim request was incomplete. Please reload and try again.",
+  method_not_allowed: "The reward service rejected the request. Please reload and try again.",
 };
 
 function messageFor(err: unknown): string {
-  if (err instanceof RewardApiError) return MESSAGES[err.code] ?? "Something went wrong claiming your rewards.";
+  if (err instanceof RewardApiError) {
+    // Always surface the raw code when there's no friendly copy. An opaque
+    // "something went wrong" is unactionable for the player AND undebuggable for
+    // us; the code costs one parenthetical and makes a bug report self-contained.
+    return MESSAGES[err.code] ?? `Something went wrong claiming your rewards (${err.code}).`;
+  }
   if (err instanceof Error) {
     if (/user rejected|denied|rejected the request/i.test(err.message)) return MESSAGES.sign_rejected;
     if (err.message in MESSAGES) return MESSAGES[err.message];

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { erc20Abi, formatUnits } from "viem";
 import type { Address } from "viem";
 import { useAccount, useConnect, useDisconnect, useReadContract, useSwitchChain } from "wagmi";
@@ -9,6 +10,11 @@ import type { RewardItem } from "../types";
 
 const truncate = (a: Address) => `${a.slice(0, 6)}…${a.slice(-4)}`;
 const hasInjectedWallet = () => typeof window !== "undefined" && "ethereum" in window;
+
+// Base blocks are ~2s; poll a little slower than that, and give up well after a
+// mint would normally have landed rather than hammering a public RPC forever.
+const SETTLE_POLL_MS = 2_500;
+const SETTLE_TIMEOUT_MS = 45_000;
 
 export interface WalletPanelProps {
   isSignedIn: boolean;
@@ -27,19 +33,50 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
 
+  // After a claim the new balance is NOT reliably readable straight away, so a
+  // single refetch loses a race and the card sits on a stale number until the
+  // player reloads. Two reasons: the public Base RPC is load-balanced, so the
+  // node answering balanceOf can be a block behind the one that gave the server
+  // its receipt; and on the 202 `submitted` path the mint genuinely isn't
+  // confirmed yet. So poll briefly instead of guessing once.
+  const [settling, setSettling] = useState(false);
+  const balanceBeforeClaim = useRef<bigint | undefined>(undefined);
+
   const balance = useReadContract({
     address: TOKEN_ADDRESS,
     abi: erc20Abi,
     functionName: "balanceOf",
     args: address ? [address] : undefined,
     chainId: REWARD_CHAIN.id,
-    query: { enabled: Boolean(address && TOKEN_ADDRESS) },
+    query: {
+      enabled: Boolean(address && TOKEN_ADDRESS),
+      refetchInterval: settling ? SETTLE_POLL_MS : false,
+    },
   });
+
+  // Stop the moment the new balance lands.
+  useEffect(() => {
+    if (settling && balance.data !== undefined && balance.data !== balanceBeforeClaim.current) {
+      setSettling(false);
+    }
+  }, [settling, balance.data]);
+
+  // Hard stop, so a mint that never confirms can't leave the card polling forever.
+  useEffect(() => {
+    if (!settling) return;
+    const t = setTimeout(() => setSettling(false), SETTLE_TIMEOUT_MS);
+    return () => clearTimeout(t);
+  }, [settling]);
 
   const claimer = useBatchClaim({
     items: claimable,
     getAccessToken,
-    onClaimed: () => { balance.refetch(); onClaimed(); },
+    onClaimed: () => {
+      balanceBeforeClaim.current = balance.data;
+      setSettling(true);
+      void balance.refetch(); // try immediately; the interval covers the rest
+      onClaimed();
+    },
   });
 
   const balanceText =
@@ -80,6 +117,9 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
           </div>
           <div className="reward-wallet-balance">
             <span className="reward-wallet-amount">{balanceText}</span>
+            {settling && (
+              <span className="reward-wallet-settling" aria-live="polite">updating…</span>
+            )}
           </div>
 
           {claimer.status === "success" && claimer.result ? (
