@@ -1,12 +1,8 @@
 // All tuning + persistence for Microwell (live-cell microfluidics minesweeper) lives here.
 
-// HiDPI factor — same derivation as Immune Defense: the canvas backing store is
-// RES× the logical design size and each scene zooms its camera by RES, so play
-// stays in logical pixels while rendering at (near-)native density.
-export const RES = Math.min(
-  3,
-  Math.max(2, Math.round(((window.screen?.width || 1280) * (window.devicePixelRatio || 1)) / 960))
-);
+// HiDPI factor — derived once per session in ../../shared/res.js and re-exported
+// here so scenes keep importing it from their own game's defs.
+export { RES } from "../../shared/res";
 
 export const COLORS = {
   bg: 0x0f1116,

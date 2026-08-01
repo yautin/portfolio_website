@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabase";
+import { supabase } from "./supabaseClient";
 import { gameById } from "./games";
 
 // Generic cloud-save layer for the games hub. Games keep reading and writing

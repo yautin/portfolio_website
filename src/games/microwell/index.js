@@ -19,6 +19,9 @@ import {
   STATS_KEY,
   DIFFICULTY_KEY,
   SAVE_EVENT,
+  DIFFICULTIES,
+  DIFFICULTY_ORDER,
+  getBestFor,
 } from "./td/defs";
 
 // Lazy factory loader consumed by the generic GameShell (resolves to the
@@ -27,7 +30,7 @@ export const loadFactory = () => import("./factory").then((m) => m.createGame);
 
 // One-line control reference shown under the game canvas.
 export const controlsHint =
-  "Left-click to probe a cell · right-click or hold to flag an infected cell · click a number to chord · 🔬 spends a safe (non-invasive) scan · ⛶ fullscreen · Esc to close";
+  "Left-click to probe a cell · right-click or hold to flag an infected cell · click a number to chord · 🔬 spends a safe (non-invasive) scan · pinch/scroll to zoom · drag to pan · ⛶ fullscreen · Esc to close";
 
 // Save descriptor consumed by the hub's game registry: which localStorage keys
 // constitute this game's save, and which window event signals a change.
@@ -35,3 +38,20 @@ export const microwellSave = {
   event: SAVE_EVENT,
   keys: [BEST_KEY, STATS_KEY, DIFFICULTY_KEY],
 };
+
+// ---- reward vocabulary ----------------------------------------------------
+// This game's "levels" are its difficulties. It owns the list and the display
+// names; the hub (and src/fun/rewards.js) reads them from here rather than
+// re-listing ["easy","normal","hard"] of its own. The SERVER keeps an
+// independent copy in supabase/functions/_shared/rewards.ts — that duplication
+// is deliberate: it is the security boundary and must not trust the client.
+
+/** Every level (difficulty) a reward can be claimed for. */
+export const rewardLevels = DIFFICULTY_ORDER;
+
+/** Display name for a level, or null if it isn't rewardable. */
+export const levelLabel = (level) =>
+  DIFFICULTIES[level] ? `${DIFFICULTIES[level].label} chip` : null;
+
+/** A difficulty counts as beaten once it has a recorded best time (won ≥ once). */
+export const beatenLevels = () => rewardLevels.filter((d) => getBestFor(d) != null);
