@@ -1,0 +1,81 @@
+@layer components {
+  /* ---- Web3 token-reward toast (shown after a win on /fun) ---- */
+  .reward-toast {
+    @apply fixed z-[210] left-1/2 -translate-x-1/2 bottom-5 w-[min(92vw,380px)] rounded-2xl border border-black-50 bg-black-100 p-5 pt-6 flex flex-col items-center text-center gap-2;
+    box-shadow: var(--card-shadow);
+    animation: reward-in 0.4s ease-out;
+  }
+
+  .reward-close {
+    @apply absolute top-2.5 right-3 text-white-50 cursor-pointer text-sm leading-none;
+  }
+  .reward-close:hover { color: var(--fg-strong); }
+
+  .reward-emoji { @apply text-3xl; }
+
+  .reward-title {
+    @apply text-base font-bold;
+    color: var(--fg-strong);
+  }
+
+  .reward-body { @apply text-sm text-white-50 leading-relaxed; }
+  .reward-note { @apply text-xs text-blue-50 leading-relaxed; }
+  .reward-error { @apply text-xs leading-relaxed; color: #f25f5c; }
+
+  .reward-link {
+    @apply underline cursor-pointer;
+    color: var(--accent, #4cc9f0);
+  }
+
+  .reward-actions { @apply flex flex-wrap justify-center gap-2 mt-1; }
+
+  .reward-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold cursor-pointer border no-underline transition-colors duration-200;
+  }
+  .reward-btn.is-primary {
+    background: var(--brand-grad);
+    @apply text-white border-transparent;
+  }
+  .reward-btn.is-primary:disabled { @apply opacity-60 cursor-not-allowed; }
+  .reward-btn.is-ghost { @apply bg-transparent border-black-50 text-white-50; }
+  .reward-btn.is-ghost:hover { color: var(--fg-strong); }
+
+  /* ---- persistent "Rewards wallet" card in the /fun side panel ---- */
+  .reward-wallet {
+    @apply rounded-2xl border border-black-50 bg-black-100 p-5 flex flex-col gap-3;
+    box-shadow: var(--card-shadow);
+  }
+  .reward-wallet-title {
+    @apply text-base font-bold;
+    color: var(--fg-strong);
+  }
+  .reward-wallet-note { @apply text-xs text-blue-50 leading-relaxed; }
+  .reward-wallet-row { @apply flex items-center justify-between gap-2; }
+  .reward-wallet-addr {
+    @apply text-sm font-semibold font-mono;
+    color: var(--fg-strong);
+  }
+  .reward-wallet-balance { @apply flex flex-col gap-0.5; }
+  .reward-wallet-amount {
+    @apply text-lg font-bold;
+    background: var(--brand-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .reward-wallet-sub { @apply text-xs text-white-50; }
+  .reward-wallet-actions { @apply flex flex-wrap gap-2; }
+  .reward-wallet-signin {
+    @apply text-xs leading-relaxed font-semibold;
+    color: #f4a259;
+  }
+
+  @keyframes reward-in {
+    from { opacity: 0; transform: translate(-50%, 12px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reward-toast { animation: none; transform: translateX(-50%); }
+}

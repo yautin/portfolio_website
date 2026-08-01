@@ -200,6 +200,12 @@ export function TransitionProvider({ children }) {
     st.cx = cx; st.cy = cy; st.r = 0; st.spin = 0; st.t = 0; st.sparks = [];
     st.active = true;
     if (!renderRef.current) renderRef.current = render;
+    // remove-before-add: guarantee `render` is registered on the shared ticker
+    // exactly once. Without this, an unbalanced open→return cycle (React
+    // StrictMode's double reveal effect, or a fired safety timeout) could leave
+    // a stale listener, and the next portal would run `render` 2× per tick —
+    // making the spin/spark FX animate at double speed on a later click.
+    gsap.ticker.remove(renderRef.current);
     gsap.ticker.add(renderRef.current);
   };
 
@@ -235,6 +241,7 @@ export function TransitionProvider({ children }) {
       r: 0,
       duration: 0.7,
       ease: "power2.out",
+      overwrite: true, // a single tween owns st.r (kills any leftover/duplicate)
       onUpdate: () => { setClip(st.r, cx, cy); if (Math.random() < 0.6) spawnRim(3); },
       onComplete: reset,
     });
@@ -261,6 +268,7 @@ export function TransitionProvider({ children }) {
       r: maxR,
       duration: 0.68,
       ease: "power2.in",
+      overwrite: true, // a single tween owns st.r (kills any leftover/duplicate)
       onUpdate: () => { setClip(st.r, x, y); spawnRim(7); },
       onComplete: () => {
         navigate(to);
@@ -271,9 +279,14 @@ export function TransitionProvider({ children }) {
   }, [navigate, setClip, portalReveal]);
 
   // clear timer + ticker if the provider unmounts
-  useEffect(() => () => {
-    if (safetyRef.current) clearTimeout(safetyRef.current);
-    if (renderRef.current) gsap.ticker.remove(renderRef.current);
+  useEffect(() => {
+    // dev-only handle for measuring FX speed in the console / automated checks;
+    // `import.meta.env.DEV` is statically false in prod, so this is tree-shaken.
+    if (import.meta.env.DEV) window.__portalFx = fx;
+    return () => {
+      if (safetyRef.current) clearTimeout(safetyRef.current);
+      if (renderRef.current) gsap.ticker.remove(renderRef.current);
+    };
   }, []);
 
   const value = useMemo(() => ({ portalTo, portalReveal }), [portalTo, portalReveal]);

@@ -112,4 +112,15 @@
     color: #f25f5c;
   }
 
+  /* Spam honeypot. Positioned off-screen rather than `display: none` — some
+     bots skip hidden inputs, but almost all of them fill a reachable one. */
+  .contact-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
 }

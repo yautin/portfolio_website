@@ -17,6 +17,11 @@ dist-ssr
 .env.*
 !.env.example
 
+# Supabase CLI local state. `.temp/` holds the linked project ref and the pooler
+# connection string; neither belongs in the repo.
+supabase/.temp/
+supabase/.branches/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

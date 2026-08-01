@@ -83,6 +83,9 @@ export const combatMethods = {
     const stars = starsForHearts(this.hearts, this.maxHearts);
     const score = this.kills * 10 + this.hearts * 100 + this.level * 50;
     recordResult(this.level, stars, score);
+    // Web3 easter egg: announce the beaten level so the /fun hub can offer a
+    // token reward. No-op unless the reward feature is configured + signed in.
+    window.dispatchEvent(new CustomEvent("game:levelcomplete", { detail: { gameId: "immune-defense", level: this.level } }));
     sfx.levelclear();
     const outcome = this.level >= TOTAL_LEVELS ? "victory" : "clear";
     const nextUnit = newUnitForLevel(this.level + 1);

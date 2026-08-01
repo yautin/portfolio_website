@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "../lib/supabase";
+import { supabase } from "./supabaseClient";
 
 // Account panel for the games hub: email+password (sign in / sign up) and
 // Google OAuth. When Supabase isn't configured it renders a graceful notice.
