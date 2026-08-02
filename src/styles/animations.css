@@ -162,6 +162,19 @@
    each portal's centre, so it reads as receding INTO the mouth rather than
    simply vanishing behind a disc. 4% of the lap at each end is roughly the time
    its body spends inside the 84px portal. */
+/* the ember glow inside each portal, breathing like a banked fire */
+@keyframes baby-portal-breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+}
+
 @keyframes baby-kinesin-transit {
   0% {
     opacity: 0;
@@ -250,7 +263,8 @@
   .kinesin-bubble,
   .baby-kinesin,
   .baby-portal-rim::before,
-  .baby-portal-rim::after {
+  .baby-portal-rim::after,
+  .baby-portal-mouth::before {
     animation: none;
   }
 

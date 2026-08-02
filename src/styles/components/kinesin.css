@@ -227,13 +227,27 @@
     /* the "other dimension" — .route-portal's recipe, plus a darker core so the
        centre reads as depth for the walker to recede into */
     background:
-      radial-gradient(closest-side, #05070c 26%, transparent 76%),
+      radial-gradient(closest-side, #0b0f1b 26%, transparent 76%),
       radial-gradient(75% 75% at 50% 45%, rgba(157, 78, 221, 0.3), transparent 62%),
       radial-gradient(55% 55% at 62% 62%, rgba(76, 201, 240, 0.22), transparent 62%),
       #080b14;
     box-shadow:
       0 0 12px -4px rgba(76, 201, 240, 0.32),
       inset 0 0 18px -6px rgba(157, 78, 221, 0.6);
+  }
+
+  /* A hearth, not a reactor: one very slow glow breathing inside the mouth.
+     Nine seconds, eased, so it never syncs with either ember sweep. */
+  .baby-portal-mouth::before {
+    content: "";
+    @apply absolute;
+    inset: 14%;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      rgba(157, 78, 221, 0.3), rgba(76, 201, 240, 0.14) 56%, transparent 78%
+    );
+    animation: baby-portal-breathe 9s ease-in-out infinite;
   }
 
   /* On the pale surface a near-black disc punches a hole in the page and fights
@@ -272,7 +286,7 @@
      track depends on the rotation phase at that instant. This edge is always
      there, so the track is always visibly over one side and under the other. */
   .baby-portal-rim {
-    box-shadow: inset 0 0 0 1.5px rgba(150, 205, 245, 0.5);
+    box-shadow: inset 0 0 0 1.5px rgba(168, 205, 236, 0.34);
   }
 
   .baby-portal-rim.is-near { z-index: 2; }
@@ -296,45 +310,45 @@
     border-radius: 50%;
   }
 
-  /* Discrete embers travelling the rim, not the smooth arcs this had before —
-     closer to the canvas spark ring the route transition paints.
-     Each layer is a repeating-conic-gradient of short bright stops: a hot
-     near-white core stacked inside a wider coloured halo, both reading the same
-     --portal-a so the cores stay centred in their halos. The blur turns the
-     hard gradient stops into glowing specks. */
+  /* Embers drifting round the rim, not sparks whipping round it.
+     Cosy is mostly slowness and softness: these are fewer (one every 20deg
+     rather than 14), wider, dimmer and blurrier than the electric version, and
+     they take 20s to go round instead of 7. The core is a warm white rather
+     than an icy one, so it reads as candlelight caught in the ring and ties to
+     the lamplight wash behind the page. */
   .baby-portal-rim::before {
     background:
       repeating-conic-gradient(
         from var(--portal-a),
-        transparent 0deg 6.6deg, rgba(228, 250, 255, 0.95) 6.9deg 7.7deg, transparent 8deg 14deg
+        transparent 0deg 8.6deg, rgba(255, 246, 232, 0.62) 9.2deg 10.8deg, transparent 11.4deg 20deg
       ),
       repeating-conic-gradient(
         from var(--portal-a),
-        transparent 0deg 5.4deg, rgba(76, 201, 240, 0.7) 6.3deg 8.3deg, transparent 9.2deg 14deg
+        transparent 0deg 7deg, rgba(76, 201, 240, 0.45) 8.4deg 11.6deg, transparent 13deg 20deg
       );
     -webkit-mask: radial-gradient(closest-side, transparent 0 84%, #000 88% 99%, transparent 100%);
     mask: radial-gradient(closest-side, transparent 0 84%, #000 88% 99%, transparent 100%);
-    animation: baby-portal-sweep 7s linear infinite;
-    filter: blur(0.4px);
+    animation: baby-portal-sweep 20s linear infinite;
+    filter: blur(0.9px);
   }
 
-  /* a sparser violet set sweeping the other way, so the rim never reads as one
-     rigid rotating object */
+  /* a sparser violet set drifting the other way on a deliberately unrelated
+     period, so the two never settle into a repeating pattern you can follow */
   .baby-portal-rim::after {
     inset: 3px;
     background:
       repeating-conic-gradient(
         from var(--portal-a),
-        transparent 0deg 14.4deg, rgba(240, 224, 255, 0.9) 14.8deg 15.6deg, transparent 16deg 26deg
+        transparent 0deg 15.4deg, rgba(247, 236, 255, 0.5) 16.2deg 18.2deg, transparent 19deg 34deg
       ),
       repeating-conic-gradient(
         from var(--portal-a),
-        transparent 0deg 13deg, rgba(157, 78, 221, 0.8) 14deg 16.6deg, transparent 17.6deg 26deg
+        transparent 0deg 13.5deg, rgba(157, 78, 221, 0.5) 15deg 19.4deg, transparent 21deg 34deg
       );
     -webkit-mask: radial-gradient(closest-side, transparent 0 79%, #000 84% 98%, transparent 100%);
     mask: radial-gradient(closest-side, transparent 0 79%, #000 84% 98%, transparent 100%);
-    animation: baby-portal-sweep 4.5s linear infinite reverse;
-    filter: blur(0.5px);
+    animation: baby-portal-sweep 13s linear infinite reverse;
+    filter: blur(1.1px);
   }
 
   /* chunkier limbs. The viewBox is shared with the adult, so without this the
