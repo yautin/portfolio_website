@@ -217,6 +217,35 @@
     border-radius: 50%;
   }
 
+  /* The clickable portal. The portal art itself is decorative and
+     pointer-events:none, so this sits over it as a real button — above the rim
+     (z5) so it catches the click, and matching the ellipse so the hit area is
+     the shape you can see. */
+  .baby-portal-door {
+    @apply absolute border-0 bg-transparent p-0 cursor-pointer;
+    left: 0;
+    bottom: 0;
+    width: 56px;
+    height: 92px;
+    border-radius: 50%;
+    z-index: 6;
+  }
+
+  .baby-portal-door:disabled {
+    cursor: default;
+  }
+
+  .baby-portal-door:focus-visible {
+    outline: 2px solid var(--brand-1);
+    outline-offset: 3px;
+  }
+
+  /* a brief swell as it opens — the portal breathing in rather than a flash */
+  .baby-portal-mouth.is-flaring,
+  .baby-portal-rim.is-flaring {
+    animation: baby-portal-flare 700ms ease-out;
+  }
+
   .baby-portal-mouth.is-left,
   .baby-portal-rim.is-left { left: 0; }
   .baby-portal-mouth.is-right,
