@@ -143,6 +143,44 @@ body::after {
   color: color-mix(in srgb, var(--accent) 84%, #0f131b);
 }
 
+/* ---- /fun runs its lights lower -------------------------------------------
+   The hub is meant to feel like somewhere to sit, and the main thing that makes
+   a dark UI tiring is not darkness but CONTRAST: near-white text on near-black
+   halates, glowing and bleeding around the glyphs. Headings sat at 13.8:1 and
+   the provider buttons were pure white at 17.9:1 against the page — the single
+   brightest thing on it.
+
+   So this re-pins a dimmer palette onto the /fun subtree only, the same way
+   .game-overlay re-pins a dark one onto the game modal. Everything lands in the
+   6.5-11:1 band that reads as comfortable while staying clear of the 4.5:1 AA
+   floor. The game overlay re-pins its own tokens further down the tree, so
+   gameplay stays as vivid as it was. */
+.fun-page {
+  --fg-strong: #ccd3e0; /* 13.8:1 -> 10.9:1 on a card */
+  --color-white-50: #adb6c5; /* 10.3:1 -> 8.1:1 */
+  --color-blue-50: #828da2; /* 5.6:1 -> 4.9:1, still over AA */
+  /* the light provider-button surface, no longer a blazing white rectangle */
+  --provider-surface: #d7dde8;
+  /* brand stops eased down ~15%: the gradient CTA was the brightest non-white
+     element, and a dimmer stop also lifts its white label off the background */
+  --brand-1: #43aecb;
+  --brand-2: #8347bd;
+  /* re-derived, not inherited. --brand-grad resolves its var(--brand-1) at
+     :root where IT is declared, so re-pinning the stops here alone leaves every
+     gradient still painting the bright originals. Same trap as --accent-ink. */
+  --brand-grad: linear-gradient(120deg, var(--brand-1), var(--brand-2));
+}
+
+:root[data-theme="light"] .fun-page {
+  /* glare rather than halation is the light-theme problem, so the fix is the
+     mirror image: take the pure-white card surface off maximum and bring the
+     near-black ink up to meet it */
+  --color-black-100: #faf7f2; /* warm off-white, not paper-white */
+  --color-black-200: #efe9e0;
+  --fg-strong: #29314a; /* 17.4:1 -> 12.1:1 */
+  --provider-surface: #ffffff;
+}
+
 /* The Immune Defense game stays dark in both themes: re-pin the dark token
    values onto the overlay so its whole modal subtree ignores the page theme. */
 .game-overlay {

@@ -55,10 +55,11 @@
      the colour wheel and vibrates. Keeping the gradient reserved for "Claim"
      also gives the card a clearer hierarchy — one CTA, one accent. */
   .reward-btn.is-metamask {
-    @apply w-full bg-white border-black-50;
+    @apply w-full border-black-50;
+    background: var(--provider-surface, #fff);
     color: #1f2430;
   }
-  .reward-btn.is-metamask:hover { @apply bg-white/90; }
+  .reward-btn.is-metamask:hover { filter: brightness(1.04); }
   .reward-btn.is-metamask:disabled { @apply opacity-60 cursor-not-allowed; }
   .reward-btn.is-ghost { @apply bg-transparent border-black-50 text-white-50; }
   .reward-btn.is-ghost:hover { color: var(--fg-strong); }
