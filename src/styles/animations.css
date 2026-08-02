@@ -143,14 +143,27 @@
   }
 }
 
-/* baby kinesin: walks the width of its own strip (see the note in kinesin.css
-   on why this animates `left` rather than translateX like the adult does) */
+/* baby kinesin: walks portal centre to portal centre (see the note in
+   kinesin.css on why this animates `left` rather than translateX like the adult
+   does). The portals are 84px wide and flush to each end of the strip, so their
+   centres sit at 42px and calc(100% - 42px); the baby's button is 60px wide,
+   hence the 30px offsets that put ITS centre on those points. Change the portal
+   size and change these too. */
 @keyframes baby-kinesin-walk {
   from {
-    left: -70px;
+    left: 12px;
   }
   to {
-    left: 100%;
+    left: calc(100% - 72px);
+  }
+}
+
+@keyframes baby-portal-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -200,7 +213,9 @@
   .kinesin-shin,
   .kinesin-cargo-group,
   .kinesin-bubble,
-  .baby-kinesin {
+  .baby-kinesin,
+  .baby-portal::before,
+  .baby-portal::after {
     animation: none;
   }
 

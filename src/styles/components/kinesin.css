@@ -150,8 +150,83 @@
        54px element instead, and a viewport-width translate (what the adult band
        uses, since it IS full-bleed) would strand the baby off-stage for most of
        the loop inside this narrower, centred container. */
-    animation: baby-kinesin-walk 24s linear infinite;
+    animation: baby-kinesin-walk 40s linear infinite;
     filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+  }
+
+  /* ---- the portals it walks between -----------------------------------------
+     The strip clips with overflow:hidden, which used to slice the baby in half
+     at each end. Rather than hide that seam, this makes it the point: it steps
+     out of one portal and into the other.
+
+     Same phenomenon as the route transition, at small scale — see
+     transition.css, whose own comment calls .route-portal-fx "the
+     Doctor-Strange spark ring". Reusing that language means the magic that
+     moves you between pages is the magic the kinesin walks through. The canvas
+     there paints counter-rotating mandala arcs over a dark nebula; here that's
+     two conic-gradients and a radial fill, which is plenty at this size.
+
+     84px, sitting on the strip floor. Sized to what actually has to disappear:
+     the button box is 60×78, but the drawn figure inside it is only ~29×42, so
+     a 69px disc already covers it plus the drop-shadow — 96px made two orbs
+     that outweighed their own subject. `bottom: 0` puts the centre at 42px,
+     which is where the figure's centre sits (40px); centring on the strip
+     instead sent the baby through the portal's lower third. */
+  .baby-portal {
+    @apply absolute rounded-full pointer-events-none;
+    width: 84px;
+    height: 84px;
+    bottom: 0;
+    /* above the walker so it occludes; below the speech bubble's own layer */
+    z-index: 2;
+    /* the "other dimension" — same recipe as .route-portal. Opaque, so it hides
+       the baby with no mask needed: a portal IS a hole to somewhere darker. It
+       stays dark in both themes, exactly as .route-portal does. */
+    background:
+      radial-gradient(75% 75% at 50% 45%, rgba(157, 78, 221, 0.3), transparent 62%),
+      radial-gradient(55% 55% at 62% 62%, rgba(76, 201, 240, 0.22), transparent 62%),
+      #080b14;
+    box-shadow:
+      0 0 12px -4px rgba(76, 201, 240, 0.32),
+      inset 0 0 18px -6px rgba(157, 78, 221, 0.6);
+  }
+
+  .baby-portal.is-left { left: 0; }
+  .baby-portal.is-right { right: 0; }
+
+  /* the two mandala rims, counter-rotating: cyan wide-and-slow one way, violet
+     tighter-and-quicker the other. Each conic-gradient is masked to an annulus
+     so only the rim paints. */
+  .baby-portal::before,
+  .baby-portal::after {
+    content: "";
+    @apply absolute rounded-full;
+    inset: 0;
+  }
+
+  .baby-portal::before {
+    background: conic-gradient(
+      from 0deg,
+      transparent 0 6%, #4cc9f0 10% 18%, transparent 22% 40%,
+      #4cc9f0 44% 54%, transparent 58% 74%, #4cc9f0 78% 88%, transparent 92%
+    );
+    -webkit-mask: radial-gradient(closest-side, transparent 0 84%, #000 87% 97%, transparent 100%);
+    mask: radial-gradient(closest-side, transparent 0 84%, #000 87% 97%, transparent 100%);
+    animation: baby-portal-spin 7s linear infinite;
+    opacity: 0.85;
+  }
+
+  .baby-portal::after {
+    inset: 7px;
+    background: conic-gradient(
+      from 140deg,
+      transparent 0 10%, #9d4edd 14% 22%, transparent 26% 48%,
+      #9d4edd 52% 60%, transparent 64% 82%, #9d4edd 86% 94%, transparent 98%
+    );
+    -webkit-mask: radial-gradient(closest-side, transparent 0 80%, #000 84% 96%, transparent 100%);
+    mask: radial-gradient(closest-side, transparent 0 80%, #000 84% 96%, transparent 100%);
+    animation: baby-portal-spin 4.5s linear infinite reverse;
+    opacity: 0.8;
   }
 
   /* chunkier limbs. The viewBox is shared with the adult, so without this the

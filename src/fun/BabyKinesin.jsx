@@ -51,6 +51,11 @@ const BabyKinesin = () => {
         )}
         <KinesinFigure variant="baby" />
       </button>
+
+      {/* it steps out of one and into the other — same Doctor Strange portal the
+          route transition opens, at 96px (see .baby-portal in kinesin.css) */}
+      <span className="baby-portal is-left" aria-hidden="true" />
+      <span className="baby-portal is-right" aria-hidden="true" />
     </div>
   );
 };
