@@ -133,23 +133,27 @@
     margin-top: 2rem;
   }
 
-  /* The microtubule runs INTO each portal rather than stopping at its rim: the
-     track paints above the portal mouth, then dissolves right around the event
-     horizon. The mask ramp is centred on the portal centre (42px), so the last
-     tubulin dimers you can see are already inside the mouth. */
+  /* The microtubule passes THROUGH each ring: in front of the near arc (z2) and
+     behind the far one (z5).
+     The ramp is deliberately short and sits at the far arc rather than fading
+     across the whole mouth. The far arc crosses the track around x=5, so a fade
+     that finished at 14px left nothing there for the arc to cover and the
+     occlusion was invisible. At 16px the track still carries ~30% alpha where
+     the arc crosses — enough to read as covered, soft enough that a gap in the
+     rotating arc doesn't expose a hard cut end. */
   .baby-kinesin-track {
     @apply absolute inset-x-0 w-full;
     bottom: 0.75rem;
     height: 15px;
     opacity: 0.5;
-    z-index: 2;
+    z-index: 3;
     -webkit-mask-image: linear-gradient(
       to right,
-      transparent 14px, #000 82px, #000 calc(100% - 82px), transparent calc(100% - 14px)
+      transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%
     );
     mask-image: linear-gradient(
       to right,
-      transparent 14px, #000 82px, #000 calc(100% - 82px), transparent calc(100% - 14px)
+      transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%
     );
   }
 
@@ -172,7 +176,7 @@
     /* scale about the figure's own centre of mass (the cargo), not the button
        box — otherwise it appears to shrink toward its feet */
     transform-origin: 46% 67%;
-    z-index: 3;
+    z-index: 4;
     filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
   }
 
@@ -188,27 +192,25 @@
      there paints counter-rotating mandala arcs over a dark nebula; here that's
      two conic-gradients and a radial fill, which is plenty at this size.
 
-     84px, sitting on the strip floor. Sized to what actually has to disappear:
-     the button box is 60×78, but the drawn figure inside it is only ~29×42, so
-     a 69px disc already covers it plus the drop-shadow — 96px made two orbs
-     that outweighed their own subject. `bottom: 0` puts the centre at 42px,
-     which is where the figure's centre sits (40px); centring on the strip
-     instead sent the baby through the portal's lower third. */
-  /* Split into two layers so the baby can pass THROUGH rather than behind:
+     OVAL, not a circle. A circle facing the viewer reads as a hole in the
+     floor — something you fall into. Walking THROUGH a ring means the ring is
+     turned nearly edge-on to the camera, and a circle seen at an angle projects
+     as an ellipse taller than it is wide. It also does structural work: a narrow
+     ellipse separates the near and far arcs into two clearly distinct left/right
+     curves, which is what makes the front/back split below legible at all.
 
-       mouth  (z 1) — the dark other-dimension, under the track and the walker
-       track  (z 2)
-       walker (z 3) — recedes into the mouth, still visible as it goes
-       rim    (z 4) — the spark arcs, in front, so the ring crosses the baby
-
-     One opaque disc would have hidden the walker entirely, and any shrink-and-
-     fade would have played out where nobody could see it. */
+     `bottom: 0` keeps the centre near the figure's own centre of mass, so the
+     baby passes through the middle rather than the lower third. */
   .baby-portal-mouth,
   .baby-portal-rim {
-    @apply absolute rounded-full pointer-events-none;
-    width: 84px;
-    height: 84px;
+    @apply absolute pointer-events-none;
+    width: 56px;
+    height: 92px;
     bottom: 0;
+    /* 50%, NOT Tailwind's rounded-full. `border-radius: 9999px` clamps to a
+       stadium on a non-square box — it only happened to give a circle back when
+       these were 84x84. An ellipse needs percentages. */
+    border-radius: 50%;
   }
 
   .baby-portal-mouth.is-left,
@@ -244,8 +246,42 @@
       inset 0 0 18px -6px rgba(157, 78, 221, 0.55);
   }
 
+  /* The ring is split down its vertical axis and drawn twice, so the track and
+     the walker pass THROUGH it rather than in front of the whole thing:
+
+       z1  mouth
+       z2  rim — NEAR half   (the side facing the strip; track passes over it)
+       z3  track
+       z4  walker
+       z5  rim — FAR half    (track and walker disappear behind it)
+
+     "Near" is the half the kinesin approaches from, so it is the RIGHT half of
+     the left portal and the LEFT half of the right portal.
+
+     The hard clip edge is safe because the split runs through the ellipse's top
+     and bottom points (y 0 and y 92), while the track only occupies y 12–27 —
+     so the layer change happens where nothing overlaps and the ring still reads
+     as one continuous outline. The rotating arcs swap layers there too, equally
+     out of sight. */
+  /* A steady hoop under the rotating sparks. Without it the depth cue is
+     intermittent: the spark arcs have gaps, so whether anything crosses the
+     track depends on the rotation phase at that instant. This edge is always
+     there, so the track is always visibly over one side and under the other. */
   .baby-portal-rim {
-    z-index: 4;
+    box-shadow: inset 0 0 0 1.5px rgba(150, 205, 245, 0.5);
+  }
+
+  .baby-portal-rim.is-near { z-index: 2; }
+  .baby-portal-rim.is-far { z-index: 5; }
+
+  .baby-portal-rim.is-left.is-near,
+  .baby-portal-rim.is-right.is-far {
+    clip-path: inset(0 0 0 50%); /* right half */
+  }
+
+  .baby-portal-rim.is-left.is-far,
+  .baby-portal-rim.is-right.is-near {
+    clip-path: inset(0 50% 0 0); /* left half */
   }
 
   /* the two mandala rims, counter-rotating: cyan wide-and-slow one way, violet
@@ -254,8 +290,9 @@
   .baby-portal-rim::before,
   .baby-portal-rim::after {
     content: "";
-    @apply absolute rounded-full;
+    @apply absolute;
     inset: 0;
+    border-radius: 50%;
   }
 
   .baby-portal-rim::before {

@@ -16,6 +16,17 @@ const chirps = [
   "Mum says I'm a big motor now.",
 ];
 
+// One portal is three stacked layers. Every layer carries its own z-index (see
+// .baby-portal-* in kinesin.css), so these can sit together in the markup
+// regardless of where the track and the walker appear in DOM order.
+const Portal = ({ side }) => (
+  <>
+    <span className={`baby-portal-mouth is-${side}`} aria-hidden="true" />
+    <span className={`baby-portal-rim is-${side} is-near`} aria-hidden="true" />
+    <span className={`baby-portal-rim is-${side} is-far`} aria-hidden="true" />
+  </>
+);
+
 const BabyKinesin = () => {
   const [message, setMessage] = useState(null);
   const timerRef = useRef(null);
@@ -36,11 +47,8 @@ const BabyKinesin = () => {
 
   return (
     <div className="baby-kinesin-strip">
-      {/* the mouths sit UNDER the track and the walker so both can run into
-          them; the rims go on top further down (see .baby-portal-* in
-          kinesin.css for the four-layer order) */}
-      <span className="baby-portal-mouth is-left" aria-hidden="true" />
-      <span className="baby-portal-mouth is-right" aria-hidden="true" />
+      <Portal side="left" />
+      <Portal side="right" />
 
       <MicrotubuleTrack className="baby-kinesin-track" scale={0.6} />
 
@@ -57,11 +65,6 @@ const BabyKinesin = () => {
         )}
         <KinesinFigure variant="baby" />
       </button>
-
-      {/* spark rings last, so they cross in FRONT of the walker as it steps
-          through — same Doctor Strange portal the route transition opens */}
-      <span className="baby-portal-rim is-left" aria-hidden="true" />
-      <span className="baby-portal-rim is-right" aria-hidden="true" />
     </div>
   );
 };
