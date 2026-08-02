@@ -162,6 +162,15 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
       {!isSignedIn && (
         <p className="reward-wallet-signin">🔒 Sign in to your account to claim rewards.</p>
       )}
+
+      {/* Deliberately outside every state branch, so it is visible at the one
+          moment it matters most: when a real balance and a Claim button are on
+          screen. The chain name comes from config rather than being typed out,
+          so this can't quietly go stale if the deployment moves. */}
+      <p className="reward-wallet-disclaimer">
+        Demo token on {REWARD_CHAIN.name}, a test network. ${TOKEN_META.symbol} has no
+        monetary value and can&rsquo;t be bought, sold or traded.
+      </p>
     </div>
   );
 }
