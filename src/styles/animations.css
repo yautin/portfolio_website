@@ -162,6 +162,23 @@
    each portal's centre, so it reads as receding INTO the mouth rather than
    simply vanishing behind a disc. 4% of the lap at each end is roughly the time
    its body spends inside the 84px portal. */
+/* the portal swelling as it lets someone through — a swell, not a flash, so it
+   stays in keeping with the rest of the strip */
+@keyframes baby-portal-flare {
+  0% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  30% {
+    filter: brightness(1.5);
+    transform: scale(1.05);
+  }
+  100% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+}
+
 /* the ember glow inside each portal, breathing like a banked fire */
 @keyframes baby-portal-breathe {
   0%,
@@ -264,7 +281,9 @@
   .baby-kinesin,
   .baby-portal-rim::before,
   .baby-portal-rim::after,
-  .baby-portal-mouth::before {
+  .baby-portal-mouth::before,
+  .baby-portal-mouth.is-flaring,
+  .baby-portal-rim.is-flaring {
     animation: none;
   }
 
