@@ -183,6 +183,17 @@
     animation: none;
   }
 
+  /* the hub cards keep their colour/shadow hover, but stop moving */
+  .fun-card,
+  .fun-card-cover img {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .fun-card:hover,
+  .fun-card:hover .fun-card-cover img {
+    transform: none;
+  }
+
   .kinesin,
   .kinesin-body,
   .kinesin-thigh,

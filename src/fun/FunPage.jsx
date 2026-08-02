@@ -127,7 +127,7 @@ const FunPage = () => {
                     </button>
                     <button
                       type="button"
-                      className="fun-btn is-ghost"
+                      className="fun-btn is-quiet"
                       onClick={() => resetGame(game)}
                     >
                       Reset progress
