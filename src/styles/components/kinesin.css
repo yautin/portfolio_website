@@ -133,11 +133,24 @@
     margin-top: 2rem;
   }
 
+  /* The microtubule runs INTO each portal rather than stopping at its rim: the
+     track paints above the portal mouth, then dissolves right around the event
+     horizon. The mask ramp is centred on the portal centre (42px), so the last
+     tubulin dimers you can see are already inside the mouth. */
   .baby-kinesin-track {
     @apply absolute inset-x-0 w-full;
     bottom: 0.75rem;
     height: 15px;
     opacity: 0.5;
+    z-index: 2;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 14px, #000 82px, #000 calc(100% - 82px), transparent calc(100% - 14px)
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 14px, #000 82px, #000 calc(100% - 82px), transparent calc(100% - 14px)
+    );
   }
 
   .baby-kinesin {
@@ -150,7 +163,16 @@
        54px element instead, and a viewport-width translate (what the adult band
        uses, since it IS full-bleed) would strand the baby off-stage for most of
        the loop inside this narrower, centred container. */
-    animation: baby-kinesin-walk 40s linear infinite;
+    /* two animations on the same clock: `walk` carries it across, `transit`
+       shrinks and fades it through the event horizon at each end. Both 40s, so
+       the transit keyframes are simply percentages of one lap. */
+    animation:
+      baby-kinesin-walk 40s linear infinite,
+      baby-kinesin-transit 40s linear infinite;
+    /* scale about the figure's own centre of mass (the cargo), not the button
+       box — otherwise it appears to shrink toward its feet */
+    transform-origin: 46% 67%;
+    z-index: 3;
     filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
   }
 
@@ -172,17 +194,34 @@
      that outweighed their own subject. `bottom: 0` puts the centre at 42px,
      which is where the figure's centre sits (40px); centring on the strip
      instead sent the baby through the portal's lower third. */
-  .baby-portal {
+  /* Split into two layers so the baby can pass THROUGH rather than behind:
+
+       mouth  (z 1) — the dark other-dimension, under the track and the walker
+       track  (z 2)
+       walker (z 3) — recedes into the mouth, still visible as it goes
+       rim    (z 4) — the spark arcs, in front, so the ring crosses the baby
+
+     One opaque disc would have hidden the walker entirely, and any shrink-and-
+     fade would have played out where nobody could see it. */
+  .baby-portal-mouth,
+  .baby-portal-rim {
     @apply absolute rounded-full pointer-events-none;
     width: 84px;
     height: 84px;
     bottom: 0;
-    /* above the walker so it occludes; below the speech bubble's own layer */
-    z-index: 2;
-    /* the "other dimension" — same recipe as .route-portal. Opaque, so it hides
-       the baby with no mask needed: a portal IS a hole to somewhere darker. It
-       stays dark in both themes, exactly as .route-portal does. */
+  }
+
+  .baby-portal-mouth.is-left,
+  .baby-portal-rim.is-left { left: 0; }
+  .baby-portal-mouth.is-right,
+  .baby-portal-rim.is-right { right: 0; }
+
+  .baby-portal-mouth {
+    z-index: 1;
+    /* the "other dimension" — .route-portal's recipe, plus a darker core so the
+       centre reads as depth for the walker to recede into */
     background:
+      radial-gradient(closest-side, #05070c 26%, transparent 76%),
       radial-gradient(75% 75% at 50% 45%, rgba(157, 78, 221, 0.3), transparent 62%),
       radial-gradient(55% 55% at 62% 62%, rgba(76, 201, 240, 0.22), transparent 62%),
       #080b14;
@@ -191,20 +230,35 @@
       inset 0 0 18px -6px rgba(157, 78, 221, 0.6);
   }
 
-  .baby-portal.is-left { left: 0; }
-  .baby-portal.is-right { right: 0; }
+  /* On the pale surface a near-black disc punches a hole in the page and fights
+     the room-like feel. Same idea, lifted to a deep indigo: still unmistakably
+     somewhere else, no longer a cut-out. */
+  :root[data-theme="light"] .baby-portal-mouth {
+    background:
+      radial-gradient(closest-side, #1a2138 26%, transparent 76%),
+      radial-gradient(75% 75% at 50% 45%, rgba(157, 78, 221, 0.34), transparent 62%),
+      radial-gradient(55% 55% at 62% 62%, rgba(76, 201, 240, 0.26), transparent 62%),
+      #232a44;
+    box-shadow:
+      0 6px 18px -8px rgba(35, 42, 68, 0.5),
+      inset 0 0 18px -6px rgba(157, 78, 221, 0.55);
+  }
+
+  .baby-portal-rim {
+    z-index: 4;
+  }
 
   /* the two mandala rims, counter-rotating: cyan wide-and-slow one way, violet
      tighter-and-quicker the other. Each conic-gradient is masked to an annulus
      so only the rim paints. */
-  .baby-portal::before,
-  .baby-portal::after {
+  .baby-portal-rim::before,
+  .baby-portal-rim::after {
     content: "";
     @apply absolute rounded-full;
     inset: 0;
   }
 
-  .baby-portal::before {
+  .baby-portal-rim::before {
     background: conic-gradient(
       from 0deg,
       transparent 0 6%, #4cc9f0 10% 18%, transparent 22% 40%,
@@ -216,7 +270,7 @@
     opacity: 0.85;
   }
 
-  .baby-portal::after {
+  .baby-portal-rim::after {
     inset: 7px;
     background: conic-gradient(
       from 140deg,

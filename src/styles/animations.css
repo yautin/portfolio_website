@@ -158,6 +158,29 @@
   }
 }
 
+/* Stepping through the event horizon: the walker shrinks and dims as it reaches
+   each portal's centre, so it reads as receding INTO the mouth rather than
+   simply vanishing behind a disc. 4% of the lap at each end is roughly the time
+   its body spends inside the 84px portal. */
+@keyframes baby-kinesin-transit {
+  0% {
+    opacity: 0;
+    transform: scale(0.42);
+  }
+  4% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  96% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.42);
+  }
+}
+
 @keyframes baby-portal-spin {
   from {
     transform: rotate(0deg);
@@ -214,8 +237,8 @@
   .kinesin-cargo-group,
   .kinesin-bubble,
   .baby-kinesin,
-  .baby-portal::before,
-  .baby-portal::after {
+  .baby-portal-rim::before,
+  .baby-portal-rim::after {
     animation: none;
   }
 
@@ -224,5 +247,9 @@
      rule, and only its transform was animated) */
   .baby-kinesin {
     left: 12%;
+    /* the transit animation is off too, and its 0% frame is opacity:0 — without
+       this the pinned baby would be invisible */
+    opacity: 1;
+    transform: none;
   }
 }

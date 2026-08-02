@@ -97,7 +97,9 @@ const FunPage = () => {
         <Link to="/" className="fun-brand">
           ← Marco Ng<span className="fun-brand-dot">.</span>
         </Link>
-        <p className="fun-header-tag">Just some games for fun</p>
+        <p className="fun-header-tag">
+          Some small games I made for fun. Stay as long as you like.
+        </p>
       </header>
 
       <div className="fun-body">

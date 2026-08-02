@@ -5,10 +5,16 @@ import { useTheme } from "../hooks/useTheme";
 // gently flee the cursor. Pure Canvas 2D + rAF (no deps); pauses when the tab
 // is hidden; skipped entirely under prefers-reduced-motion.
 
+// Cool palette with one warm mote listed once against the others' twice, so
+// roughly a sixth of the field picks up the lamplight wash behind it (see
+// .fun-page::before) instead of the whole slide reading clinical.
 const COLORS = [
   [76, 201, 240],  // cyan
   [157, 78, 221],  // violet
   [82, 209, 164],  // teal
+  [76, 201, 240],
+  [157, 78, 221],
+  [244, 178, 116], // warm amber — the occasional lamplit speck
 ];
 const COUNT = 40;
 const REPEL_R = 150;
@@ -18,7 +24,10 @@ const prefersReduced = () =>
 
 const makeCells = (w, h) =>
   Array.from({ length: COUNT }, () => {
-    const speed = 12 + Math.random() * 12;
+    // roughly half the old pace: unhurried drift reads as calm, and calm is
+    // most of what makes this page feel like somewhere to sit rather than a
+    // dashboard to scan
+    const speed = 6 + Math.random() * 7;
     const dir = Math.random() * Math.PI * 2;
     return {
       x: Math.random() * w,
@@ -27,7 +36,7 @@ const makeCells = (w, h) =>
       vx: Math.cos(dir) * speed,
       vy: Math.sin(dir) * speed,
       wob: Math.random() * Math.PI * 2, // wobble phase
-      wobSpeed: 0.4 + Math.random() * 0.6,
+      wobSpeed: 0.25 + Math.random() * 0.35,
       rgb: COLORS[(Math.random() * COLORS.length) | 0],
     };
   });

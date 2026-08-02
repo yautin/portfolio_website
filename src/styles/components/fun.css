@@ -7,6 +7,32 @@
     z-index: 1;
   }
 
+  /* A warm light source in a cool room.
+     The hub's palette is lab-blue, which reads clinical rather than cosy. A
+     low-opacity amber wash from the upper left gives the page a light source to
+     sit under, and the vignette closes the edges down so it feels like a room
+     rather than an infinite plane. Both are far too faint to disturb the brand
+     — the point is that you feel them rather than see them.
+     Fixed, and first in paint order, so it sits behind the drifting cells. */
+  .fun-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(58% 42% at 16% 0%, rgba(244, 178, 116, 0.11), transparent 68%),
+      radial-gradient(46% 38% at 92% 84%, rgba(157, 78, 221, 0.07), transparent 70%),
+      radial-gradient(125% 95% at 50% 42%, transparent 42%, rgba(4, 6, 12, 0.5) 100%);
+  }
+
+  :root[data-theme="light"] .fun-page::before {
+    background:
+      radial-gradient(58% 42% at 16% 0%, rgba(238, 156, 74, 0.16), transparent 68%),
+      radial-gradient(46% 38% at 92% 84%, rgba(123, 63, 196, 0.06), transparent 70%),
+      radial-gradient(125% 95% at 50% 42%, transparent 45%, rgba(38, 50, 80, 0.13) 100%);
+  }
+
   /* ambient "living cell" canvas behind the hub content */
   .fun-cellfield {
     position: fixed;
