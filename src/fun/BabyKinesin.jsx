@@ -11,7 +11,7 @@ import MicrotubuleTrack from "../components/MicrotubuleTrack";
 // to be grumpy yet.
 const chirps = [
   "I'm walking!",
-  "This vesicle is HEAVY.",
+  "This vesicle is heavy...",
   "One ATP please. Two ATP?",
   "Mum says I'm a big motor now.",
 ];

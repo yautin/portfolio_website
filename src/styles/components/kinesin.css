@@ -145,7 +145,11 @@
     @apply absolute inset-x-0 w-full;
     bottom: 0.75rem;
     height: 15px;
-    opacity: 0.5;
+    /* NOT semi-transparent. At opacity .5 the near half of each rim showed
+       straight through the track, so the whole front/back split read as if it
+       had never been applied. The tubulin colours are muted greys already
+       (--tub-a / --tub-b), so full opacity is still a quiet track — but now it
+       genuinely covers what sits behind it. */
     z-index: 3;
     -webkit-mask-image: linear-gradient(
       to right,
@@ -284,9 +288,6 @@
     clip-path: inset(0 50% 0 0); /* left half */
   }
 
-  /* the two mandala rims, counter-rotating: cyan wide-and-slow one way, violet
-     tighter-and-quicker the other. Each conic-gradient is masked to an annulus
-     so only the rim paints. */
   .baby-portal-rim::before,
   .baby-portal-rim::after {
     content: "";
@@ -295,29 +296,45 @@
     border-radius: 50%;
   }
 
+  /* Discrete embers travelling the rim, not the smooth arcs this had before —
+     closer to the canvas spark ring the route transition paints.
+     Each layer is a repeating-conic-gradient of short bright stops: a hot
+     near-white core stacked inside a wider coloured halo, both reading the same
+     --portal-a so the cores stay centred in their halos. The blur turns the
+     hard gradient stops into glowing specks. */
   .baby-portal-rim::before {
-    background: conic-gradient(
-      from 0deg,
-      transparent 0 6%, #4cc9f0 10% 18%, transparent 22% 40%,
-      #4cc9f0 44% 54%, transparent 58% 74%, #4cc9f0 78% 88%, transparent 92%
-    );
-    -webkit-mask: radial-gradient(closest-side, transparent 0 84%, #000 87% 97%, transparent 100%);
-    mask: radial-gradient(closest-side, transparent 0 84%, #000 87% 97%, transparent 100%);
-    animation: baby-portal-spin 7s linear infinite;
-    opacity: 0.85;
+    background:
+      repeating-conic-gradient(
+        from var(--portal-a),
+        transparent 0deg 6.6deg, rgba(228, 250, 255, 0.95) 6.9deg 7.7deg, transparent 8deg 14deg
+      ),
+      repeating-conic-gradient(
+        from var(--portal-a),
+        transparent 0deg 5.4deg, rgba(76, 201, 240, 0.7) 6.3deg 8.3deg, transparent 9.2deg 14deg
+      );
+    -webkit-mask: radial-gradient(closest-side, transparent 0 84%, #000 88% 99%, transparent 100%);
+    mask: radial-gradient(closest-side, transparent 0 84%, #000 88% 99%, transparent 100%);
+    animation: baby-portal-sweep 7s linear infinite;
+    filter: blur(0.4px);
   }
 
+  /* a sparser violet set sweeping the other way, so the rim never reads as one
+     rigid rotating object */
   .baby-portal-rim::after {
-    inset: 7px;
-    background: conic-gradient(
-      from 140deg,
-      transparent 0 10%, #9d4edd 14% 22%, transparent 26% 48%,
-      #9d4edd 52% 60%, transparent 64% 82%, #9d4edd 86% 94%, transparent 98%
-    );
-    -webkit-mask: radial-gradient(closest-side, transparent 0 80%, #000 84% 96%, transparent 100%);
-    mask: radial-gradient(closest-side, transparent 0 80%, #000 84% 96%, transparent 100%);
-    animation: baby-portal-spin 4.5s linear infinite reverse;
-    opacity: 0.8;
+    inset: 3px;
+    background:
+      repeating-conic-gradient(
+        from var(--portal-a),
+        transparent 0deg 14.4deg, rgba(240, 224, 255, 0.9) 14.8deg 15.6deg, transparent 16deg 26deg
+      ),
+      repeating-conic-gradient(
+        from var(--portal-a),
+        transparent 0deg 13deg, rgba(157, 78, 221, 0.8) 14deg 16.6deg, transparent 17.6deg 26deg
+      );
+    -webkit-mask: radial-gradient(closest-side, transparent 0 79%, #000 84% 98%, transparent 100%);
+    mask: radial-gradient(closest-side, transparent 0 79%, #000 84% 98%, transparent 100%);
+    animation: baby-portal-sweep 4.5s linear infinite reverse;
+    filter: blur(0.5px);
   }
 
   /* chunkier limbs. The viewBox is shared with the adult, so without this the

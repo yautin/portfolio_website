@@ -181,12 +181,24 @@
   }
 }
 
-@keyframes baby-portal-spin {
+/* Sweep the GRADIENT's start angle, never the element.
+   Rotating the rim box with transform:rotate() tumbled the whole ellipse — it
+   only looked stable back when the portal was a square box behind a circular
+   mask. Animating a registered <angle> custom property spins the sparks around
+   a rim that stays exactly where it is. Both pseudo-elements read the same
+   property name and each holds its own value, so one keyframe drives both. */
+@property --portal-a {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes baby-portal-sweep {
   from {
-    transform: rotate(0deg);
+    --portal-a: 0deg;
   }
   to {
-    transform: rotate(360deg);
+    --portal-a: 360deg;
   }
 }
 

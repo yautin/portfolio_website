@@ -71,9 +71,9 @@ const FunPage = () => {
   const resetGame = async (game) => {
     const message = rewardsEnabled
       ? `Reset your progress for ${game.title}?\n\n` +
-        `This clears your game progress and can't be undone. Any $CULT you've already ` +
-        `earned stays in your wallet — but you will NOT be able to earn CULT again ` +
-        `from levels you've already beaten.`
+      `This clears your game progress and can't be undone. Any $CULT you've already ` +
+      `earned stays in your wallet — but you will NOT be able to earn CULT again ` +
+      `from levels you've already beaten.`
       : `Reset your progress for ${game.title}? This can't be undone.`;
     const ok = window.confirm(message);
     if (!ok) return;
@@ -98,7 +98,7 @@ const FunPage = () => {
           ← Marco Ng<span className="fun-brand-dot">.</span>
         </Link>
         <p className="fun-header-tag">
-          Some small games I made for fun. Stay as long as you like.
+          Some small games for fun. Stay as long as you like.
         </p>
       </header>
 
