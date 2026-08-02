@@ -7,6 +7,7 @@ import { usePageTransition } from "../components/pageTransitionContext";
 import { GAMES, gameById } from "./games";
 import CellField from "./CellField";
 import AuthCard from "./AuthCard";
+import BabyKinesin from "./BabyKinesin";
 import { clearLocal, deleteSave } from "./saveSync";
 import { rewardsEnabled } from "./rewards";
 import { useSession } from "./hooks/useSession";
@@ -50,7 +51,7 @@ const FunPage = () => {
   useGSAP(
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      gsap.from(".fun-header, .fun-card, .fun-side", {
+      gsap.from(".fun-header, .baby-kinesin-strip, .fun-card, .fun-side", {
         opacity: 0,
         y: 24,
         duration: 0.6,
@@ -70,9 +71,9 @@ const FunPage = () => {
   const resetGame = async (game) => {
     const message = rewardsEnabled
       ? `Reset your progress for ${game.title}?\n\n` +
-        `This clears your game progress and can't be undone. Any $CULT you've already ` +
-        `earned stays in your wallet — but you will NOT be able to earn CULT again ` +
-        `from levels you've already beaten.`
+      `This clears your game progress and can't be undone. Any $CULT you've already ` +
+      `earned stays in your wallet — but you will NOT be able to earn CULT again ` +
+      `from levels you've already beaten.`
       : `Reset your progress for ${game.title}? This can't be undone.`;
     const ok = window.confirm(message);
     if (!ok) return;
@@ -96,7 +97,9 @@ const FunPage = () => {
         <Link to="/" className="fun-brand">
           ← Marco Ng<span className="fun-brand-dot">.</span>
         </Link>
-        <p className="fun-header-tag">Just some games for fun</p>
+        <p className="fun-header-tag">
+          Some small games for fun. Stay as long as you like.
+        </p>
       </header>
 
       <div className="fun-body">
@@ -126,7 +129,7 @@ const FunPage = () => {
                     </button>
                     <button
                       type="button"
-                      className="fun-btn is-ghost"
+                      className="fun-btn is-quiet"
                       onClick={() => resetGame(game)}
                     >
                       Reset progress
@@ -164,6 +167,9 @@ const FunPage = () => {
           )}
         </aside>
       </div>
+
+      {/* the portfolio's kinesin has a kid, and it lives down here */}
+      <BabyKinesin />
 
       {activeGame && (
         <Suspense fallback={null}>

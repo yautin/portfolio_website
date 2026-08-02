@@ -30,6 +30,13 @@
      it can't extend above the band and get clipped */
   .kinesin-bubble {
     @apply absolute z-10 max-w-[200px] rounded-xl border border-black-50 bg-black-100 px-3 py-2 text-xs md:text-sm text-white-50 text-left leading-snug;
+    /* max-content, not the default auto. An absolutely positioned box with
+       width:auto shrink-to-fits into the space AVAILABLE in its containing
+       block — here the walker button, which is only 60–144px wide — minus the
+       `left` offset. That left ~23px on the baby, so every message wrapped one
+       word per line and grew tall enough to overflow the strip. max-width caps
+       a box; it cannot widen one. */
+    width: max-content;
     left: 58%;
     top: 6%;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
@@ -112,6 +119,288 @@
   .kinesin-caption {
     @apply absolute right-5 md:right-20 bottom-3 text-[11px] uppercase tracking-wider text-blue-50;
     opacity: 0.6;
+  }
+
+  /* ---- Baby kinesin (the /fun page's toddler) ------------------------------
+     Shares the anatomy and the leg-gait keyframes with the adult above; what
+     makes it read as a baby is proportion (KinesinFigure's "baby" geometry)
+     plus a quicker, bouncier, waddling gait set here. */
+  /* sits at the foot of the hub, below the cards — so it needs clearance above
+     it rather than below (.fun-page's own py-8/py-12 supplies the rest) */
+  .baby-kinesin-strip {
+    @apply relative w-full overflow-hidden;
+    height: 100px;
+    margin-top: 2rem;
+  }
+
+  /* The microtubule passes THROUGH each ring: in front of the near arc (z2) and
+     behind the far one (z5).
+     The ramp is deliberately short and sits at the far arc rather than fading
+     across the whole mouth. The far arc crosses the track around x=5, so a fade
+     that finished at 14px left nothing there for the arc to cover and the
+     occlusion was invisible. At 16px the track still carries ~30% alpha where
+     the arc crosses — enough to read as covered, soft enough that a gap in the
+     rotating arc doesn't expose a hard cut end. */
+  .baby-kinesin-track {
+    @apply absolute inset-x-0 w-full;
+    bottom: 0.75rem;
+    height: 15px;
+    /* NOT semi-transparent. At opacity .5 the near half of each rim showed
+       straight through the track, so the whole front/back split read as if it
+       had never been applied. The tubulin colours are muted greys already
+       (--tub-a / --tub-b), so full opacity is still a quiet track — but now it
+       genuinely covers what sits behind it. */
+    z-index: 3;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%
+    );
+  }
+
+  .baby-kinesin {
+    @apply absolute border-0 bg-transparent p-0 cursor-pointer;
+    width: 60px;
+    height: 78px;
+    bottom: 0.9rem;
+    /* `left` percentages resolve against the strip, so the walk is bounded by
+       the strip's own width. translateX percentages would resolve against the
+       54px element instead, and a viewport-width translate (what the adult band
+       uses, since it IS full-bleed) would strand the baby off-stage for most of
+       the loop inside this narrower, centred container. */
+    /* two animations on the same clock: `walk` carries it across, `transit`
+       shrinks and fades it through the event horizon at each end. Both 40s, so
+       the transit keyframes are simply percentages of one lap. */
+    animation:
+      baby-kinesin-walk 40s linear infinite,
+      baby-kinesin-transit 40s linear infinite;
+    /* scale about the figure's own centre of mass (the cargo), not the button
+       box — otherwise it appears to shrink toward its feet */
+    transform-origin: 46% 67%;
+    z-index: 4;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+  }
+
+  /* ---- the portals it walks between -----------------------------------------
+     The strip clips with overflow:hidden, which used to slice the baby in half
+     at each end. Rather than hide that seam, this makes it the point: it steps
+     out of one portal and into the other.
+
+     Same phenomenon as the route transition, at small scale — see
+     transition.css, whose own comment calls .route-portal-fx "the
+     Doctor-Strange spark ring". Reusing that language means the magic that
+     moves you between pages is the magic the kinesin walks through. The canvas
+     there paints counter-rotating mandala arcs over a dark nebula; here that's
+     two conic-gradients and a radial fill, which is plenty at this size.
+
+     OVAL, not a circle. A circle facing the viewer reads as a hole in the
+     floor — something you fall into. Walking THROUGH a ring means the ring is
+     turned nearly edge-on to the camera, and a circle seen at an angle projects
+     as an ellipse taller than it is wide. It also does structural work: a narrow
+     ellipse separates the near and far arcs into two clearly distinct left/right
+     curves, which is what makes the front/back split below legible at all.
+
+     `bottom: 0` keeps the centre near the figure's own centre of mass, so the
+     baby passes through the middle rather than the lower third. */
+  .baby-portal-mouth,
+  .baby-portal-rim {
+    @apply absolute pointer-events-none;
+    width: 56px;
+    height: 92px;
+    bottom: 0;
+    /* 50%, NOT Tailwind's rounded-full. `border-radius: 9999px` clamps to a
+       stadium on a non-square box — it only happened to give a circle back when
+       these were 84x84. An ellipse needs percentages. */
+    border-radius: 50%;
+  }
+
+  .baby-portal-mouth.is-left,
+  .baby-portal-rim.is-left { left: 0; }
+  .baby-portal-mouth.is-right,
+  .baby-portal-rim.is-right { right: 0; }
+
+  .baby-portal-mouth {
+    z-index: 1;
+    /* the "other dimension" — .route-portal's recipe, plus a darker core so the
+       centre reads as depth for the walker to recede into */
+    background:
+      radial-gradient(closest-side, #0b0f1b 26%, transparent 76%),
+      radial-gradient(75% 75% at 50% 45%, rgba(157, 78, 221, 0.3), transparent 62%),
+      radial-gradient(55% 55% at 62% 62%, rgba(76, 201, 240, 0.22), transparent 62%),
+      #080b14;
+    box-shadow:
+      0 0 12px -4px rgba(76, 201, 240, 0.32),
+      inset 0 0 18px -6px rgba(157, 78, 221, 0.6);
+  }
+
+  /* A hearth, not a reactor: one very slow glow breathing inside the mouth.
+     Nine seconds, eased, so it never syncs with either ember sweep. */
+  .baby-portal-mouth::before {
+    content: "";
+    @apply absolute;
+    inset: 14%;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      rgba(157, 78, 221, 0.3), rgba(76, 201, 240, 0.14) 56%, transparent 78%
+    );
+    animation: baby-portal-breathe 9s ease-in-out infinite;
+  }
+
+  /* On the pale surface a near-black disc punches a hole in the page and fights
+     the room-like feel. Same idea, lifted to a deep indigo: still unmistakably
+     somewhere else, no longer a cut-out. */
+  :root[data-theme="light"] .baby-portal-mouth {
+    background:
+      radial-gradient(closest-side, #1a2138 26%, transparent 76%),
+      radial-gradient(75% 75% at 50% 45%, rgba(157, 78, 221, 0.34), transparent 62%),
+      radial-gradient(55% 55% at 62% 62%, rgba(76, 201, 240, 0.26), transparent 62%),
+      #232a44;
+    box-shadow:
+      0 6px 18px -8px rgba(35, 42, 68, 0.5),
+      inset 0 0 18px -6px rgba(157, 78, 221, 0.55);
+  }
+
+  /* The ring is split down its vertical axis and drawn twice, so the track and
+     the walker pass THROUGH it rather than in front of the whole thing:
+
+       z1  mouth
+       z2  rim — NEAR half   (the side facing the strip; track passes over it)
+       z3  track
+       z4  walker
+       z5  rim — FAR half    (track and walker disappear behind it)
+
+     "Near" is the half the kinesin approaches from, so it is the RIGHT half of
+     the left portal and the LEFT half of the right portal.
+
+     The hard clip edge is safe because the split runs through the ellipse's top
+     and bottom points (y 0 and y 92), while the track only occupies y 12–27 —
+     so the layer change happens where nothing overlaps and the ring still reads
+     as one continuous outline. The rotating arcs swap layers there too, equally
+     out of sight. */
+  /* A steady hoop under the rotating sparks. Without it the depth cue is
+     intermittent: the spark arcs have gaps, so whether anything crosses the
+     track depends on the rotation phase at that instant. This edge is always
+     there, so the track is always visibly over one side and under the other. */
+  .baby-portal-rim {
+    box-shadow: inset 0 0 0 1.5px rgba(168, 205, 236, 0.34);
+  }
+
+  .baby-portal-rim.is-near { z-index: 2; }
+  .baby-portal-rim.is-far { z-index: 5; }
+
+  .baby-portal-rim.is-left.is-near,
+  .baby-portal-rim.is-right.is-far {
+    clip-path: inset(0 0 0 50%); /* right half */
+  }
+
+  .baby-portal-rim.is-left.is-far,
+  .baby-portal-rim.is-right.is-near {
+    clip-path: inset(0 50% 0 0); /* left half */
+  }
+
+  .baby-portal-rim::before,
+  .baby-portal-rim::after {
+    content: "";
+    @apply absolute;
+    inset: 0;
+    border-radius: 50%;
+  }
+
+  /* Embers drifting round the rim, not sparks whipping round it.
+     Cosy is mostly slowness and softness: these are fewer (one every 20deg
+     rather than 14), wider, dimmer and blurrier than the electric version, and
+     they take 20s to go round instead of 7. The core is a warm white rather
+     than an icy one, so it reads as candlelight caught in the ring and ties to
+     the lamplight wash behind the page. */
+  .baby-portal-rim::before {
+    background:
+      repeating-conic-gradient(
+        from var(--portal-a),
+        transparent 0deg 8.6deg, rgba(255, 246, 232, 0.62) 9.2deg 10.8deg, transparent 11.4deg 20deg
+      ),
+      repeating-conic-gradient(
+        from var(--portal-a),
+        transparent 0deg 7deg, rgba(76, 201, 240, 0.45) 8.4deg 11.6deg, transparent 13deg 20deg
+      );
+    -webkit-mask: radial-gradient(closest-side, transparent 0 84%, #000 88% 99%, transparent 100%);
+    mask: radial-gradient(closest-side, transparent 0 84%, #000 88% 99%, transparent 100%);
+    animation: baby-portal-sweep 20s linear infinite;
+    filter: blur(0.9px);
+  }
+
+  /* a sparser violet set drifting the other way on a deliberately unrelated
+     period, so the two never settle into a repeating pattern you can follow */
+  .baby-portal-rim::after {
+    inset: 3px;
+    background:
+      repeating-conic-gradient(
+        from var(--portal-a),
+        transparent 0deg 15.4deg, rgba(247, 236, 255, 0.5) 16.2deg 18.2deg, transparent 19deg 34deg
+      ),
+      repeating-conic-gradient(
+        from var(--portal-a),
+        transparent 0deg 13.5deg, rgba(157, 78, 221, 0.5) 15deg 19.4deg, transparent 21deg 34deg
+      );
+    -webkit-mask: radial-gradient(closest-side, transparent 0 79%, #000 84% 98%, transparent 100%);
+    mask: radial-gradient(closest-side, transparent 0 79%, #000 84% 98%, transparent 100%);
+    animation: baby-portal-sweep 13s linear infinite reverse;
+    filter: blur(1.1px);
+  }
+
+  /* chunkier limbs. The viewBox is shared with the adult, so without this the
+     baby's bones scale down to hairlines that read as spindly, not stubby. */
+  .baby-kinesin .kinesin-bone {
+    stroke-width: 6;
+  }
+
+  .baby-kinesin .kinesin-stalk {
+    stroke-width: 4.5;
+  }
+
+  /* quicker steps than the adult's 1.8s — little legs, higher cadence */
+  .baby-kinesin .kinesin-thigh,
+  .baby-kinesin .kinesin-shin {
+    animation-duration: 1.05s;
+  }
+
+  /* the knee moved up with the shorter shin, so the shin must pivot there */
+  .baby-kinesin .kinesin-shin {
+    transform-origin: 70px 154px;
+  }
+
+  /* keep the two legs exactly half a cycle apart at the new duration (the
+     adult's -0.9s would desync a 1.05s gait into a limp) */
+  .baby-kinesin .kinesin-leg-b .kinesin-thigh,
+  .baby-kinesin .kinesin-leg-b .kinesin-shin {
+    animation-delay: -0.525s;
+  }
+
+  /* a toddle: bob plus a side-to-side weight shift, in step with the legs */
+  .baby-kinesin .kinesin-body {
+    animation: baby-kinesin-toddle 1.05s ease-in-out infinite;
+  }
+
+  /* the little vesicle jiggles faster than the adult's ponderous float */
+  .baby-kinesin .kinesin-cargo-group {
+    animation-duration: 2.2s;
+  }
+
+  .baby-kinesin-bubble {
+    @apply max-w-[150px] text-[11px] md:text-xs px-2.5 py-1.5;
+    left: 62%;
+    top: -6%;
+  }
+
+  .baby-kinesin-bubble::after {
+    left: 10px;
+    border-left-width: 6px;
+    border-right-width: 6px;
+    border-top-width: 6px;
+    bottom: -6px;
   }
 
   .cta-wrapper {
