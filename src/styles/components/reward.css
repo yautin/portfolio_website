@@ -24,7 +24,18 @@
 
   .reward-link {
     @apply underline cursor-pointer;
-    color: var(--accent, #4cc9f0);
+    color: var(--accent-ink, var(--brand-1));
+  }
+
+  /* Disconnect: rare and mildly destructive, so it stops shouting. Underline
+     only on hover/focus, so it still announces itself as a control. */
+  .reward-link.is-quiet {
+    @apply no-underline text-blue-50;
+  }
+  .reward-link.is-quiet:hover,
+  .reward-link.is-quiet:focus-visible {
+    @apply underline;
+    color: var(--fg-strong);
   }
 
   .reward-actions { @apply flex flex-wrap justify-center gap-2 mt-1; }
@@ -56,25 +67,54 @@
   .reward-wallet {
     @apply rounded-2xl border border-black-50 bg-black-100 p-5 flex flex-col gap-3;
     box-shadow: var(--card-shadow);
+
+    /* Same derivation as .fun-card, and needed for the same reason: a custom
+       property resolves var() where it is DECLARED, so --accent-ink cannot be
+       computed once at :root and re-derived by descendants. Each element that
+       owns an --accent must derive its own ink. */
+    --accent: var(--brand-1);
+    --accent-ink: color-mix(in srgb, var(--accent) 68%, var(--fg-strong));
+  }
+
+  :root[data-theme="light"] .reward-wallet {
+    --accent-ink: color-mix(in srgb, var(--accent) 45%, var(--fg-strong));
   }
   .reward-wallet-title {
     @apply text-base font-bold;
     color: var(--fg-strong);
   }
   .reward-wallet-note { @apply text-xs text-blue-50 leading-relaxed; }
+  /* address + balance read as one unit; the actions below are a separate one.
+     Everything was previously on the card's uniform 12px gap, so nothing
+     grouped. */
+  .reward-wallet-account { @apply flex flex-col gap-2; }
   .reward-wallet-row { @apply flex items-center justify-between gap-2; }
   .reward-wallet-addr {
-    @apply text-sm font-semibold font-mono;
+    @apply inline-flex items-center gap-1.5 text-sm font-semibold font-mono;
     color: var(--fg-strong);
   }
   .reward-wallet-balance { @apply flex flex-col gap-0.5; }
+  .reward-wallet-label {
+    @apply text-[10px] font-semibold uppercase tracking-wider text-blue-50;
+  }
+  .reward-wallet-amount-row { @apply flex flex-wrap items-baseline gap-2; }
+  /* the balance is what a wallet card is FOR — it was previously the fourth
+     most prominent thing on it, behind three buttons */
   .reward-wallet-amount {
-    @apply text-lg font-bold;
+    @apply text-3xl font-bold leading-none;
     background: var(--brand-grad);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
+  /* ties a zero balance to the reason it is zero */
+  .reward-wallet-pending {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold;
+    color: var(--accent-ink);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  }
+
   /* Shown while the post-claim balance poll is in flight, so a number that
      hasn't moved yet reads as "settling" rather than "broken". */
   .reward-wallet-settling {
@@ -99,7 +139,7 @@
   .reward-wallet-actions { @apply flex flex-wrap gap-2; }
   .reward-wallet-signin {
     @apply text-xs leading-relaxed font-semibold;
-    color: #f4a259;
+    color: var(--warn-ink);
   }
 
   @keyframes reward-in {

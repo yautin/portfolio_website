@@ -3,19 +3,17 @@ import KinesinFigure from "../components/KinesinFigure";
 import MicrotubuleTrack from "../components/MicrotubuleTrack";
 
 // The /fun page's own kinesin: a smaller, rounder one toddling along a thin
-// microtubule under the header. Same anatomy component as the portfolio's adult
+// microtubule at the foot of the hub. Same anatomy component as the portfolio's adult
 // (src/components/KinesinFigure.jsx) with baby proportions; the shorter,
 // bouncier, slightly waddling gait is CSS (see kinesin.css).
 //
 // Poke it and it pipes up, like the grown-up one does — but it has not learned
 // to be grumpy yet.
 const chirps = [
-  "I'm walking! Look!",
+  "I'm walking!",
   "This vesicle is HEAVY.",
-  "Are we there yet?",
   "One ATP please. Two ATP?",
   "Mum says I'm a big motor now.",
-  "Left foot. Other left foot.",
 ];
 
 const BabyKinesin = () => {

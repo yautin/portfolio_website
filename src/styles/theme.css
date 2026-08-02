@@ -34,6 +34,9 @@
   --tub-a: #55617a;
   --tub-b: #3c4557;
   --card-shadow: none;
+  /* amber used for "you must sign in first" style notices. Needs its own token
+     because the dark value (#f4a259) only reaches 2.07:1 on the light surface. */
+  --warn-ink: #f4a259;
   /* theme toggle switch */
   --switch-track: #262b37;
   --switch-knob: #e8ebf2;
@@ -66,6 +69,7 @@
   --tub-a: #7f8ea8;
   --tub-b: #5f6b82;
   --card-shadow: 0 18px 44px -20px rgba(28, 46, 92, 0.28);
+  --warn-ink: #a1560a; /* same amber, darkened to clear AA on white */
   --switch-track: #cfe6f4;
   --switch-knob: #ffffff;
   --switch-ink: #e0892b;
@@ -151,4 +155,5 @@ body::after {
   --btn-bg: #ffffff;
   --btn-fg: #0b0d12;
   --card-shadow: none;
+  --warn-ink: #f4a259;
 }
