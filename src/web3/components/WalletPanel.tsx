@@ -6,6 +6,7 @@ import { injected } from "wagmi/connectors";
 import { EXPLORER, REWARD_CHAIN, TOKEN_ADDRESS, TOKEN_META } from "../config";
 import { watchRewardToken } from "../watchAsset";
 import { useBatchClaim } from "../hooks/useBatchClaim";
+import MetaMaskFox from "./MetaMaskFox";
 import type { RewardItem } from "../types";
 
 const truncate = (a: Address) => `${a.slice(0, 6)}…${a.slice(-4)}`;
@@ -90,6 +91,14 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
   const busy = claimer.status === "connecting" || claimer.status === "signing" || claimer.status === "minting";
   const busyLabel = claimer.status === "connecting" ? "Connecting…" : claimer.status === "signing" ? "Waiting for signature…" : "Minting…";
 
+  // Signing in is a prerequisite, so it is rendered BEFORE the control it gates
+  // in every branch. It used to sit at the bottom of the card, which meant that
+  // when connected-but-signed-out you were shown an address, a balance and two
+  // utility buttons, and only then told why no Claim button existed.
+  const signInNote = (
+    <p className="reward-wallet-signin">🔒 Sign in to your account to claim rewards.</p>
+  );
+
   return (
     <div className="reward-wallet">
       <h3 className="reward-wallet-title">🪙 Rewards wallet</h3>
@@ -97,7 +106,11 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
       {!hasInjectedWallet() ? (
         <>
           <p className="reward-wallet-note">Install MetaMask to hold your ${TOKEN_META.symbol} rewards.</p>
-          <a className="reward-btn is-primary" href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer">Install MetaMask</a>
+          {!isSignedIn && signInNote}
+          <a className="reward-btn is-metamask" href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer">
+            <MetaMaskFox />
+            Install MetaMask
+          </a>
         </>
       ) : !isConnected || !address ? (
         <>
@@ -105,21 +118,47 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
             {n > 0 ? `You have ${n} unclaimed reward${n === 1 ? "" : "s"}. ` : ""}
             Connect to view your ${TOKEN_META.symbol} balance on {REWARD_CHAIN.name}.
           </p>
-          <button type="button" className="reward-btn is-primary" disabled={isPending} onClick={() => connect({ connector })}>
+          {!isSignedIn && signInNote}
+          <button type="button" className="reward-btn is-metamask" disabled={isPending} onClick={() => connect({ connector })}>
+            <MetaMaskFox />
             {isPending ? "Connecting…" : "Connect MetaMask"}
           </button>
         </>
       ) : (
         <>
-          <div className="reward-wallet-row">
-            <span className="reward-wallet-addr" title={address}>{truncate(address)}</span>
-            <button type="button" className="reward-link" onClick={() => disconnect()}>Disconnect</button>
-          </div>
-          <div className="reward-wallet-balance">
-            <span className="reward-wallet-amount">{balanceText}</span>
-            {settling && (
-              <span className="reward-wallet-settling" aria-live="polite">updating…</span>
+          {/* who you are + what you hold: one group, ahead of anything to do */}
+          <div className="reward-wallet-account">
+            <div className="reward-wallet-row">
+              {/* the fox keeps MetaMask present after login — connecting used to
+                  replace a big branded button with no wallet identity at all */}
+              <span className="reward-wallet-addr" title={address}>
+                <MetaMaskFox size={14} />
+                {truncate(address)}
+              </span>
+              <button type="button" className="reward-link is-quiet" onClick={() => disconnect()}>Disconnect</button>
+            </div>
+
+            {/* network state belongs with the connection, and before the balance
+                it explains — it used to sit under the Claim button */}
+            {wrongNetwork && (
+              <p className="reward-wallet-note">
+                Rewards live on {REWARD_CHAIN.name}.{" "}
+                <button type="button" className="reward-link" onClick={() => switchChain({ chainId: REWARD_CHAIN.id })}>Switch network</button>{" "}
+                to see the token in your wallet.
+              </p>
             )}
+
+            <div className="reward-wallet-balance">
+              <span className="reward-wallet-label">Balance</span>
+              <span className="reward-wallet-amount-row">
+                <span className="reward-wallet-amount">{balanceText}</span>
+                {settling ? (
+                  <span className="reward-wallet-settling" aria-live="polite">updating…</span>
+                ) : n > 0 ? (
+                  <span className="reward-wallet-pending">+{n} ready to claim</span>
+                ) : null}
+              </span>
+            </div>
           </div>
 
           {claimer.status === "success" && claimer.result ? (
@@ -129,7 +168,9 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
                 : `✓ Claimed ${claimer.result.count} reward${claimer.result.count === 1 ? "" : "s"}! `}
               <a className="reward-link" href={claimer.result.explorerUrl} target="_blank" rel="noopener noreferrer">BaseScan ↗</a>
             </p>
-          ) : !isSignedIn ? null : n > 0 ? (
+          ) : !isSignedIn ? (
+            signInNote
+          ) : n > 0 ? (
             <>
               {claimer.error && <p className="reward-error">{claimer.error}</p>}
               <button type="button" className="reward-btn is-primary" disabled={busy} onClick={claimer.claim}>
@@ -140,23 +181,23 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
             <p className="reward-wallet-sub">All rewards claimed ✓ — beat a new level to earn more.</p>
           )}
 
-          {wrongNetwork && (
-            <p className="reward-wallet-note">
-              Rewards live on {REWARD_CHAIN.name}.{" "}
-              <button type="button" className="reward-link" onClick={() => switchChain({ chainId: REWARD_CHAIN.id })}>Switch network</button>{" "}
-              to view the token.
-            </p>
-          )}
           <div className="reward-wallet-actions">
-            <button type="button" className="reward-btn is-ghost" onClick={watchRewardToken}>Add ${TOKEN_META.symbol}</button>
+            {/* "Add $CULT" read as "acquire more"; it adds the token to the
+                wallet's watch list (EIP-747) */}
+            <button type="button" className="reward-btn is-ghost" onClick={watchRewardToken}>Add to MetaMask</button>
             <a className="reward-btn is-ghost" href={`${EXPLORER}/token/${TOKEN_ADDRESS}?a=${address}`} target="_blank" rel="noopener noreferrer">BaseScan ↗</a>
           </div>
         </>
       )}
 
-      {!isSignedIn && (
-        <p className="reward-wallet-signin">🔒 Sign in to your account to claim rewards.</p>
-      )}
+      {/* Deliberately outside every state branch, so it is visible at the one
+          moment it matters most: when a real balance and a Claim button are on
+          screen. The chain name comes from config rather than being typed out,
+          so this can't quietly go stale if the deployment moves. */}
+      <p className="reward-wallet-disclaimer">
+        Demo token on {REWARD_CHAIN.name}, a test network. ${TOKEN_META.symbol} has no
+        monetary value and can&rsquo;t be bought, sold or traded.
+      </p>
     </div>
   );
 }

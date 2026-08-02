@@ -143,6 +143,90 @@
   }
 }
 
+/* baby kinesin: walks portal centre to portal centre (see the note in
+   kinesin.css on why this animates `left` rather than translateX like the adult
+   does). The portals are 56px wide and flush to each end of the strip, so their
+   centres sit at 28px and calc(100% - 28px); the baby's button is 60px wide,
+   hence the 30px offsets that put ITS centre on those points. Change the portal
+   width and change these too. */
+@keyframes baby-kinesin-walk {
+  from {
+    left: -2px;
+  }
+  to {
+    left: calc(100% - 58px);
+  }
+}
+
+/* Stepping through the event horizon: the walker shrinks and dims as it reaches
+   each portal's centre, so it reads as receding INTO the mouth rather than
+   simply vanishing behind a disc. 4% of the lap at each end is roughly the time
+   its body spends inside the 84px portal. */
+/* the ember glow inside each portal, breathing like a banked fire */
+@keyframes baby-portal-breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+}
+
+@keyframes baby-kinesin-transit {
+  0% {
+    opacity: 0;
+    transform: scale(0.42);
+  }
+  4% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  96% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.42);
+  }
+}
+
+/* Sweep the GRADIENT's start angle, never the element.
+   Rotating the rim box with transform:rotate() tumbled the whole ellipse — it
+   only looked stable back when the portal was a square box behind a circular
+   mask. Animating a registered <angle> custom property spins the sparks around
+   a rim that stays exactly where it is. Both pseudo-elements read the same
+   property name and each holds its own value, so one keyframe drives both. */
+@property --portal-a {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes baby-portal-sweep {
+  from {
+    --portal-a: 0deg;
+  }
+  to {
+    --portal-a: 360deg;
+  }
+}
+
+/* toddle: the bob of the adult's gait plus a side-to-side weight shift, because
+   a baby hasn't got the core strength to keep the cargo level yet */
+@keyframes baby-kinesin-toddle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(2px) rotate(3deg);
+  }
+}
+
 /* speech bubble entrance when the kinesin is poked */
 @keyframes kinesin-bubble-pop {
   from {
@@ -160,12 +244,38 @@
     animation: none;
   }
 
+  /* the hub cards keep their colour/shadow hover, but stop moving */
+  .fun-card,
+  .fun-card-cover img {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .fun-card:hover,
+  .fun-card:hover .fun-card-cover img {
+    transform: none;
+  }
+
   .kinesin,
   .kinesin-body,
   .kinesin-thigh,
   .kinesin-shin,
   .kinesin-cargo-group,
-  .kinesin-bubble {
+  .kinesin-bubble,
+  .baby-kinesin,
+  .baby-portal-rim::before,
+  .baby-portal-rim::after,
+  .baby-portal-mouth::before {
     animation: none;
+  }
+
+  /* the walk animation supplied the baby's `left`, so pin it somewhere sensible
+     on the track now that the animation is off (the adult sits at left: 0 by
+     rule, and only its transform was animated) */
+  .baby-kinesin {
+    left: 12%;
+    /* the transit animation is off too, and its 0% frame is opacity:0 — without
+       this the pinned baby would be invisible */
+    opacity: 1;
+    transform: none;
   }
 }
