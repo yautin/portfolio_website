@@ -6,6 +6,7 @@ import { injected } from "wagmi/connectors";
 import { EXPLORER, REWARD_CHAIN, TOKEN_ADDRESS, TOKEN_META } from "../config";
 import { watchRewardToken } from "../watchAsset";
 import { useBatchClaim } from "../hooks/useBatchClaim";
+import MetaMaskFox from "./MetaMaskFox";
 import type { RewardItem } from "../types";
 
 const truncate = (a: Address) => `${a.slice(0, 6)}…${a.slice(-4)}`;
@@ -97,7 +98,10 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
       {!hasInjectedWallet() ? (
         <>
           <p className="reward-wallet-note">Install MetaMask to hold your ${TOKEN_META.symbol} rewards.</p>
-          <a className="reward-btn is-primary" href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer">Install MetaMask</a>
+          <a className="reward-btn is-metamask" href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer">
+            <MetaMaskFox />
+            Install MetaMask
+          </a>
         </>
       ) : !isConnected || !address ? (
         <>
@@ -105,7 +109,8 @@ export default function WalletPanel({ isSignedIn, claimable, getAccessToken, onC
             {n > 0 ? `You have ${n} unclaimed reward${n === 1 ? "" : "s"}. ` : ""}
             Connect to view your ${TOKEN_META.symbol} balance on {REWARD_CHAIN.name}.
           </p>
-          <button type="button" className="reward-btn is-primary" disabled={isPending} onClick={() => connect({ connector })}>
+          <button type="button" className="reward-btn is-metamask" disabled={isPending} onClick={() => connect({ connector })}>
+            <MetaMaskFox />
             {isPending ? "Connecting…" : "Connect MetaMask"}
           </button>
         </>

@@ -37,6 +37,18 @@
     @apply text-white border-transparent;
   }
   .reward-btn.is-primary:disabled { @apply opacity-60 cursor-not-allowed; }
+
+  /* Wallet-provider button, same treatment as .fun-btn.is-google in the auth
+     card directly above it: a multi-colour brand mark needs a neutral surface.
+     MetaMask's orange fox on the cyan→violet brand gradient sits opposite it on
+     the colour wheel and vibrates. Keeping the gradient reserved for "Claim"
+     also gives the card a clearer hierarchy — one CTA, one accent. */
+  .reward-btn.is-metamask {
+    @apply w-full bg-white border-black-50;
+    color: #1f2430;
+  }
+  .reward-btn.is-metamask:hover { @apply bg-white/90; }
+  .reward-btn.is-metamask:disabled { @apply opacity-60 cursor-not-allowed; }
   .reward-btn.is-ghost { @apply bg-transparent border-black-50 text-white-50; }
   .reward-btn.is-ghost:hover { color: var(--fg-strong); }
 
