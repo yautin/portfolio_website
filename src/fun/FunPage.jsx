@@ -100,9 +100,6 @@ const FunPage = () => {
         <p className="fun-header-tag">Just some games for fun</p>
       </header>
 
-      {/* the portfolio's kinesin has a kid, and it lives here */}
-      <BabyKinesin />
-
       <div className="fun-body">
         {/* a div, not <section>: the global `section { width: 100dvw }` rule
             (for the portfolio's full-bleed bands) would force this to viewport
@@ -168,6 +165,9 @@ const FunPage = () => {
           )}
         </aside>
       </div>
+
+      {/* the portfolio's kinesin has a kid, and it lives down here */}
+      <BabyKinesin />
 
       {activeGame && (
         <Suspense fallback={null}>

@@ -118,10 +118,12 @@
      Shares the anatomy and the leg-gait keyframes with the adult above; what
      makes it read as a baby is proportion (KinesinFigure's "baby" geometry)
      plus a quicker, bouncier, waddling gait set here. */
+  /* sits at the foot of the hub, below the cards — so it needs clearance above
+     it rather than below (.fun-page's own py-8/py-12 supplies the rest) */
   .baby-kinesin-strip {
     @apply relative w-full overflow-hidden;
     height: 100px;
-    margin-bottom: 0.5rem;
+    margin-top: 2rem;
   }
 
   .baby-kinesin-track {
