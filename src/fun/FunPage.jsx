@@ -7,6 +7,7 @@ import { usePageTransition } from "../components/pageTransitionContext";
 import { GAMES, gameById } from "./games";
 import CellField from "./CellField";
 import AuthCard from "./AuthCard";
+import BabyKinesin from "./BabyKinesin";
 import { clearLocal, deleteSave } from "./saveSync";
 import { rewardsEnabled } from "./rewards";
 import { useSession } from "./hooks/useSession";
@@ -50,7 +51,7 @@ const FunPage = () => {
   useGSAP(
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      gsap.from(".fun-header, .fun-card, .fun-side", {
+      gsap.from(".fun-header, .baby-kinesin-strip, .fun-card, .fun-side", {
         opacity: 0,
         y: 24,
         duration: 0.6,
@@ -98,6 +99,9 @@ const FunPage = () => {
         </Link>
         <p className="fun-header-tag">Just some games for fun</p>
       </header>
+
+      {/* the portfolio's kinesin has a kid, and it lives here */}
+      <BabyKinesin />
 
       <div className="fun-body">
         {/* a div, not <section>: the global `section { width: 100dvw }` rule

@@ -143,6 +143,29 @@
   }
 }
 
+/* baby kinesin: walks the width of its own strip (see the note in kinesin.css
+   on why this animates `left` rather than translateX like the adult does) */
+@keyframes baby-kinesin-walk {
+  from {
+    left: -70px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+/* toddle: the bob of the adult's gait plus a side-to-side weight shift, because
+   a baby hasn't got the core strength to keep the cargo level yet */
+@keyframes baby-kinesin-toddle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(2px) rotate(3deg);
+  }
+}
+
 /* speech bubble entrance when the kinesin is poked */
 @keyframes kinesin-bubble-pop {
   from {
@@ -165,7 +188,15 @@
   .kinesin-thigh,
   .kinesin-shin,
   .kinesin-cargo-group,
-  .kinesin-bubble {
+  .kinesin-bubble,
+  .baby-kinesin {
     animation: none;
+  }
+
+  /* the walk animation supplied the baby's `left`, so pin it somewhere sensible
+     on the track now that the animation is off (the adult sits at left: 0 by
+     rule, and only its transform was animated) */
+  .baby-kinesin {
+    left: 12%;
   }
 }

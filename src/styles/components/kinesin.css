@@ -114,6 +114,89 @@
     opacity: 0.6;
   }
 
+  /* ---- Baby kinesin (the /fun page's toddler) ------------------------------
+     Shares the anatomy and the leg-gait keyframes with the adult above; what
+     makes it read as a baby is proportion (KinesinFigure's "baby" geometry)
+     plus a quicker, bouncier, waddling gait set here. */
+  .baby-kinesin-strip {
+    @apply relative w-full overflow-hidden;
+    height: 100px;
+    margin-bottom: 0.5rem;
+  }
+
+  .baby-kinesin-track {
+    @apply absolute inset-x-0 w-full;
+    bottom: 0.75rem;
+    height: 15px;
+    opacity: 0.5;
+  }
+
+  .baby-kinesin {
+    @apply absolute border-0 bg-transparent p-0 cursor-pointer;
+    width: 60px;
+    height: 78px;
+    bottom: 0.9rem;
+    /* `left` percentages resolve against the strip, so the walk is bounded by
+       the strip's own width. translateX percentages would resolve against the
+       54px element instead, and a viewport-width translate (what the adult band
+       uses, since it IS full-bleed) would strand the baby off-stage for most of
+       the loop inside this narrower, centred container. */
+    animation: baby-kinesin-walk 24s linear infinite;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+  }
+
+  /* chunkier limbs. The viewBox is shared with the adult, so without this the
+     baby's bones scale down to hairlines that read as spindly, not stubby. */
+  .baby-kinesin .kinesin-bone {
+    stroke-width: 6;
+  }
+
+  .baby-kinesin .kinesin-stalk {
+    stroke-width: 4.5;
+  }
+
+  /* quicker steps than the adult's 1.8s — little legs, higher cadence */
+  .baby-kinesin .kinesin-thigh,
+  .baby-kinesin .kinesin-shin {
+    animation-duration: 1.05s;
+  }
+
+  /* the knee moved up with the shorter shin, so the shin must pivot there */
+  .baby-kinesin .kinesin-shin {
+    transform-origin: 70px 154px;
+  }
+
+  /* keep the two legs exactly half a cycle apart at the new duration (the
+     adult's -0.9s would desync a 1.05s gait into a limp) */
+  .baby-kinesin .kinesin-leg-b .kinesin-thigh,
+  .baby-kinesin .kinesin-leg-b .kinesin-shin {
+    animation-delay: -0.525s;
+  }
+
+  /* a toddle: bob plus a side-to-side weight shift, in step with the legs */
+  .baby-kinesin .kinesin-body {
+    animation: baby-kinesin-toddle 1.05s ease-in-out infinite;
+  }
+
+  /* the little vesicle jiggles faster than the adult's ponderous float */
+  .baby-kinesin .kinesin-cargo-group {
+    animation-duration: 2.2s;
+  }
+
+  .baby-kinesin-bubble {
+    @apply max-w-[150px] text-[11px] md:text-xs px-2.5 py-1.5;
+    left: 62%;
+    top: -6%;
+  }
+
+  .baby-kinesin-bubble::after {
+    left: 10px;
+    border-left-width: 6px;
+    border-right-width: 6px;
+    border-top-width: 6px;
+    bottom: -6px;
+  }
+
   .cta-wrapper {
     @apply relative z-20 inline-block cursor-pointer;
   }
