@@ -11,6 +11,7 @@ export {
   getDifficulty,
   getBestFor,
   getStats,
+  getClearedModes,
   fmtTime,
 } from "./td/defs";
 
@@ -21,7 +22,7 @@ import {
   SAVE_EVENT,
   DIFFICULTIES,
   DIFFICULTY_ORDER,
-  getBestFor,
+  getClearedModes,
 } from "./td/defs";
 
 // Lazy factory loader consumed by the generic GameShell (resolves to the
@@ -53,5 +54,6 @@ export const rewardLevels = DIFFICULTY_ORDER;
 export const levelLabel = (level) =>
   DIFFICULTIES[level] ? `${DIFFICULTIES[level].label} chip` : null;
 
-/** A difficulty counts as beaten once it has a recorded best time (won ≥ once). */
-export const beatenLevels = () => rewardLevels.filter((d) => getBestFor(d) != null);
+/** A difficulty counts as beaten once it has a recorded best time (won ≥ once) —
+    the same predicate the menu's cleared count uses, defined once in td/defs. */
+export const beatenLevels = () => getClearedModes();

@@ -72,7 +72,16 @@ export const setDifficulty = (k) => {
 
 export const getBest = () => readJSON(BEST_KEY);
 export const getBestFor = (diff) => getBest()[diff] ?? null;
+
+/** Lifetime runs won — every win, including repeats of a mode already cleared. */
 export const getStats = () => ({ wins: 0, ...readJSON(STATS_KEY) });
+
+// Which difficulties have been cleared, as opposed to how many runs were won.
+// A mode is cleared iff it has a recorded best time, so this needs no storage of
+// its own and is right retroactively for saves whose `wins` was inflated by
+// repeat clears. The single definition of "cleared" in the game — the reward
+// system reads it too, via beatenLevels() in ../index.js.
+export const getClearedModes = () => DIFFICULTY_ORDER.filter((d) => getBest()[d] != null);
 
 export function recordWin(diff, ms) {
   const best = getBest();
