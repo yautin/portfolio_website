@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -13,14 +13,6 @@ const colorFor = (area) => drugAreaColors[area] ?? "#839cb5";
 const DrugProducts = () => {
   const sectionRef = useRef(null);
 
-  // The legend doubles as a filter. Hover previews an area; clicking pins it so
-  // it works on touch too, where there is no hover to preview with. Pinning also
-  // pauses the marquee — without that the pills you just highlighted scroll
-  // straight out from under you.
-  const [pinnedArea, setPinnedArea] = useState(null);
-  const [hoverArea, setHoverArea] = useState(null);
-  const focusArea = hoverArea ?? pinnedArea;
-
   // spread the products across the marquee rows
   const rows = Array.from({ length: ROWS }, (_, r) =>
     drugProducts.filter((_, i) => i % ROWS === r)
@@ -28,9 +20,6 @@ const DrugProducts = () => {
 
   // only show legend entries that are actually used
   const usedAreas = [...new Set(drugProducts.map((d) => d.area))];
-
-  // how many products per area — derived, so it can never disagree with the list
-  const countFor = (area) => drugProducts.filter((d) => d.area === area).length;
 
   useGSAP(() => {
     gsap.fromTo(
@@ -71,26 +60,15 @@ const DrugProducts = () => {
 
         <div className="drug-legend">
           {usedAreas.map((area) => (
-            <button
-              key={area}
-              type="button"
-              className={`drug-legend-btn${pinnedArea === area ? " is-pinned" : ""}`}
-              aria-pressed={pinnedArea === area}
-              onClick={() => setPinnedArea((a) => (a === area ? null : area))}
-              onMouseEnter={() => setHoverArea(area)}
-              onMouseLeave={() => setHoverArea(null)}
-              onFocus={() => setHoverArea(area)}
-              onBlur={() => setHoverArea(null)}
-            >
+            <span key={area}>
               <span className="dot" style={{ background: colorFor(area) }} />
               {area}
-              <span className="drug-legend-count">{countFor(area)}</span>
-            </button>
+            </span>
           ))}
         </div>
       </div>
 
-      <div className={`drug-rows${focusArea ? " is-filtering" : ""}`}>
+      <div className="drug-rows">
         {rows.map((row, r) => (
           <div className="drug-marquee" key={r}>
             <div
@@ -101,9 +79,7 @@ const DrugProducts = () => {
               {[...row, ...row].map((drug, i) => (
                 <span
                   key={i}
-                  className={`drug-pill${
-                    focusArea && drug.area !== focusArea ? " is-dimmed" : ""
-                  }`}
+                  className="drug-pill"
                   style={{ "--accent": colorFor(drug.area) }}
                 >
                   <span className="drug-dot" />

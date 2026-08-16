@@ -7,57 +7,20 @@
     @apply px-5 md:px-20 max-w-3xl;
   }
 
-  /* The legend is a filter, not decoration: hover previews an area, clicking
-     pins it (so it works on touch, which has no hover to preview with). */
   .drug-legend {
-    @apply flex flex-wrap gap-x-3 gap-y-2 mt-7;
+    @apply flex flex-wrap gap-x-5 gap-y-2 mt-7;
+
+    span {
+      @apply inline-flex items-center gap-2 text-xs uppercase tracking-wider text-white-50;
+    }
 
     .dot {
-      @apply size-2 rounded-full flex-none;
+      @apply size-2 rounded-full;
     }
-  }
-
-  .drug-legend-btn {
-    @apply inline-flex items-center gap-2 rounded-full border border-transparent
-      px-3 py-1.5 text-xs uppercase tracking-wider text-white-50 cursor-pointer
-      transition-colors duration-200;
-    background: transparent;
-  }
-
-  .drug-legend-btn:hover,
-  .drug-legend-btn.is-pinned {
-    @apply border-black-50;
-    background: var(--color-black-100);
-    color: var(--fg-strong);
-  }
-
-  .drug-legend-btn:focus-visible {
-    outline: 2px solid var(--brand-1);
-    outline-offset: 2px;
-  }
-
-  /* breadth at a glance — derived from the product list, never hand-written */
-  .drug-legend-count {
-    @apply text-[10px] font-semibold tabular-nums rounded-full px-1.5 py-0.5;
-    background: color-mix(in srgb, currentColor 14%, transparent);
   }
 
   .drug-rows {
     @apply flex flex-col gap-4 md:gap-5 mt-12;
-  }
-
-  /* Filtering pauses the marquee. Without it the pills you just highlighted
-     scroll straight out from under you, which makes the filter useless. */
-  .drug-rows.is-filtering .drug-track {
-    animation-play-state: paused;
-  }
-
-  /* Pull the edge fade in while filtering. Paused + a wide fade means a pill
-     you have just highlighted can sit under the mask permanently, unreadable —
-     fine when it is scrolling past, useless when it has stopped. */
-  .drug-rows.is-filtering .drug-marquee {
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
   }
 
   .drug-marquee {
@@ -82,17 +45,11 @@
   .drug-pill {
     @apply inline-flex items-center gap-2 mr-4 md:mr-5 whitespace-nowrap rounded-full
       border border-black-50 bg-black-100 px-5 py-2.5 text-sm md:text-base text-white-50
-      cursor-default select-none;
-    transition: color 0.3s, background-color 0.3s, border-color 0.3s, opacity 0.3s, filter 0.3s;
+      transition-colors duration-300 cursor-default select-none;
 
     .drug-dot {
       @apply size-2 rounded-full flex-none;
       background: var(--accent);
-    }
-
-    &.is-dimmed {
-      @apply opacity-25;
-      filter: saturate(0.35);
     }
 
     &:hover {
