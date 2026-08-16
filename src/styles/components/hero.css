@@ -17,23 +17,25 @@
     @apply xl:w-[70%] w-full h-full min-h-[50vh] absolute xl:-top-20 top-24 xl:-right-20 right-0;
   }
 
-  /* Tablets: stack, don't overlay.
-     The 3D layer is absolutely positioned at every breakpoint, and below xl it
-     is also full-width — so it sits directly on top of the hero copy. That is
-     survivable on a phone only because HeroExperience scales the helix down and
-     pushes it to [0,-2.5,0], which drops it clear of the text. At iPad height
-     that offset is no longer enough and the helix lands on the paragraph and
-     button. Here the figure moves into normal flow beneath the copy instead.
+  /* Anything but the wide desktop layout: stack, don't overlay.
+     .hero-3d-layout is absolutely positioned at every breakpoint and full-width
+     below xl, so the canvas sits directly on top of the hero copy. The figure
+     moves into normal flow beneath the copy instead, in a box of its own.
 
-     Keyed on `hover: none` rather than a width range, because width alone gets
-     tablets wrong in both directions: a 12.9" iPad is 1366px in landscape and
-     would miss a max-width bound, while a 1366x768 laptop would wrongly match
-     one. "Touch device, wider than a phone" is the actual target. 769px pairs
-     with HeroExperience's `max-width: 768px`, which is inclusive.
+     Two conditions, either of which is enough, and deliberately so:
+       max-width 1279px  the real guarantee — the side-by-side desktop layout
+                         simply does not fit below xl, whatever the device is
+       hover: none       a backstop for a 12.9" iPad, which is 1366px in
+                         landscape and so clears the width bound
+
+     An earlier version keyed ONLY on hover, and did not take on the iPad that
+     reported this. Hover detection is not reliable enough to be load-bearing —
+     iPadOS reports hover: hover with a trackpad attached, and emulators differ
+     from devices — so the width bound carries the fix and hover only extends it.
 
      Mirrored by `stacked` in HeroExperience.jsx, which centres the helix once it
      has a box of its own — change one, change both. */
-  @media (hover: none) and (min-width: 769px) {
+  @media (max-width: 1279px), (hover: none) {
     .hero-layout {
       @apply flex-col items-stretch h-auto min-h-dvh gap-6 pb-12;
     }
@@ -42,8 +44,9 @@
       @apply w-full;
     }
 
+    /* shorter on phones, where the copy already fills most of the viewport */
     .hero-3d-layout {
-      @apply relative w-full h-[44vh] min-h-0 top-0 right-0;
+      @apply relative w-full h-[40vh] md:h-[46vh] min-h-0 top-0 right-0;
     }
   }
 

@@ -41,14 +41,13 @@ const HeroExperience = () => {
     // iPads (they're wider than 768px but still touch).
     const isTouch = useMediaQuery({ query: '(hover: none)' });
     const isNarrow = useMediaQuery({ query: '(max-width: 768px)' });
-    const compact = isTouch || isNarrow;
-    // Mirrors the tablet media query in hero.css, where the figure leaves the
-    // absolute overlay and stacks beneath the copy. Once it has a box of its
-    // own there is nothing to dodge, so the helix centres in it rather than
-    // being pushed down out of the text's way. Change one, change both.
-    // Composed from the two queries above so it cannot drift from them: a touch
-    // device wider than a phone is exactly a tablet.
-    const stacked = isTouch && !isNarrow;
+    // Mirrors `@media (max-width: 1279px), (hover: none)` in hero.css, where the
+    // figure leaves the absolute overlay and stacks beneath the copy. Once it
+    // has a box of its own there is nothing to dodge, so the helix centres in it
+    // rather than being pushed down out of the text's way.
+    // Change one, change both.
+    const belowXl = useMediaQuery({ query: '(max-width: 1279px)' });
+    const stacked = belowXl || isTouch;
     // brighter, cleaner illumination on the light theme so the helix reads as a
     // lit object rather than a dark-stage prop floating on a bright page
     const light = useTheme() === 'light';
@@ -75,8 +74,10 @@ const HeroExperience = () => {
 
         <PointerLean
             enabled={lean}
-            scale={stacked ? 0.75 : compact ? 0.6 : 0.9}
-            position={compact && !stacked ? [0, -2.5, 0] : [0, 0, 0]}
+            // nothing to dodge any more, so it always sits centred in its box;
+            // the downward shove only ever existed to clear the overlaid text
+            scale={isNarrow ? 0.6 : stacked ? 0.75 : 0.9}
+            position={[0, 0, 0]}
         >
             <DnaHelix light={light} />
         </PointerLean>
