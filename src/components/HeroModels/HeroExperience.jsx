@@ -48,6 +48,13 @@ const HeroExperience = () => {
     // Change one, change both.
     const belowXl = useMediaQuery({ query: '(max-width: 1279px)' });
     const stacked = belowXl || isTouch;
+    // Tablet in landscape, mirroring the nested query in that same block. The
+    // box is wide and short there, and since the fov is vertical the helix has
+    // width to spare — so it can be drawn larger than in the portrait box
+    // without crowding the canvas edges.
+    const landscape = useMediaQuery({
+        query: '(min-width: 768px) and (min-height: 600px) and (orientation: landscape)',
+    });
     // brighter, cleaner illumination on the light theme so the helix reads as a
     // lit object rather than a dark-stage prop floating on a bright page
     const light = useTheme() === 'light';
@@ -76,7 +83,7 @@ const HeroExperience = () => {
             enabled={lean}
             // nothing to dodge any more, so it always sits centred in its box;
             // the downward shove only ever existed to clear the overlaid text
-            scale={isNarrow ? 0.6 : stacked ? 0.75 : 0.9}
+            scale={isNarrow ? 0.6 : stacked ? (landscape ? 1 : 0.75) : 0.9}
             position={[0, 0, 0]}
         >
             <DnaHelix light={light} />

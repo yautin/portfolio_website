@@ -36,8 +36,13 @@
      Mirrored by `stacked` in HeroExperience.jsx, which centres the helix once it
      has a box of its own — change one, change both. */
   @media (max-width: 1279px), (hover: none) {
+    /* mt-32 is re-pinned, not inherited. A touch device at xl width would
+       otherwise pick up `xl:mt-20`, and 80px only ever cleared the fixed navbar
+       because the desktop row centred the header vertically (xl:items-center +
+       h-dvh). Stacking drops that centring, so at 1366 the h1 rendered 40px
+       BEHIND the navbar. Every stacked width now uses the same top margin. */
     .hero-layout {
-      @apply flex-col items-stretch h-auto min-h-dvh gap-6 pb-12;
+      @apply flex-col items-stretch h-auto min-h-dvh gap-6 pb-12 mt-32;
     }
 
     .hero-layout > figure {
@@ -47,6 +52,26 @@
     /* shorter on phones, where the copy already fills most of the viewport */
     .hero-3d-layout {
       @apply relative w-full h-[40vh] md:h-[46vh] min-h-0 top-0 right-0;
+    }
+
+    /* A tablet held in landscape: wide, but short. The canvas is sized by the
+       camera's 45° fov, which is VERTICAL — so the extra width buys nothing and
+       just pads the helix with empty space either side. Only height makes it
+       bigger. 46vh of an 834px viewport rendered it ~223px tall against ~658px
+       on desktop, which is what "much too small" was.
+
+       Height is the only lever pulled here. Trimming the top margin as well was
+       tried and reverted: mt-32 is what clears the navbar, and at 1194px cutting
+       it to mt-20 left the h1 almost touching the nav links to buy 48px the
+       canvas did not need. The hero runs past the fold in this orientation; that
+       is the accepted trade for a helix that reads at all.
+
+       min-height 600px keeps phones in landscape out — an iPhone is 390px tall
+       there, and 70vh of that is not worth reflowing for. */
+    @media (min-width: 768px) and (min-height: 600px) and (orientation: landscape) {
+      .hero-3d-layout {
+        @apply h-[70vh];
+      }
     }
   }
 
