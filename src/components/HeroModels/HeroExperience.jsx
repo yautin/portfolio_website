@@ -1,10 +1,39 @@
-import { Canvas } from '@react-three/fiber'
+import { useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { useMediaQuery } from 'react-responsive';
 import HeroLights from './HeroLights';
 import Particles from './Particles';
 import DnaHelix from './DnaHelix';
 import { useTheme } from '../../hooks/useTheme';
+
+// The helix leans a little toward the cursor.
+//
+// OrbitControls already lets you drag the camera, but that has to be discovered
+// — most visitors never try. A lean responds before you do anything, which is
+// what signals "this is alive" without asking for a gesture.
+//
+// Deliberately on the GROUP, not the camera: the camera belongs to
+// OrbitControls, and two things driving it would fight. It also stays off the Y
+// axis, which DnaHelix spins continuously — a Y offset there would just shift
+// the phase of a rotation you cannot see the start of anyway.
+//
+// The easing is intentionally slow. During a drag the pointer moves a long way,
+// and a snappy lean would read as the object resisting you rather than
+// following; lagging behind reads as inertia.
+const PointerLean = ({ enabled, children, ...groupProps }) => {
+    const ref = useRef();
+    useFrame((state, delta) => {
+        if (!ref.current) return;
+        const tiltX = enabled ? -state.pointer.y * 0.16 : 0;
+        const rollZ = enabled ? state.pointer.x * 0.10 : 0;
+        // frame-rate independent easing: same feel at 30fps and 144fps
+        const k = 1 - Math.pow(0.06, delta);
+        ref.current.rotation.x += (tiltX - ref.current.rotation.x) * k;
+        ref.current.rotation.z += (rollZ - ref.current.rotation.z) * k;
+    });
+    return <group ref={ref} {...groupProps}>{children}</group>;
+};
 
 const HeroExperience = () => {
     // Touch devices (phones, tablets, iPad) can't hover — disable interaction
@@ -16,6 +45,9 @@ const HeroExperience = () => {
     // brighter, cleaner illumination on the light theme so the helix reads as a
     // lit object rather than a dark-stage prop floating on a bright page
     const light = useTheme() === 'light';
+    // no pointer to follow on touch, and the lean is decorative motion
+    const reduced = useMediaQuery({ query: '(prefers-reduced-motion: reduce)' });
+    const lean = !isTouch && !reduced;
   return (
     <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
         <ambientLight intensity={light ? 0.9 : 0.3} color={light ? '#eef3fc' : '#a8c0ff'} />
@@ -34,9 +66,13 @@ const HeroExperience = () => {
         <HeroLights light={light} />
         <Particles count={100} light={light} />
 
-        <group scale={compact ? 0.6 : 0.9} position={compact ? [0, -2.5, 0] : [0, 0, 0]}>
+        <PointerLean
+            enabled={lean}
+            scale={compact ? 0.6 : 0.9}
+            position={compact ? [0, -2.5, 0] : [0, 0, 0]}
+        >
             <DnaHelix light={light} />
-        </group>
+        </PointerLean>
     </Canvas>
   )
 }
