@@ -17,6 +17,36 @@
     @apply xl:w-[70%] w-full h-full min-h-[50vh] absolute xl:-top-20 top-24 xl:-right-20 right-0;
   }
 
+  /* Tablets: stack, don't overlay.
+     The 3D layer is absolutely positioned at every breakpoint, and below xl it
+     is also full-width — so it sits directly on top of the hero copy. That is
+     survivable on a phone only because HeroExperience scales the helix down and
+     pushes it to [0,-2.5,0], which drops it clear of the text. At iPad height
+     that offset is no longer enough and the helix lands on the paragraph and
+     button. Here the figure moves into normal flow beneath the copy instead.
+
+     Keyed on `hover: none` rather than a width range, because width alone gets
+     tablets wrong in both directions: a 12.9" iPad is 1366px in landscape and
+     would miss a max-width bound, while a 1366x768 laptop would wrongly match
+     one. "Touch device, wider than a phone" is the actual target. 769px pairs
+     with HeroExperience's `max-width: 768px`, which is inclusive.
+
+     Mirrored by `stacked` in HeroExperience.jsx, which centres the helix once it
+     has a box of its own — change one, change both. */
+  @media (hover: none) and (min-width: 769px) {
+    .hero-layout {
+      @apply flex-col items-stretch h-auto min-h-dvh gap-6 pb-12;
+    }
+
+    .hero-layout > figure {
+      @apply w-full;
+    }
+
+    .hero-3d-layout {
+      @apply relative w-full h-[44vh] min-h-0 top-0 right-0;
+    }
+  }
+
   /* original hero backdrop: soft accent light-wells echoing the DNA-helix palette.
      --hero-tint adds a faint cool wash in light mode so the glowing 3D helix and
      particles stay legible against the light page. */
