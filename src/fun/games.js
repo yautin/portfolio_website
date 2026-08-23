@@ -17,7 +17,7 @@ import {
   controlsHint as microwellHint,
   getDifficulty as getMicrowellDifficulty,
   getBestFor as getMicrowellBest,
-  getStats as getMicrowellStats,
+  getClearedModes as getMicrowellCleared,
   fmtTime as fmtMicrowellTime,
   rewardLevels as microwellLevels,
   levelLabel as microwellLevelLabel,
@@ -113,10 +113,13 @@ export const GAMES = [
     hint: microwellHint,
     save: microwellSave,
     progress: () => {
-      const { wins } = getMicrowellStats();
-      if (!wins) return { label: "New chip" };
+      // distinct chips cleared, not lifetime wins — the old `wins` counter went
+      // up every time you cleared the same chip again
+      const cleared = getMicrowellCleared().length;
+      if (!cleared) return { label: "New chip" };
       const best = getMicrowellBest(getMicrowellDifficulty());
-      return { label: best != null ? `${wins} cleared · best ${fmtMicrowellTime(best)}` : `${wins} cleared` };
+      const label = `${cleared}/${microwellLevels.length} chips cleared`;
+      return { label: best != null ? `${label} · best ${fmtMicrowellTime(best)}` : label };
     },
     levels: microwellLevels,
     beatenLevels: microwellBeaten,
