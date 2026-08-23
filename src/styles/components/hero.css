@@ -45,13 +45,33 @@
       @apply flex-col items-stretch h-auto min-h-dvh gap-6 pb-12 mt-32;
     }
 
+    /* The figure absorbs the leftover height, and the canvas fills it absolutely.
+
+       Why bother: .hero-layout is min-h-dvh + justify-center, so whatever
+       vertical space the copy does not use gets dealt out as blank padding above
+       and below — ~190px of it on a 440x956 phone. Flexing the figure into that
+       turns reserved-but-empty page into helix at no cost to page height,
+       because the space was already being paid for. The vh values below are
+       FLOORS, not fixed heights: short viewports keep the old sizing, tall ones
+       stop wasting it.
+
+       The absolute positioning is load-bearing, not decoration. A percentage
+       height only resolves against a parent with a DEFINITE height, and a
+       flex-grown box with `height: auto` is not definite — so `height: 100%`
+       inside one collapses to auto. React Three Fiber's own root div is
+       `height: 100%`, so when the box was flex-sized the div collapsed to wrap
+       its canvas and the canvas fell back to its intrinsic 150px default:
+       .hero-3d-layout measured a correct 573px while the visible canvas inside
+       it was 150px, making the helix SMALLER than before the fix. Filling the
+       figure with `absolute inset-0` gives the box a definite height that
+       R3F's percentage can resolve against. Verified: canvas height now tracks
+       the box exactly at every breakpoint. */
     .hero-layout > figure {
-      @apply w-full;
+      @apply w-full flex-1 relative min-h-[40vh] md:min-h-[46vh];
     }
 
-    /* shorter on phones, where the copy already fills most of the viewport */
     .hero-3d-layout {
-      @apply relative w-full h-[40vh] md:h-[46vh] min-h-0 top-0 right-0;
+      @apply absolute inset-0 w-auto h-auto min-h-0;
     }
 
     /* A tablet held in landscape: wide, but short. The canvas is sized by the
@@ -67,10 +87,16 @@
        is the accepted trade for a helix that reads at all.
 
        min-height 600px keeps phones in landscape out — an iPhone is 390px tall
-       there, and 70vh of that is not worth reflowing for. */
+       there, and 70vh of that is not worth reflowing for.
+
+       A floor like the ones above, and set on the figure for the same reason —
+       it is the flex item; the canvas just fills it. So this orientation keeps
+       its larger size whether or not there is slack to flex into. The JS no
+       longer mirrors this query — every stacked view now shares one scale — so
+       this floor is the stylesheet's business alone. */
     @media (min-width: 768px) and (min-height: 600px) and (orientation: landscape) {
-      .hero-3d-layout {
-        @apply h-[70vh];
+      .hero-layout > figure {
+        @apply min-h-[70vh];
       }
     }
   }

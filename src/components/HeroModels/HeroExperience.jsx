@@ -40,7 +40,6 @@ const HeroExperience = () => {
     // there so the canvas never captures scroll gestures. Width alone misses
     // iPads (they're wider than 768px but still touch).
     const isTouch = useMediaQuery({ query: '(hover: none)' });
-    const isNarrow = useMediaQuery({ query: '(max-width: 768px)' });
     // Mirrors `@media (max-width: 1279px), (hover: none)` in hero.css, where the
     // figure leaves the absolute overlay and stacks beneath the copy. Once it
     // has a box of its own there is nothing to dodge, so the helix centres in it
@@ -48,13 +47,6 @@ const HeroExperience = () => {
     // Change one, change both.
     const belowXl = useMediaQuery({ query: '(max-width: 1279px)' });
     const stacked = belowXl || isTouch;
-    // Tablet in landscape, mirroring the nested query in that same block. The
-    // box is wide and short there, and since the fov is vertical the helix has
-    // width to spare — so it can be drawn larger than in the portrait box
-    // without crowding the canvas edges.
-    const landscape = useMediaQuery({
-        query: '(min-width: 768px) and (min-height: 600px) and (orientation: landscape)',
-    });
     // brighter, cleaner illumination on the light theme so the helix reads as a
     // lit object rather than a dark-stage prop floating on a bright page
     const light = useTheme() === 'light';
@@ -81,9 +73,17 @@ const HeroExperience = () => {
 
         <PointerLean
             enabled={lean}
-            // nothing to dodge any more, so it always sits centred in its box;
-            // the downward shove only ever existed to clear the overlaid text
-            scale={isNarrow ? 0.6 : stacked ? (landscape ? 1 : 0.75) : 0.9}
+            // Nothing to dodge any more, so it always sits centred in its box;
+            // the downward shove only ever existed to clear the overlaid text.
+            //
+            // One scale for every stacked view. The old per-device values (0.6
+            // on phones, 0.75 on a portrait tablet) were picked when the canvas
+            // was an absolute overlay that had to stay out of the copy's way,
+            // and were never revisited once stacking gave it a box of its own —
+            // which left the phone helix filling 48% of its canvas against the
+            // 82% a landscape tablet already had. Since the canvas now sizes
+            // itself to the space available, one value fills them all alike.
+            scale={stacked ? 1 : 0.9}
             position={[0, 0, 0]}
         >
             <DnaHelix light={light} />
