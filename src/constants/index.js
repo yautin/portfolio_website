@@ -25,7 +25,7 @@ const words = [
 // Headline stats — replace the values with your own figures.
 const counterItems = [
   { value: 9, suffix: "+", label: "Therapeutic areas covered" },
-  { value: 60, suffix: "+", label: "Promotional pieces delivered" },
+  { value: 70, suffix: "+", label: "Promotional pieces delivered" },
   { value: 1.5, suffix: "+", label: "Years in medical writing" },
 ];
 
