@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { RES, DIFFICULTIES, DIFFICULTY_ORDER, getDifficulty, setDifficulty, getBestFor, getStats, fmtTime } from "../td/defs";
+import { RES, DIFFICULTIES, DIFFICULTY_ORDER, getDifficulty, setDifficulty, getBestFor, getClearedModes, starsForTime, fmtTime } from "../td/defs";
 import { UI, viewport, ambience, gradientText, makeButton, REDUCED } from "../ui";
 
 const FONT = "'Mona Sans', system-ui, sans-serif";
@@ -61,25 +61,54 @@ export default class MenuScene extends Phaser.Scene {
       makeButton(this, spots[i], cy + 6, DIFFICULTIES[k].label, {
         variant: k === difficulty ? "primary" : "secondary", minWidth: 96, fontSize: 14, onClick: () => setDiff(k),
       });
+
+      // Cleared marker: stars by time for a cleared chip, a dim dot otherwise.
+      // A separate text object rather than part of the label, so makeButton
+      // still sizes to "Easy"/"Normal"/"Hard" and the three buttons stay equal
+      // width.
+      //
+      // Phaser lays text out at ~1.2x the font size, so an 11px row centred at
+      // cy+31 spans cy+24.4..cy+37.6: 1.4px clear of the buttons (which end at
+      // cy+23) and 8.6px clear of the chip-stats line below. The rest of the
+      // menu shifted down 10px to open that gap — at 12px and cy+32 the row
+      // overlapped the stats line by 3px.
+      const bestMs = getBestFor(k);
+      const cleared = bestMs != null;
+      const stars = cleared ? starsForTime(k, bestMs) : 0;
+      this.add.text(
+        spots[i],
+        cy + 31,
+        cleared ? "★".repeat(stars) + "☆".repeat(3 - stars) : "·",
+        {
+          resolution: RES,
+          fontFamily: FONT,
+          fontSize: "11px",
+          fontStyle: "700",
+          color: cleared ? UI.healCss : UI.dim,
+        }
+      ).setOrigin(0.5).setAlpha(cleared ? 1 : 0.55);
     });
 
-    // slide stats for the chosen difficulty
-    this.add.text(cx, cy + 44, `${d.cols}×${d.rows} chip   ·   ${d.mines} infected cells   ·   🔬 ${d.scans} scans`, {
+    // slide stats for the chosen difficulty (this and everything below sit 10px
+    // lower than they used to, to make room for the cleared markers above)
+    this.add.text(cx, cy + 54, `${d.cols}×${d.rows} chip   ·   ${d.mines} infected cells   ·   🔬 ${d.scans} scans`, {
       resolution: RES, fontFamily: FONT, fontSize: "13px", fontStyle: "600", color: UI.sub,
     }).setOrigin(0.5);
 
     const best = getBestFor(difficulty);
-    const { wins } = getStats();
-    this.add.text(cx, cy + 68, `Best  ${best != null ? fmtTime(best) : "—"}      Assays cleared  ${wins}`, {
+    // distinct modes, not lifetime wins — clearing the same chip twice used to
+    // add to this (see getClearedModes in td/defs)
+    const cleared = getClearedModes().length;
+    this.add.text(cx, cy + 78, `Best  ${best != null ? fmtTime(best) : "—"}      Chips cleared  ${cleared}/${DIFFICULTY_ORDER.length}`, {
       resolution: RES, fontFamily: FONT, fontSize: "12px", color: UI.dim,
     }).setOrigin(0.5);
 
-    const play = makeButton(this, cx, cy + 112, "▶  Run assay", {
+    const play = makeButton(this, cx, cy + 120, "▶  Run assay", {
       variant: "primary", minWidth: 220, fontSize: 17, onClick: () => this.start(),
     });
     if (!REDUCED) this.tweens.add({ targets: play, scaleX: 1.03, scaleY: 1.03, yoyo: true, repeat: -1, duration: 900, ease: "Sine.inOut" });
 
-    this.add.text(cx, cy + 150, "Left-click to probe a cell   ·   right-click or hold to flag infection   ·   click a number to chord", {
+    this.add.text(cx, cy + 158, "Left-click to probe a cell   ·   right-click or hold to flag infection   ·   click a number to chord", {
       resolution: RES, fontFamily: FONT, fontSize: "11px", color: UI.dim,
     }).setOrigin(0.5);
 
