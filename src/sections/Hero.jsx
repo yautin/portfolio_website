@@ -48,7 +48,7 @@ const Hero = () => {
                             <span className="hero-line">Medical Communications</span>
                         </h1>
                         <p className="text-white-50 md:text-xl relative z-10 pointer-events-none xl:max-w-xl">
-                            Hi! I'm Marco, a medical writer based in Hong Kong with a passion for transforming complex medical information.
+                            Hi! I'm Marco, a medical writer with a passion for transforming complex medical information.
                         </p>
                         <Button
                             className="md:w-80 md:h-16 w-60 h-12"
