@@ -7,7 +7,7 @@ import * as THREE from "three";
  * medical / life-sciences focus of the portfolio. Built entirely from
  * primitives (no .glb asset required) so it stays light and easy to tweak.
  */
-const DnaHelix = ({ count = 24, radius = 1.5, rise = 0.4, turns = 2.5, light = false }) => {
+const DnaHelix = ({ count = 24, radius = 1.5, rise = 0.4, turns = 2.5, light = false, still = false }) => {
   const group = useRef();
 
   const { nodes, rungs } = useMemo(() => {
@@ -42,6 +42,7 @@ const DnaHelix = ({ count = 24, radius = 1.5, rise = 0.4, turns = 2.5, light = f
   }, [count, radius, rise, turns]);
 
   useFrame((_, delta) => {
+    if (still) return; // prefers-reduced-motion: hold the pose, keep the object
     if (group.current) group.current.rotation.y += delta * 0.35;
   });
 

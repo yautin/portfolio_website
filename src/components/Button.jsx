@@ -1,16 +1,20 @@
 /**
- * The hero CTA: a brand-gradient pill that scrolls smoothly to the section
- * with ID "counter", with a small offset from the top for better placement.
+ * The hero CTA: a brand-gradient pill that scrolls smoothly to the work
+ * section, with a small offset from the top for better placement.
+ *
+ * The destination is #work, not #counter. It pointed at the stats band until
+ * now — inherited from the template, which had no separate work section — so
+ * the one button labelled "See my Work" was the one that did not go there.
  */
 
 const Button = ({ text, className, id }) => {
   return (
     <a
-      href="#counter"
+      href="#work"
       onClick={(e) => {
         e.preventDefault(); // stop the link from jumping instantly
 
-        const target = document.getElementById("counter");
+        const target = document.getElementById("work");
 
         // only scroll if we found the section and an ID is passed in
         // (prevents other instances from scrolling to the top)

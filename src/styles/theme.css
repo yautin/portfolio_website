@@ -30,6 +30,15 @@
   --hero-glow-2: rgba(157, 78, 221, 0.14);
   --hero-tint: none;
   --counter-grad: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
+
+  /* Filled-button gradient, deliberately NOT --brand-grad.
+     --brand-grad exists to be seen, so its cyan stop is bright: white on
+     #4cc9f0 is 1.9:1, and the primary CTA painted white label text across it.
+     No single ink clears AA on that gradient — white fails the cyan end, dark
+     ink fails the violet end — so the fill itself has to come down. Same hues,
+     deep enough that white clears 4.5:1 at BOTH stops (4.6:1 and 5.3:1).
+     Anything setting white text on brand colour uses this instead. */
+  --cta-grad: linear-gradient(120deg, #0e7ea6, #8f42d2);
   --kinesin-cargo: #c9d4e1;
   --tub-a: #55617a;
   --tub-b: #3c4557;
@@ -57,6 +66,8 @@
   --page-bg: #e8edf7; /* tinted base, clearly not white */
   --brand-1: #1596c9; /* darker gradient stops for contrast on light */
   --brand-2: #7b3fc4;
+  /* light's cyan stop is darker already, but still only 3.4:1 under white */
+  --cta-grad: linear-gradient(120deg, #0e7ea6, #7b3fc4);
   --fg-strong: #141a27;
   --btn-bg: #141a27; /* inverse: dark pill, light text */
   --btn-fg: #ffffff;
@@ -132,12 +143,22 @@ body::after {
 }
 
 
+/* Accent-coloured small text sits at brand saturation, which is tuned to be
+   seen as a fill rather than read as 14px type. On the dark cards --accent
+   lands at 3.6-3.9:1, under the floor, so lift it toward white; hue preserved.
+   The light theme has the mirror-image problem and its own rule just below. */
+.work-molecule,
+.distill-trial,
+.distill-trial sup {
+  color: color-mix(in srgb, var(--accent) 60%, #ffffff);
+}
+
 /* Accent-coloured small text needs a darker tint on the white surfaces so it
    keeps enough contrast (hue preserved, mixed toward ink). */
 :root[data-theme="light"] .work-molecule,
 :root[data-theme="light"] .distill-trial,
 :root[data-theme="light"] .distill-trial sup {
-  color: color-mix(in srgb, var(--accent) 68%, #0f131b);
+  color: color-mix(in srgb, var(--accent) 56%, #0f131b);
 }
 :root[data-theme="light"] .distill-metric {
   color: color-mix(in srgb, var(--accent) 84%, #0f131b);
@@ -169,6 +190,10 @@ body::after {
      :root where IT is declared, so re-pinning the stops here alone leaves every
      gradient still painting the bright originals. Same trap as --accent-ink. */
   --brand-grad: linear-gradient(120deg, var(--brand-1), var(--brand-2));
+  /* dimmed to match the hub, and still AA under white (5.2:1 / 6.2:1). The
+     dimmed --brand-1 above is 2.6:1 under white, and the "Play" and "Sign in"
+     labels sat on it in BOTH themes. */
+  --cta-grad: linear-gradient(120deg, #0d7396, #7a41ae);
 }
 
 :root[data-theme="light"] .fun-page {
@@ -179,6 +204,15 @@ body::after {
   --color-black-200: #efe9e0;
   --fg-strong: #29314a; /* 17.4:1 -> 12.1:1 */
   --provider-surface: #ffffff;
+  /* These two were a real bug, not a tuning choice. .fun-page re-pins
+     --color-white-50 and --color-blue-50 unscoped by theme, tuned for a dark
+     card; this light block re-pinned the surfaces but not the inks. So
+     switching to light flipped the card to #faf7f2 while the text stayed
+     dark-tuned, and every card blurb, the "or", "Create an account", "Forgot
+     password?", the wallet note and "Buy me a coffee" fell to 1.9:1 / 3.1:1.
+     Same roles, re-tuned for the light surface: 5.8:1 and 5.0:1 on the card. */
+  --color-white-50: #55607a;
+  --color-blue-50: #5f6a80;
 }
 
 /* The Immune Defense game stays dark in both themes: re-pin the dark token

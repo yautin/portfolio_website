@@ -1,6 +1,6 @@
 # Marco Ng — Portfolio
 
-A personal portfolio for **Marco Ng**, a medical writer based in Hong Kong who specialises in promotional and educational content for healthcare professionals (HCPs).
+A personal portfolio for **Marco Ng**, a medical writer who specialises in promotional and educational content for healthcare professionals (HCPs).
 
 The site is a single-page React application with an interactive 3D hero, scroll-driven animations, and purpose-built sections that reframe a traditional developer portfolio around medical communications. Motion is used deliberately and respects the visitor's reduced-motion preference throughout. Tucked in the footer is a **"For Fun" games hub** with two Phaser mini-games — **Immune Defense** (a browser tower-defense) and **Microwell** (a live-cell microfluidics minesweeper) — each lazy-loaded so it never affects the site's initial load.
 

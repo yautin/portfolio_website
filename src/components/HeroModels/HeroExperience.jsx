@@ -69,7 +69,7 @@ const HeroExperience = () => {
         />
 
         <HeroLights light={light} />
-        <Particles count={100} light={light} />
+        <Particles count={100} light={light} still={reduced} />
 
         <PointerLean
             enabled={lean}
@@ -86,7 +86,7 @@ const HeroExperience = () => {
             scale={stacked ? 1 : 0.9}
             position={[0, 0, 0]}
         >
-            <DnaHelix light={light} />
+            <DnaHelix light={light} still={reduced} />
         </PointerLean>
     </Canvas>
   )

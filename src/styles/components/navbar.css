@@ -81,7 +81,7 @@
     }
 
     .menu-toggle {
-      @apply lg:hidden flex items-center justify-center size-10 cursor-pointer;
+      @apply lg:hidden flex items-center justify-center size-11 cursor-pointer; /* was size-10 = 40px */
 
       img {
         @apply size-7;
@@ -95,6 +95,18 @@
 
     .theme-switch {
       @apply relative inline-flex items-center w-[52px] h-7 shrink-0 rounded-full border cursor-pointer p-0 transition-colors duration-300;
+
+      /* 52x28 is the right visual size here — growing the track would unbalance
+         the nav cluster — so the touch target is expanded invisibly instead. */
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 50% 0 0 50%;
+        translate: -50% -50%;
+        width: 100%;
+        min-width: 44px;
+        height: 44px;
+      }
       border-color: var(--color-black-50);
       background: var(--switch-track);
 

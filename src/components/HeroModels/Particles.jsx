@@ -22,11 +22,12 @@ const getField = (count) => {
   return fieldCache.get(count);
 };
 
-const Particles = ({ count = 200, light = false }) => {
+const Particles = ({ count = 200, light = false, still = false }) => {
   const mesh = useRef();
   const { positions, speeds } = getField(count);
 
   useFrame(() => {
+    if (still) return; // prefers-reduced-motion: the field stays where it is
     const pos = mesh.current.geometry.attributes.position.array;
     for (let i = 0; i < count; i++) {
       let y = pos[i * 3 + 1];

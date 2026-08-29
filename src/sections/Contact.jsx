@@ -114,7 +114,7 @@ const Contact = () => {
             <ul className="contact-links contact-reveal">
               {contactLinks.map((link) =>
                 link.href ? (
-                  <li key={link.label}>
+                  <li key={link.value}>
                     <a
                       className="contact-link"
                       href={link.href}
@@ -131,7 +131,7 @@ const Contact = () => {
                     </a>
                   </li>
                 ) : (
-                  <li key={link.label}>
+                  <li key={link.value}>
                     <span className="contact-link is-static">
                       <span className="label">{link.label}</span>
                       <span className="value">{link.value}</span>
@@ -224,7 +224,7 @@ const Contact = () => {
         <div className="inner">
           <div className="footer-brand">
             <p className="footer-name">Marco Ng</p>
-            <p className="footer-tag">Medical writer · Hong Kong</p>
+            <p className="footer-tag">Medical writer</p>
           </div>
 
           <nav className="footer-nav">

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>og-image source — Marco Ng</title>
+
+  <!--
+    SOURCE FOR public/og-image.png (1200x630 social share card).
+
+    The PNG used to be a committed binary with no source, which meant a one-word
+    copy change needed a design tool. Keep this file in step with the PNG.
+
+    To re-render (needs Chrome; run from the repo root):
+      python3 -m http.server 8099 &
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+        --headless=new --remote-debugging-port=9222 --user-data-dir=/tmp/og-chrome \
+        about:blank &
+      # drive Page.captureScreenshot at deviceScaleFactor 2 (2400x1260), then:
+      sips -z 630 1200 shot.png --out public/og-image.png
+
+    Rendering at 2x and downscaling is what keeps the type crisp; a straight 1x
+    screenshot renders the wordmark noticeably softer.
+
+    Lives in tools/ rather than public/ deliberately — anything in public/ is
+    copied into dist/ and served, and this is build tooling, not a site asset.
+
+    Colours below were sampled from the original PNG rather than guessed, so the
+    card keeps its exact palette. #15171e is the site's own background token.
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap" />
+
+  <style>
+    :root {
+      --ground: #15171e;
+      --cyan: #4dc8f0;
+      --periwinkle: #7986e6;
+      --violet: #9c50de;
+      --heading: #e8ebf2;
+      --body: #c4cdda;
+      --muted: #8b97ad;
+      --rung: #273040;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      position: relative;
+      background: var(--ground);
+      font-family: "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* the two corner washes the original carries: violet low-left, teal high-right */
+    .glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(58% 62% at 6% 100%, rgba(126, 62, 190, 0.30), transparent 72%),
+        radial-gradient(52% 58% at 100% 0%, rgba(46, 132, 168, 0.26), transparent 70%);
+    }
+
+    .card {
+      position: absolute;
+      inset: 0;
+      padding: 0 96px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.30em;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, var(--cyan), #60abeb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 34px;
+    }
+
+    .wordmark {
+      font-size: 96px;
+      font-weight: 800;
+      letter-spacing: -0.022em;
+      line-height: 1;
+      color: var(--heading);
+      margin-bottom: 40px;
+    }
+
+    .wordmark .dot { color: #7a84e5; }
+
+    .lede {
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.52;
+      color: var(--body);
+      max-width: 745px;
+      margin-bottom: 44px;
+    }
+
+    .rule {
+      width: 220px;
+      height: 5px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      margin-bottom: 26px;
+    }
+
+    .url { font-size: 19px; font-weight: 500; color: var(--muted); }
+
+    /* decorative motif; bleeds off the top and bottom edges like the original */
+    #helix { position: absolute; top: 0; left: 858px; width: 300px; height: 630px; }
+  </style>
+</head>
+
+<body>
+  <div class="glow"></div>
+
+  <svg id="helix" viewBox="0 0 300 630" aria-hidden="true"></svg>
+
+  <div class="card">
+    <p class="eyebrow">Medical Writer</p>
+    <h1 class="wordmark">Marco Ng<span class="dot">.</span></h1>
+    <p class="lede">
+      Shaping science, data, and evidence into clear, accurate medical
+      communications for healthcare professionals.
+    </p>
+    <div class="rule"></div>
+    <p class="url">marco-ng.com</p>
+  </div>
+
+  <script>
+    // Parametric double helix: two sine strands 180 degrees out of phase, joined
+    // by rungs. Drawn rather than hand-placed so the motif stays editable —
+    // change PERIOD/AMP/STEP and it re-lays itself out.
+    (function () {
+      const svg = document.getElementById("helix");
+      const NS = "http://www.w3.org/2000/svg";
+      // PERIOD measured off the original: its narrow points (where the strands
+      // cross) sit ~120px apart, and those are a HALF period, so 240. AMP 145
+      // reproduces the original's 863..1153 horizontal span.
+      const CX = 150, AMP = 145, PERIOD = 240, STEP = 24;
+
+      const add = (name, attrs) => {
+        const el = document.createElementNS(NS, name);
+        for (const k in attrs) el.setAttribute(k, attrs[k]);
+        svg.appendChild(el);
+        return el;
+      };
+
+      // rungs first so the nodes sit on top of them
+      for (let y = -120; y <= 750; y += STEP) {
+        const p = Math.sin((y / PERIOD) * Math.PI * 2);
+        add("line", {
+          x1: CX + AMP * p, y1: y, x2: CX - AMP * p, y2: y,
+          stroke: "#2c3548", "stroke-width": 2.2, "stroke-linecap": "round",
+          opacity: (0.85 * Math.abs(p) + 0.15).toFixed(3),
+        });
+      }
+
+      for (let y = -120; y <= 750; y += STEP) {
+        const p = Math.sin((y / PERIOD) * Math.PI * 2);
+        const depth = Math.cos((y / PERIOD) * Math.PI * 2); // +1 near, -1 far
+        // near nodes read a little larger and brighter — that is what sells depth
+        // on a flat drawing, and keeps the two strands legible where they cross
+        const node = (cx, near, fill) => add("circle", {
+          cx, cy: y, r: (6.6 + 2.0 * near).toFixed(2), fill,
+          opacity: (0.52 + 0.33 * ((near + 1) / 2)).toFixed(3),
+        });
+        node(CX + AMP * p, depth, "#9d4edd");
+        node(CX - AMP * p, -depth, "#4cc9f0");
+      }
+    })();
+  </script>
+</body>
+
+</html>
