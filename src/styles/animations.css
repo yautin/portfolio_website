@@ -261,6 +261,19 @@
     animation: none;
   }
 
+  /* The word slider and the CTA arrow were the two animations this block never
+     named, so they kept running for people who had asked the OS for stillness.
+     Pinning the slider to its first word keeps the headline a complete
+     sentence rather than a half-scrolled pair. */
+  .hero-text .slide .wrapper {
+    animation: none;
+    transform: none;
+  }
+
+  .cta-arrow {
+    animation: none;
+  }
+
   /* the hub cards keep their colour/shadow hover, but stop moving */
   .fun-card,
   .fun-card-cover img {

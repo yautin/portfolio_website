@@ -190,9 +190,9 @@ const contactLinks = [
     href: "tel:+85264099880",
   },
   {
-    label: "Based in",
-    value: "Hong Kong",
-    href: null,
+    label: "Phone (alt)",
+    value: "+1 (902) 213 7839",
+    href: "tel:+19022137839",
   },
 ];
 

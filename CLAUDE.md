@@ -15,7 +15,7 @@ There is no test setup for the frontend. The Solidity contracts do have tests: `
 
 ## What this is
 
-A single-page personal portfolio for Marco Ng (a medical writer in Hong Kong), built on React 19 + Vite. It originated from the JS Mastery portfolio template, so `src/constants/index.js` still contains placeholder template data ("Adrian", fake testimonials, generic experience cards). When adding sections, replace the relevant placeholder data rather than treating it as real content.
+A single-page personal portfolio for Marco Ng (a medical writer), built on React 19 + Vite. It originated from the JS Mastery portfolio template, so `src/constants/index.js` still contains placeholder template data ("Adrian", fake testimonials, generic experience cards). When adding sections, replace the relevant placeholder data rather than treating it as real content.
 
 ## Architecture
 

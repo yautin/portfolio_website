@@ -30,12 +30,15 @@ const App = () => {
 
   return (
     <>
+      <a href="#main" className="skip-link">Skip to content</a>
       <NavBar />
-      <Hero />
-      <ShowcaseSection />
-      <DrugProducts />
-      <DataDistilled />
-      <KinesinWalk />
+      <main id="main">
+        <Hero />
+        <ShowcaseSection />
+        <DrugProducts />
+        <DataDistilled />
+        <KinesinWalk />
+      </main>
       <Contact />
     </>
   )
