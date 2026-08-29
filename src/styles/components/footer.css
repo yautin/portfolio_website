@@ -21,6 +21,9 @@
 
       a {
         @apply text-white-50 transition-colors duration-300;
+        /* 24px of text is a 24px tap target. Pad to the 44px floor and pull the
+           padding back out of the layout so the footer rhythm is unchanged. */
+        @apply inline-flex items-center min-h-11 -my-2.5;
       }
 
       a:hover {
@@ -39,6 +42,7 @@
 
   .footer-funbtn {
     @apply inline-flex items-center gap-2 rounded-full border border-black-50 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white-50 bg-transparent cursor-pointer no-underline transition-colors duration-300;
+    @apply min-h-11; /* was 34px */
   }
 
   .footer-funbtn:hover {

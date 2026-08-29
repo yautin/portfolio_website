@@ -25,6 +25,7 @@
 
   .contact-link {
     @apply flex items-center gap-4 py-2 w-fit transition-colors duration-300;
+    @apply min-h-11; /* 40px -> the 44px touch floor */
     color: var(--fg-strong);
 
     .label {

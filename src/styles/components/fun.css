@@ -57,6 +57,14 @@
     color: transparent;
   }
 
+  /* /fun had no h1 at all: the document outline started at h2, so the page
+     had no title. It sits at the tag's scale rather than shouting — the games
+     are the content, and the brand link above already carries the identity. */
+  .fun-title {
+    @apply text-sm md:text-base font-semibold tracking-wide;
+    color: var(--fg-strong);
+  }
+
   .fun-header-tag {
     @apply text-sm md:text-base text-blue-50;
   }
@@ -188,10 +196,11 @@
 
   .fun-btn {
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold cursor-pointer border transition-colors duration-200;
+    @apply min-h-11; /* was 38px */
   }
 
   .fun-btn.is-primary {
-    background: var(--brand-grad);
+    background: var(--cta-grad);
     @apply text-white border-transparent;
   }
 
@@ -296,6 +305,8 @@
 
     button {
       @apply text-blue-50 cursor-pointer hover:underline;
+      /* these were 16px tall — the smallest targets on either route */
+      @apply inline-flex items-center min-h-11 -my-3;
     }
   }
 

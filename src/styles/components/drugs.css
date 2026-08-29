@@ -28,7 +28,10 @@
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 
-    &:hover .drug-track {
+    /* :hover alone meant a keyboard user tabbing into the row could not stop
+       it, and neither could anyone on a touch screen. */
+    &:hover .drug-track,
+    &:focus-within .drug-track {
       animation-play-state: paused;
     }
   }

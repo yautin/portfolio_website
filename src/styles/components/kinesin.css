@@ -444,7 +444,7 @@
     @apply relative h-full w-full rounded-xl flex items-center justify-center
       font-semibold uppercase tracking-wide text-base md:text-lg
       overflow-hidden transition-all duration-300;
-    background: var(--brand-grad);
+    background: var(--cta-grad);
     color: #ffffff;
     box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--brand-2) 55%, transparent);
 

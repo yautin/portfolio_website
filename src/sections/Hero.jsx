@@ -25,16 +25,16 @@ const Hero = () => {
                 {/* {LEFT: HERO CONTENT} */}
                 <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
                     <div className="flex flex-col gap-7">
-                        <h1 className="hero-text">
+                        <h1 className="hero-text" aria-label="Shaping science, data and evidence into clear, accurate medical communications">
                             <span className="hero-line">
                                 Shaping
-                                <span className="slide">
+                                <span className="slide" aria-hidden="true">
                                     <span className="wrapper">
                                         {words.map((word, index) => (
                                             <span key={`${word.text}-${index}`} className="flex items-center md:gap-3 gap-1 pb-2">
                                                 <img
                                                     src={word.imgPath}
-                                                    alt={word.text}
+                                                    alt=""
                                                     className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full"
                                                     style={{ background: `color-mix(in srgb, ${word.accent} 32%, white)` }} />
                                                 <span>{word.text}</span>

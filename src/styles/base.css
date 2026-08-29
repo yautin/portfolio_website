@@ -15,6 +15,27 @@ section {
   width: 100dvw;
 }
 
+/* Off-screen until focused. First tab stop on the page, so a keyboard or
+   screen-reader user can jump the navbar instead of tabbing it every visit. */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  translate: -50% -120%;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 0.75rem 0.75rem;
+  background: var(--fg-strong);
+  color: var(--page-bg);
+  font-weight: 600;
+  text-decoration: none;
+  transition: translate 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  translate: -50% 0;
+}
+
 /* consistent, visible keyboard focus ring for all interactive elements */
 :focus-visible {
   outline: 2px solid #4cc9f0;

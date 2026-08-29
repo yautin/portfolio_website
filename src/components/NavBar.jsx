@@ -141,7 +141,15 @@ const NavBar = () => {
       </div>
 
       {/* mobile dropdown menu */}
-      <nav className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+      {/* Collapsed, this stays in the DOM and used to stay focusable too:
+          keyboard users tabbed four invisible duplicates of the nav before
+          reaching any content. `inert` takes it out of the focus order and the
+          accessibility tree without disturbing the 0fr->1fr height animation
+          that drives the open state. */}
+      <nav
+        className={`mobile-menu ${menuOpen ? "open" : ""}`}
+        inert={!menuOpen}
+      >
         <div className="menu-inner">
           <ul>
             {navLinks.map(({ link, name }) => (
