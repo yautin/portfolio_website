@@ -73,6 +73,7 @@ const drugAreaColors = {
   Gastroenterology: "#a3e635",
   Dermatology: "#f472b6",
   Ophthalmology: "#60a5fa",
+  Pulmonology: "#facc15",
 };
 
 // Drug products Marco has developed content for. Pill labels use the common INN;
@@ -89,6 +90,7 @@ const drugProducts = [
   { name: "Mavacamten", area: "Cardiology" },
   { name: "Alirocumab", area: "Cardiology" },
   { name: "Bempedoic acid", area: "Cardiology" },
+  { name: "Bempedoic acid + ezetimibe", area: "Cardiology" },
   { name: "Clopidogrel", area: "Cardiology" },
   { name: "Ticagrelor", area: "Cardiology" },
   { name: "Dapagliflozin", area: "Cardiology" },
