@@ -25,7 +25,7 @@ const words = [
 // Headline stats — replace the values with your own figures.
 const counterItems = [
   { value: 9, suffix: "+", label: "Therapeutic areas covered" },
-  { value: 70, suffix: "+", label: "Promotional pieces delivered" },
+  { value: 80, suffix: "+", label: "Promotional pieces delivered" },
   { value: 1.5, suffix: "+", label: "Years in medical writing" },
 ];
 
@@ -88,6 +88,7 @@ const drugProducts = [
   { name: "Amivantamab", area: "Oncology" },
   { name: "Mavacamten", area: "Cardiology" },
   { name: "Alirocumab", area: "Cardiology" },
+  { name: "Bempedoic acid", area: "Cardiology" },
   { name: "Clopidogrel", area: "Cardiology" },
   { name: "Ticagrelor", area: "Cardiology" },
   { name: "Dapagliflozin", area: "Cardiology" },
