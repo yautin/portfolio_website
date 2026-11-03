@@ -1,0 +1,130 @@
+/* Existing global section widths must not make the private gate overflow. */
+.portfolio-gate-card { width: 100%; }
+
+@layer components {
+  .portfolio-gate {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1.25rem;
+  }
+
+  .portfolio-gate-card {
+    max-width: 28rem;
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+    border: 1px solid var(--color-black-50);
+    border-radius: 1.5rem;
+    background: var(--color-black-100);
+    box-shadow: var(--card-shadow);
+
+    h1 { margin: 1rem 0; font-size: clamp(1.8rem, 5vw, 2.3rem); line-height: 1.15; letter-spacing: -0.04em; color: var(--fg-strong); }
+    form { display: grid; gap: 0.75rem; margin-top: 2rem; }
+    label { color: var(--fg-strong); font-size: 0.9rem; font-weight: 600; }
+    input {
+      width: 100%; min-height: 3rem; padding: 0.75rem 1rem;
+      border: 1px solid var(--color-blue-50); border-radius: 0.75rem;
+      background: var(--input-bg); color: var(--fg-strong); font-size: 1rem;
+    }
+  }
+
+  .portfolio-eyebrow {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--color-white-50);
+  }
+  .portfolio-intro { color: var(--color-white-50); line-height: 1.8; }
+  .portfolio-error { color: var(--warn-ink); line-height: 1.6; font-size: 0.9rem; }
+  .portfolio-button {
+    min-height: 3rem; padding: 0.75rem 1.25rem; border-radius: 0.75rem;
+    background: var(--btn-bg); color: var(--btn-fg); font-weight: 600; cursor: pointer;
+    &:hover:not(:disabled) { opacity: 0.85; }
+    &:disabled { opacity: 0.6; cursor: wait; }
+  }
+
+  .medical-portfolio { max-width: 80rem; margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 4rem); }
+  .portfolio-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1.75rem 0; border-bottom: 1px solid var(--color-black-50);
+    .portfolio-eyebrow span { margin: 0 0.5rem; color: var(--color-blue-50); }
+  }
+  .portfolio-button.portfolio-lock {
+    background: transparent; color: var(--fg-strong); border: 1px solid var(--color-blue-50);
+    font-size: 0.8rem; white-space: nowrap;
+  }
+  .portfolio-heading {
+    max-width: 48rem;
+    padding: clamp(3rem, 7vw, 5rem) 0 2.5rem;
+    h1 { color: var(--fg-strong); font-size: clamp(2.5rem, 5.5vw, 4.5rem); letter-spacing: -0.055em; line-height: 1.08; margin: 1rem 0 1.5rem; }
+    .portfolio-intro { max-width: 40rem; }
+  }
+  .portfolio-summary {
+    display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.75rem;
+    color: var(--color-white-50); font-size: 0.82rem;
+    strong { color: var(--fg-strong); font-size: 1rem; font-weight: 600; margin-right: 0.25rem; }
+    > span + span { border-left: 1px solid var(--color-blue-50); padding-left: 1.5rem; }
+  }
+  .portfolio-filters {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    padding: 1.5rem 0; border-top: 1px solid var(--color-black-50); border-bottom: 1px solid var(--color-black-50);
+    button {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      min-height: 2.75rem; padding: 0.55rem 0.9rem;
+      border: 1px solid var(--color-black-50); border-radius: 0.6rem;
+      color: var(--color-white-50); background: var(--color-black-100);
+      font-size: 0.8rem; font-weight: 500; cursor: pointer;
+      span { font-variant-numeric: tabular-nums; opacity: 0.85; }
+      &:hover { border-color: var(--color-blue-50); }
+      &[aria-pressed="true"] { color: var(--btn-fg); background: var(--btn-bg); border-color: var(--btn-bg); }
+    }
+  }
+  .portfolio-results {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+    padding: 1.4rem 0; color: var(--color-blue-50); font-size: 0.75rem; line-height: 1.7;
+  }
+  .sample-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; align-items: stretch; }
+  .sample-card {
+    min-width: 0; display: flex; flex-direction: column; overflow: hidden;
+    border: 1px solid var(--color-black-50); border-radius: 1rem;
+    background: var(--color-black-100); box-shadow: var(--card-shadow);
+  }
+  .sample-preview {
+    position: relative; aspect-ratio: 1.3; overflow: hidden;
+    display: grid; place-items: center;
+    background: var(--color-black-200); border-bottom: 1px solid var(--color-black-50);
+    img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 1.2rem; }
+  }
+  .sample-preview-fallback { padding: 2rem; color: var(--color-white-50); font-size: 0.8rem; }
+  .sample-file-badge {
+    position: absolute; top: 0.75rem; right: 0.75rem;
+    padding: 0.25rem 0.45rem; border: 1px solid var(--color-black-50); border-radius: 0.25rem;
+    background: var(--color-black-100); color: var(--color-white-50); font-size: 0.6rem; letter-spacing: 0.08em; font-weight: 600;
+  }
+  .sample-details {
+    padding: 1.35rem; display: flex; flex-direction: column; flex: 1;
+    h2 { margin: 0.55rem 0 0.75rem; color: var(--fg-strong); font-size: 1.15rem; line-height: 1.4; letter-spacing: -0.025em; overflow-wrap: anywhere; }
+  }
+  .sample-format { color: var(--color-blue-50); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+  .sample-description { color: var(--color-white-50); font-size: 0.82rem; line-height: 1.75; flex: 1; }
+  .sample-metadata { padding-top: 1.25rem; color: var(--color-blue-50); font-size: 0.7rem; line-height: 1.7; }
+  .sample-actions {
+    display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
+    margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-black-50);
+    a { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; font-size: 0.8rem; }
+  }
+  .sample-view {
+    gap: 1rem; padding: 0.55rem 0.9rem; border-radius: 0.5rem; background: var(--btn-bg); color: var(--btn-fg); font-weight: 600;
+    &:hover { opacity: 0.85; }
+  }
+  .sample-download { color: var(--color-white-50); text-decoration: underline; text-underline-offset: 0.25rem; }
+  .portfolio-empty { padding: 3rem 1.5rem; border: 1px dashed var(--color-blue-50); border-radius: 1rem; color: var(--color-white-50); line-height: 1.75; }
+  .portfolio-footer { padding: 2.5rem 0; color: var(--color-blue-50); font-size: 0.75rem; line-height: 1.8; p + p { margin-top: 0.5rem; } }
+
+  @media (max-width: 1050px) { .sample-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .portfolio-header { align-items: flex-start; }
+    .portfolio-header .portfolio-eyebrow { line-height: 1.7; max-width: 11rem; }
+    .sample-grid { grid-template-columns: minmax(0, 1fr); }
+    .sample-preview { aspect-ratio: 1.35; }
+    .portfolio-filters { gap: 0.5rem; }
+    .portfolio-filters button { font-size: 0.75rem; padding: 0.55rem 0.7rem; }
+  }
+}

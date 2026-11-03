@@ -1,6 +1,13 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "rewrites": [{ "source": "/((?!api(?:/|$)).*)", "destination": "/index.html" }],
   "headers": [
+    {
+      "source": "/medical-portfolio(/.*)?",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Cache-Control", "value": "private, no-store" }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [

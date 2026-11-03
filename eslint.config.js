@@ -25,7 +25,7 @@ export default defineConfig([
   // reads process.cwd() for the feature banner). Without this it inherits the
   // browser globals above and `process` reads as undefined.
   {
-    files: ['*.config.js'],
+    files: ['*.config.js', 'api/**/*.js', 'server/**/*.js', 'tools/**/*.js', 'tests/**/*.js'],
     languageOptions: { globals: globals.node },
   },
   // Strict-typed Web3 modules (src/web3/**).
