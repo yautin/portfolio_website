@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { featureFlags } from './src/config/features.js'
+import { portfolioDevApi } from './tools/portfolio-dev.js'
 
 // Print which optional features this build will ship, and why any are off.
 //
@@ -50,5 +51,6 @@ export default defineConfig(({ mode }) => ({
     react(),
     tailwindcss(),
     featureBanner(mode),
+    portfolioDevApi(mode),
   ],
 }))

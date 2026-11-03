@@ -1,0 +1,15 @@
+# Never send local secrets, private review artifacts or test output to Vercel.
+.env
+.env.*
+context/
+test-results/
+playwright-report/
+.git/
+contracts/
+supabase/.temp/
+supabase/.branches/
+node_modules/
+dist/
+tests/
+.impeccable/
+playwright.config.js

@@ -22,6 +22,10 @@ Live site: https://marco-ng.com/
 - **Kinesin divider** — a decorative kinesin-walking-a-microtubule animation (poke it for a reaction).
 - **Contact** — a working contact form (Web3Forms) plus direct contact details, and the footer's game launcher.
 
+## Private medical portfolio
+
+The direct-link-only `/medical-portfolio` route is intentionally absent from the navbar, homepage, footer and sitemap. It uses a server-side password gate, not a public `VITE_*` password. After authentication, a responsive, filterable PDF gallery shows private cover previews and view/download controls. Real catalog and assets stay outside this repository: production uses private Supabase Storage, with authenticated previews and sixty-second signed PDF links; development can use a private local directory. Cloud logins use a shared, service-role-only rate limiter. Local sample storage is **not uploaded by a Git/Vercel deployment**. See [setup, security boundaries and tests](docs/medical-portfolio.md) before deployment or adding work samples.
+
 ## "For Fun" games hub (`/fun`)
 
 The footer's **🎮 For Fun** button links to a dedicated **`/fun`** page — a games hub listing everything playable (two games: **Immune Defense** and **Microwell**). Visitors can play in-browser with progress saved locally; if accounts are configured, they can **sign in to sync progress across devices** and **reset progress per game**. A discreet **"Buy me a coffee"** button lives here (hidden until a Stripe Payment Link is set).
@@ -207,7 +211,7 @@ Without any of this, the sign-in card shows a friendly "accounts unavailable" no
 
 ### Stripe — payments & invoicing (hosted surfaces only)
 
-This site is fully static, so all Stripe money-movement happens on **Stripe-hosted pages** — no API keys, no stripe-js, no server. **No secret key must ever enter this repo**; if custom in-site checkout is ever wanted, that is the moment to add a server/function layer — not before.
+The site's Stripe integration uses **Stripe-hosted pages** — no Stripe API keys, stripe-js or payment server. The medical-portfolio gate has a separate Node function; it does not process payments. **No secret key must ever enter this repo**; any future custom checkout would require its own securely configured payment backend.
 
 **"Buy me a coffee" (the `/fun` button):**
 
@@ -236,7 +240,7 @@ This site is fully static, so all Stripe money-movement happens on **Stripe-host
 
 ## Deployment
 
-The production build in `dist/` is a fully static bundle and can be deployed to any static host (e.g. Vercel, Netlify, or GitHub Pages):
+The frontend build in `dist/` is static, but the private medical portfolio also requires the Node function at `api/medical-portfolio.js`. **Deploy the project to Vercel, not just the `dist/` folder**, and set `PORTFOLIO_PASSWORD` and `PORTFOLIO_SESSION_SECRET` as server-only environment variables. Follow the [medical-portfolio release checklist](docs/medical-portfolio.md#production-release-requirements), including durable login throttling and HTTPS verification. A static-only host (such as GitHub Pages) cannot run this gate without a separately deployed backend.
 
 ```bash
 npm run build
