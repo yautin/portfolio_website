@@ -148,6 +148,43 @@
   }
 
 
+  .hero-work-link {
+    @apply relative z-20 inline-flex items-center justify-center self-start font-semibold;
+    gap: .875rem;
+    min-width: 10.75rem;
+    min-height: 3.125rem;
+    padding: .625rem 1.375rem;
+    border-radius: 999px;
+    border: 1px solid rgb(172 211 238 / .38);
+    color: #f0f6fd;
+    background: linear-gradient(155deg, rgb(87 145 170 / .36), rgb(59 66 105 / .39) 75%), rgb(7 13 25 / .38);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: inset 0 1px 1px rgb(224 250 255 / .26), 0 2px 6px rgb(3 10 18 / .15);
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
+    svg { flex: none; color: #c7dfec; }
+    &:focus-visible { outline: 2px solid #b2e7fa; outline-offset: 4px; }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-color: rgb(190 227 248 / .68);
+        box-shadow: inset 0 1px 2px rgb(227 250 255 / .52), 0 2px 8px rgb(3 10 18 / .24);
+      }
+    }
+    &:is(:active, [data-pressed]) {
+      transform: scale(.98);
+      border-color: rgb(190 227 248 / .7);
+      box-shadow: inset 0 1px 3px rgb(3 10 18 / .32);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+      &:is(:active, [data-pressed]) { transform: none; }
+    }
+    @media (forced-colors: active) {
+      border-color: LinkText;
+      &:focus-visible { outline-color: Highlight; }
+    }
+  }
+
   .hero-scene-controls {
     position: absolute;
     z-index: 20;
@@ -194,6 +231,20 @@
       }
     }
     .hero-scene-controls { bottom: 8px; }
+  }
+  /* Frame the landscape film behind the helix, not across the entire tall
+     copy + figure stack. Keep the full-size background as the scroll trigger. */
+  @media (max-width: 767px) {
+    .hero-background {
+      --film-height: min(105vw, 32rem, 75svh);
+      img, video, .hero-video-shade, &::after {
+        top: auto;
+        bottom: 0;
+        height: var(--film-height);
+      }
+      img, video { object-position: 88% center; }
+      &::after { background: linear-gradient(to bottom, #070b15, transparent 28%); }
+    }
   }
   @media (hover: none) {
     .hero-scene-controls .hero-reset { display: none; }

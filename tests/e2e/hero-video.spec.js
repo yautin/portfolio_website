@@ -111,6 +111,36 @@ test('hero pauses offscreen and preserves an explicit pause on return', async ({
   await expect.poll(() => video.evaluate(v => v.paused)).toBe(true)
 })
 
+test('the phone hero shows at least half the film without enlarging it to fill the copy', async ({ page, isMobile }) => {
+  const sizes = isMobile ? [[320, 568], [390, 844], [430, 932], [667, 375], [767, 1024]] : [[768, 1024], [1440, 900]]
+  await page.setViewportSize({ width: sizes[0][0], height: sizes[0][1] })
+  await page.goto('/')
+  const movie = page.locator('.hero-background video')
+  await expect(movie).toHaveClass(/is-ready/)
+  for (const [width, height] of sizes) {
+    await page.setViewportSize({ width, height })
+    const shot = await movie.evaluate(v => {
+      const bg = v.closest('.hero-background'), frame = v.getBoundingClientRect(), stage = bg.getBoundingClientRect()
+      const scale = Math.max(frame.width/v.videoWidth, frame.height/v.videoHeight)
+      return {
+        visibleWidth: frame.width/(scale*v.videoWidth), scale,
+        bottomGap: stage.bottom-frame.bottom, topGap: frame.top-stage.top,
+        layersMatch: ['img', '.hero-video-shade'].every(s => {
+          const r = bg.querySelector(s).getBoundingClientRect()
+          return Math.abs(r.top-frame.top) < 1 && Math.abs(r.height-frame.height) < 1 && Math.abs(r.width-frame.width) < 1
+        }),
+        sameCrop: getComputedStyle(v).objectPosition === getComputedStyle(bg.querySelector('img')).objectPosition,
+      }
+    })
+    expect(Math.abs(shot.bottomGap)).toBeLessThan(1)
+    expect(shot.layersMatch && shot.sameCrop).toBe(true)
+    if (isMobile) {
+      expect(shot.visibleWidth, `${width}px source framing`).toBeGreaterThanOrEqual(.5)
+      expect(shot.scale).toBeLessThanOrEqual(1)
+    } else expect(Math.abs(shot.topGap)).toBeLessThan(1)
+  }
+})
+
 test('hero uses responsive media and remains readable with a previously saved light theme', async ({ page, isMobile }) => {
   await page.addInitScript(() => localStorage.setItem('theme', 'light'))
   await page.goto('/', { waitUntil: 'domcontentloaded' })
