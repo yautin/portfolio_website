@@ -40,7 +40,7 @@ const words = [
 const counterItems = [
   { value: 9, suffix: "+", label: "Therapeutic areas covered" },
   { value: 80, suffix: "+", label: "Promotional pieces delivered" },
-  { value: 1.5, suffix: "+", label: "Years in medical writing" },
+  { value: 2, suffix: "+", label: "Years in medical writing" },
 ];
 
 const workProjects = [
@@ -193,6 +193,11 @@ const contactEmail = "ngyautin@gmail.com";
 // visitor's mail app.
 const web3formsKey = import.meta.env.VITE_WEB3FORMS_KEY ?? "";
 
+const contactCities = [
+  { name: 'Hong Kong', lat: 22.3193, lon: 114.1694 },
+  { name: 'Toronto', lat: 43.6532, lon: -79.3832 },
+];
+
 const contactLinks = [
   {
     label: "Email",
@@ -222,6 +227,7 @@ export {
   dataDistillExamples,
   supportUrl,
   contactEmail,
+  contactCities,
   contactLinks,
   web3formsKey,
 };

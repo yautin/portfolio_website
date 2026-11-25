@@ -4,6 +4,7 @@ import { usePageTransition } from "../components/pageTransitionContext";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import ContactGlobe from "../components/ContactGlobe";
 
 import { contactEmail, contactLinks, navLinks, web3formsKey } from "../constants";
 import { FLAGS } from "../config/flags";
@@ -110,36 +111,6 @@ const Contact = () => {
               <span className="dot" />
               Currently open to new opportunities
             </p>
-
-            <ul className="contact-links contact-reveal">
-              {contactLinks.map((link) =>
-                link.href ? (
-                  <li key={link.value}>
-                    <a
-                      className="contact-link"
-                      href={link.href}
-                      target={link.href.startsWith("http") ? "_blank" : undefined}
-                      rel={
-                        link.href.startsWith("http")
-                          ? "noreferrer noopener"
-                          : undefined
-                      }
-                    >
-                      <span className="label">{link.label}</span>
-                      <span className="value">{link.value}</span>
-                      <span className="arrow">→</span>
-                    </a>
-                  </li>
-                ) : (
-                  <li key={link.value}>
-                    <span className="contact-link is-static">
-                      <span className="label">{link.label}</span>
-                      <span className="value">{link.value}</span>
-                    </span>
-                  </li>
-                )
-              )}
-            </ul>
           </div>
 
           <form className="contact-form contact-reveal" onSubmit={onSubmit}>
@@ -217,6 +188,39 @@ const Contact = () => {
                   : "I usually reply within a couple of days."}
             </p>
           </form>
+
+          <div className="contact-details">
+            <ul className="contact-links contact-reveal">
+              {contactLinks.map((link) =>
+                link.href ? (
+                  <li key={link.value}>
+                    <a
+                      className="contact-link"
+                      href={link.href}
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={
+                        link.href.startsWith("http")
+                          ? "noreferrer noopener"
+                          : undefined
+                      }
+                    >
+                      <span className="label">{link.label}</span>
+                      <span className="value">{link.value}</span>
+                      <span className="arrow">→</span>
+                    </a>
+                  </li>
+                ) : (
+                  <li key={link.value}>
+                    <span className="contact-link is-static">
+                      <span className="label">{link.label}</span>
+                      <span className="value">{link.value}</span>
+                    </span>
+                  </li>
+                )
+              )}
+            </ul>
+            <ContactGlobe />
+          </div>
         </div>
       </section>
 

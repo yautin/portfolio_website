@@ -1,0 +1,11 @@
+# Contact globe
+
+Design reference: Baruch Moskovits’s [Atomic Globe](https://www.framer.com/marketplace/components/atomic-globe/) and its live preview. This is an independent local particle renderer, not an embed or a redistribution of the Framer module. It uses the portfolio’s existing Three.js dependency. The transparent canvas contains only particle sprites: neither the oceans nor the back of the sphere are filled. The projected city markers and line sit in a separate overlay. No map service, external module or Framer runtime is fetched by the website.
+
+The initial North Pacific view shows both `contactCities`: Hong Kong and Toronto. After a 2.4-second particle assembly, the globe turns slowly. Hover lights nearby front-facing particles; drag to orbit freely in longitude. Pins vanish on the far side; the elevated route is clipped where the planet obscures it. Arrow keys rotate, Home restores the route view, and the pause control stops automatic rotation. On phones, horizontal drags rotate while vertical pans and pinch zoom remain native. Reduced motion skips the entrance and idle motion. The draw loop stops off-screen and when the tab is hidden. If WebGL is unavailable, a transparent static map with the same route remains above Contact.
+
+`particles.json` and the lower-density fallback `land.json` are generated from [Natural Earth 1:110m land](https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/) (public domain), not from the Framer component. Download `geojson/ne_110m_land.geojson` from the `nvkelso/natural-earth-vector` repository and run `python3 tools/contact-globe/bake-land.py /path/to/ne_110m_land.geojson`; the generator verifies the input checksum. Rows contain latitude, ring size, offset and pairs of start/run-length indices. No input GeoJSON is required to build or serve the site.
+
+The transparent canvas extends 12.5% beyond each side of the globe's interaction area so the entrance cloud has room to assemble. Projection, sprite size and density use the original globe dimensions, not the larger framebuffer. The controls and SVG annotations stay within the original layout.
+
+Check: `PLAYWRIGHT_CHANNEL=chrome npx playwright test tests/e2e/contact-globe.spec.js`. The first-frame test reads actual particle alpha to check for clear edges and particles visible outside the original square.

@@ -2,15 +2,101 @@
   /* ---- Contact ---- */
   .contact-section {
     @apply px-5 md:px-20;
+    padding-block: clamp(3.5rem, 7vw, 6.5rem);
     --accent: #4cc9f0;
   }
 
   .contact-grid {
-    @apply grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-16 items-start;
+    @apply grid grid-cols-1 gap-8 items-start;
+  }
+
+  .contact-details {
+    @apply flex flex-col items-start gap-4;
+  }
+
+  @media (min-width: 33.75rem) {
+    .contact-details { @apply flex-row flex-wrap items-center justify-between; }
+  }
+
+  /* Keep the mobile reading order in the DOM. On desktop the form spans
+     both rows, without making the intro as tall as the form. */
+  @media (min-width: 64rem) {
+    .contact-grid {
+      @apply grid-cols-2;
+      grid-template-rows: auto 1fr;
+      gap: 1.5rem clamp(2rem, 4.5vw, 4rem);
+    }
+    .contact-intro { grid-area: 1 / 1; }
+    .contact-form { grid-area: 1 / 2 / span 2; }
+    .contact-details { grid-area: 2 / 1; }
+  }
+
+  .contact-globe {
+    position: relative;
+    align-self: center;
+    width: min(100%, clamp(12.5rem, 19vw, 16.5rem));
+    aspect-ratio: 1;
+    user-select: none;
+    --land: #bdd9ea;
+    --route: #67dbf8;
+    --annotations: 1;
+  }
+  .globe-surface, .globe-overlay { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+  .globe-surface { touch-action: pan-y pinch-zoom; }
+  /* The cloud + its curved trajectories reach 1.182 times the old half-width.
+     Centre a larger paint layer without growing the layout or pointer target. */
+  .globe-canvas {
+    position: absolute; inset: -12.5% auto auto -12.5%; width: 125%; height: 125%;
+    max-width: none; display: block; background: transparent; pointer-events: none;
+  }
+  .globe-overlay { pointer-events: none; overflow: visible; }
+  /* Don't flash a fully assembled fallback before the first live frame. */
+  @media (prefers-reduced-motion: no-preference) {
+    .contact-globe[data-renderer='waiting'] :is(.globe-overlay, .globe-label) { visibility: hidden; }
+  }
+  .contact-globe[data-renderer='particles'] .globe-poster { display: none; }
+  .contact-globe:not([data-renderer='particles']) .globe-surface { visibility: hidden; }
+  .contact-globe[data-renderer='particles'] .globe-surface { cursor: grab; }
+  .contact-globe[data-dragging] .globe-surface { cursor: grabbing; }
+  .globe-surface:focus-visible, .globe-toggle:focus-visible { outline: 2px solid var(--route); outline-offset: 2px; }
+  [data-theme='light'] .contact-globe { --land: #283c59; --route: #087a96; }
+  .globe-land { stroke: var(--land); }
+  .globe-land.depth-0 { opacity: .38; stroke-width: 1.05; }
+  .globe-land.depth-1 { opacity: .64; stroke-width: 1.32; }
+  .globe-land.depth-2 { opacity: .86; stroke-width: 1.62; }
+  /* Keep the normalized entrance dash in the same coordinates as the route. */
+  .globe-route { stroke: var(--route); stroke-width: 1.15; stroke-linecap: round; opacity: var(--annotations); }
+  .globe-marker, .globe-label { opacity: var(--annotations); }
+  .globe-pin-halo { fill: #123846; stroke: var(--route); stroke-width: 1; }
+  .globe-pin { fill: #c7f7ff; }
+  .globe-label {
+    position: absolute; pointer-events: none; white-space: nowrap;
+    font-size: .75rem; line-height: 1.3; font-weight: 600;
+    padding: .14rem .48rem; border-radius: 1rem;
+    background: var(--page-bg); color: var(--fg-strong);
+    border: 1px solid color-mix(in srgb, var(--land) 20%, transparent);
+  }
+  .globe-label-0 { transform: translate(-18%, .48rem); }
+  .globe-label-1 { transform: translate(-16%, calc(-100% - .48rem)); }
+  .globe-toggle {
+    position: absolute; right: 0; bottom: 0; width: 44px; height: 44px;
+    display: grid; place-items: center; color: var(--color-white-50);
+    background: transparent; border-radius: 100%; cursor: pointer;
+  }
+  .globe-toggle:hover { color: var(--fg-strong); background: color-mix(in srgb, currentColor 8%, transparent); }
+  .globe-toggle .globe-play, .globe-toggle[data-paused='true'] .globe-pause { display: none; }
+  .globe-toggle[data-paused='true'] .globe-play { display: block; }
+  .contact-globe:not([data-renderer='particles']) .globe-toggle { display: none; }
+  @media (prefers-reduced-motion: reduce) { .globe-toggle { display: none; } }
+  @media (forced-colors: active) {
+    .globe-land { stroke: GrayText; }
+    .globe-route, .globe-pin-halo { stroke: LinkText; }
+    .globe-pin-halo { fill: Canvas; }
+    .globe-pin { fill: LinkText; }
   }
 
   .contact-status {
-    @apply inline-flex items-center gap-2.5 mt-6 text-sm text-white-50;
+    @apply inline-flex items-center gap-2.5 mt-4 text-sm text-white-50;
 
     .dot {
       @apply size-2.5 rounded-full flex-none;
@@ -20,16 +106,16 @@
   }
 
   .contact-links {
-    @apply mt-8 flex flex-col;
+    @apply flex flex-col;
   }
 
   .contact-link {
-    @apply flex items-center gap-4 py-2 w-fit transition-colors duration-300;
-    @apply min-h-11; /* 40px -> the 44px touch floor */
+    @apply grid items-center gap-x-2 gap-y-0.5 py-1.5 w-fit min-h-11 transition-colors duration-300;
+    grid-template-columns: 1fr auto;
     color: var(--fg-strong);
 
     .label {
-      @apply text-xs uppercase tracking-wider text-blue-50 w-24 flex-none;
+      @apply col-span-full text-xs uppercase tracking-wider text-blue-50;
     }
 
     .value {
