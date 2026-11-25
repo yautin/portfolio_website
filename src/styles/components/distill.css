@@ -174,4 +174,38 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* Stacked readout: one gap between groups, a shorter cue within each trial.
+     The horizontal layout keeps its own spacing from 768px upwards. */
+  @media (width < 768px) {
+    .distill-section {
+      --band-pad: 3.5rem;
+      padding-block: var(--band-pad);
+      /* The page already reserves space for the fixed nav on anchor jumps. */
+      scroll-margin-top: calc(0px - var(--band-pad));
+    }
+    .distill-head .section-eyebrow { margin-bottom: .75rem; }
+    .distill-head .section-lead { margin-top: .75rem; }
+    .distill-flow { margin-top: 2rem; }
+    .distill-row { row-gap: .5rem; padding-block: 1.5rem; }
+    .distill-row:first-child { padding-top: 0; }
+    .distill-row:last-child { padding-bottom: 0; }
+
+    .distill-connector { min-height: 2rem; justify-content: flex-start; }
+    .distill-arrow { width: 2rem; height: .875rem; }
+    .distill-arrow :is(line, path) { vector-effect: non-scaling-stroke; stroke-width: 1.5px; }
+    .distill-statement { margin-top: .75rem; }
+    .distill-bars {
+      display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content;
+      gap: .625rem .75rem; margin-top: 1rem;
+    }
+    /* Both arms use the same scale, even when one value has more digits. */
+    .distill-bar { grid-column: 1 / -1; grid-template-columns: subgrid; }
+    .distill-bar-value { text-align: end; }
+
+    .distill-refs { margin-top: 1.75rem; padding-top: 1rem; }
+    .distill-ref-list { display: grid; gap: .375rem; margin-top: .75rem; }
+    .distill-footnote, .distill-ref-list li {
+      display: grid; grid-template-columns: .75rem minmax(0, 1fr); column-gap: .375rem;
+    }
+  }
 }

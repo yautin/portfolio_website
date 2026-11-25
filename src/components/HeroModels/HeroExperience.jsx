@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { useMediaQuery } from 'react-responsive';
@@ -21,10 +21,10 @@ import { useTheme } from '../../hooks/useTheme';
 // The easing is intentionally slow. During a drag the pointer moves a long way,
 // and a snappy lean would read as the object resisting you rather than
 // following; lagging behind reads as inertia.
-const PointerLean = ({ enabled, children, ...groupProps }) => {
+const PointerLean = ({ enabled, paused, children, ...groupProps }) => {
     const ref = useRef();
     useFrame((state, delta) => {
-        if (!ref.current) return;
+        if (!ref.current || paused) return;
         const tiltX = enabled ? -state.pointer.y * 0.16 : 0;
         const rollZ = enabled ? state.pointer.x * 0.10 : 0;
         // frame-rate independent easing: same feel at 30fps and 144fps
@@ -35,7 +35,19 @@ const PointerLean = ({ enabled, children, ...groupProps }) => {
     return <group ref={ref} {...groupProps}>{children}</group>;
 };
 
-const HeroExperience = () => {
+const HeroExperience = ({ paused = false, resetKey = 0, darkBackdrop = false }) => {
+    const controls = useRef();
+    useEffect(() => {
+        const orbit = controls.current;
+        if (!orbit) return;
+        // Flush residual drag inertia before restoring the saved camera pose.
+        // A paused demand loop cannot gradually settle that inertia itself.
+        const damping = orbit.enableDamping;
+        orbit.enableDamping = false;
+        orbit.update();
+        orbit.reset();
+        orbit.enableDamping = damping;
+    }, [resetKey]);
     // Touch devices (phones, tablets, iPad) can't hover — disable interaction
     // there so the canvas never captures scroll gestures. Width alone misses
     // iPads (they're wider than 768px but still touch).
@@ -49,12 +61,14 @@ const HeroExperience = () => {
     const stacked = belowXl || isTouch;
     // brighter, cleaner illumination on the light theme so the helix reads as a
     // lit object rather than a dark-stage prop floating on a bright page
-    const light = useTheme() === 'light';
+    const theme = useTheme();
+    const light = !darkBackdrop && theme === 'light';
     // no pointer to follow on touch, and the lean is decorative motion
     const reduced = useMediaQuery({ query: '(prefers-reduced-motion: reduce)' });
-    const lean = !isTouch && !reduced;
+    const still = reduced || paused;
+    const lean = !isTouch && !still;
   return (
-    <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
+    <Canvas frameloop={still ? 'demand' : 'always'} camera={{ position: [0, 0, 15], fov: 45 }}>
         <ambientLight intensity={light ? 0.9 : 0.3} color={light ? '#eef3fc' : '#a8c0ff'} />
         <hemisphereLight
             color={light ? '#ffffff' : '#243043'}
@@ -63,16 +77,18 @@ const HeroExperience = () => {
         />
 
         <OrbitControls
-            enabled={!isTouch}
+            ref={controls}
+            enabled={!isTouch && !paused}
             enablePan={false}
             enableZoom={false}
         />
 
         <HeroLights light={light} />
-        <Particles count={100} light={light} still={reduced} />
+        <Particles count={100} light={light} still={still} />
 
         <PointerLean
             enabled={lean}
+            paused={still}
             // Nothing to dodge any more, so it always sits centred in its box;
             // the downward shove only ever existed to clear the overlaid text.
             //
@@ -86,7 +102,7 @@ const HeroExperience = () => {
             scale={stacked ? 1 : 0.9}
             position={[0, 0, 0]}
         >
-            <DnaHelix light={light} still={reduced} />
+            <DnaHelix light={light} still={still} />
         </PointerLean>
     </Canvas>
   )

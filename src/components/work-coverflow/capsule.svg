@@ -1,0 +1,74 @@
+<svg class="art" viewBox="0 0 1200 690" aria-hidden="true" focusable="false">
+<defs>
+ <linearGradient id="side-KEY" x2="1" y2=".12" gradientUnits="objectBoundingBox"><stop stop-color="#535968"/><stop offset=".4" stop-color="#191f2a"/><stop offset=".78" stop-color="#4f596a"/><stop offset="1" stop-color="#111622"/></linearGradient>
+ <linearGradient id="rail-KEY" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1c2330"/><stop offset=".025" stop-color="#8d98a7"/><stop offset=".07" stop-color="#2c3544"/><stop offset=".88" stop-color="#252c39"/><stop offset=".96" stop-color="#444c5b"/><stop offset="1" stop-color="#131925"/></linearGradient>
+ <clipPath id="face-KEY"><rect x="399" y="245" width="369" height="216" rx="10"/></clipPath>
+<!-- Three miniature editorial layouts. All marks are vector geometry, never letters or data plots. -->
+<g id="folio-capivasertib-KEY" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M4 9H130 M145 9h30" stroke-width="8"/>
+ <path d="M4 32h73m12 0h45 M4 46h43m12 0h56 M4 60h81" stroke-width="4.4" opacity=".74"/>
+ <path d="M148 52c7-20 23-25 33-13s-2 35-14 33c-9-1-10-12-4-20s16-8 24-4" stroke-width="4"/>
+ <path d="M4 82h57m15 0h22 M4 96h91" stroke-width="3.6" opacity=".56"/>
+</g>
+<g id="folio-mavacamten-KEY" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M4 9h109m14 0h22" stroke-width="8"/>
+ <path d="M4 32h59m13 0h20 M4 46h72 M4 60h37m13 0h26" stroke-width="4.4" opacity=".74"/>
+ <path d="M120 33v30q0 5 5 5h53q5 0 5-5V34 M130 36h43" stroke-width="4" opacity=".83"/>
+ <path d="M4 83h95m14 0h48 M4 96h59m15 0h37" stroke-width="3.6" opacity=".56"/>
+</g>
+<g id="folio-faricimab-KEY" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M4 9h86m14 0h58" stroke-width="8"/>
+ <path d="M4 48q19-30 44-12t41-4 M4 62q20-25 42-12t41-6" stroke-width="4" opacity=".9"/>
+ <path d="M112 33h68 M112 47h24m12 0h32 M112 61h48" stroke-width="4.4" opacity=".74"/>
+ <path d="M4 82h84m15 0h58 M4 96h42m14 0h34" stroke-width="3.6" opacity=".56"/>
+</g>
+</defs>
+<g class="socket" opacity="0"><path d="M647 109 Q750 108 763 273 L762 470 Q765 553 700 583 L679 580 Q729 480 725 367 Q735 181 647 109Z" fill="url(#side-KEY)"/><path d="M673 124 Q753 142 755 292 L755 469 Q753 536 715 563 Q747 475 741 374 Q752 187 673 124Z" fill="#121a26"/></g>
+<g class="mouth" opacity="0"><path d="M655 110 C604 114 593 219 599 361 C605 508 639 590 693 583 C745 574 752 456 742 310 C737 199 704 122 655 110Z" fill="url(#side-KEY)" stroke="#535966" stroke-width="2"/><path d="M653 124 C615 128 608 230 614 357 C622 492 648 566 689 567 C727 561 735 449 725 319 C719 211 689 136 653 124Z" fill="#151b26" stroke="#2b3441" stroke-width="4"/></g>
+<g class="sled" opacity="0"><g transform="matrix(1,-.149,0,1,0,138)"><rect x="373" y="216" width="409" height="270" rx="21" fill="url(#rail-KEY)" stroke="#151a23" stroke-width="3"/><image href="/work-capsules/poster/capivasertib-tray.webp" x="399" y="245" width="369" height="216" clip-path="url(#face-KEY)" preserveAspectRatio="none"/><path d="M417 238 H762 M411 467 H764" fill="none" stroke="#89909b" stroke-opacity=".4" stroke-width="2"/><g class="tray-surface" clip-path="url(#face-KEY)" aria-hidden="true" pointer-events="none">
+ <defs><radialGradient id="phosphor-KEY" cx="40%" cy="58%" r="78%"><stop stop-color="var(--accent)" stop-opacity=".56"/><stop offset=".65" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity=".04"/></radialGradient></defs>
+ <rect class="tray-wash" x="399" y="245" width="369" height="216" rx="10" fill="url(#phosphor-KEY)" opacity="0"/>
+ <g class="tray-mark" opacity="0"><use transform="translate(448 310) scale(1.14)"/></g>
+</g>
+</g></g>
+<!-- Texture, chamber light and specimen travel with the right cap; only the specimen floats. -->
+<g class="cap-assembly" pointer-events="none">
+ <image class="glass" href="/work-capsules/poster/glass.webp" x="638" y="76" width="502" height="521"/>
+ <defs>
+  <clipPath id="lumen-KEY"><path d="M775 224Q770 165 738 133L891 107C1000 88 1096 169 1110 275C1135 416 1058 505 958 526L766 552Q783 515 782 455Z"/></clipPath>
+  <radialGradient id="lamp-KEY" cx="54%" cy="61%" r="62%"><stop stop-color="#bdf5ff" stop-opacity=".94"/><stop offset=".27" stop-color="#70d7ff" stop-opacity=".86"/><stop offset=".68" stop-color="#319cf1" stop-opacity=".55"/><stop offset="1" stop-color="#297ed9" stop-opacity="0"/></radialGradient>
+  <path id="inner-catch-KEY" d="M795 499 C851 509 933 503 993 469 Q1048 440 1070 386"/>
+ </defs>
+ <g clip-path="url(#lumen-KEY)">
+  <g class="chamber-glow" opacity="0" fill="none" stroke-linecap="round">
+   <ellipse cx="928" cy="321" rx="207" ry="207" fill="url(#lamp-KEY)"/>
+   <use href="#inner-catch-KEY" stroke="#2caeff" stroke-width="34" opacity=".84" style="filter:blur(10px)"/>
+   <use href="#inner-catch-KEY" stroke="#9dedff" stroke-width="7" opacity=".78" style="filter:blur(1.7px)"/>
+  </g>
+  <!-- A tight occlusion shadow separates the silver bonds from the lit glass behind them. -->
+  <g class="specimen-float"><image class="specimen" x="800" y="217" width="251" height="251" style="filter:drop-shadow(0 2px 2px #10202f) drop-shadow(0 0 1.5px #112b3c)"/></g>
+ </g>
+</g>
+
+<image class="shell" href="/work-capsules/poster/body.webp" x="70" y="76" width="695" height="579"/>
+<!-- Trace of the existing cyan inset on the stationary metal, in the shell camera coordinates. -->
+<g class="strip-glow" opacity="0" pointer-events="none" fill="none" stroke-linecap="round">
+ <defs><path id="trace-KEY" d="M282 182C241 190 204 215 178 241C169 251 172 263 161 279C143 306 135 326 126 346C121 356 109 360 107 377C102 399 101 434 103 453C104 473 108 489 111 502"/><linearGradient id="strip-ink-KEY" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#adf4ff" stop-opacity="0"/><stop offset=".13" stop-color="#a9f2ff"/><stop offset=".70" stop-color="#b9f7ff"/><stop offset="1" stop-color="#96eaff" stop-opacity="0"/></linearGradient></defs>
+ <!-- Broad blue spill on the metal, narrow blue tube, then the white-hot filament. -->
+ <use href="#trace-KEY" stroke="#25bcff" stroke-width="42" opacity=".85" style="filter:blur(10px)"/>
+ <use href="#trace-KEY" stroke="#37d9ff" stroke-width="22" style="filter:blur(3px)"/>
+ <use href="#trace-KEY" stroke="url(#strip-ink-KEY)" stroke-width="10"/>
+ <use href="#trace-KEY" stroke="#efffff" stroke-width="4.5"/>
+</g>
+<g class="monitor" pointer-events="none">
+ <defs><linearGradient id="screen-KEY" x1="0" y1="0" x2=".45" y2="1"><stop stop-color="#1e2731"/><stop offset=".48" stop-color="#151c24"/><stop offset="1" stop-color="#0e151c"/></linearGradient></defs>
+ <!-- Trace the inner face, leaving the bevel and the fixed ice-blue case strip in the source art. -->
+ <path d="M370 305 L654 262 Q691 255 691 291 L691 486 Q691 514 664 523 L374 572 C305 582 251 537 249 465 C246 386 293 318 370 305Z" fill="url(#screen-KEY)" fill-opacity=".94" stroke="#404957" stroke-opacity=".48" stroke-width="1.5"/>
+ <g transform="matrix(1,-.15,0,1,332,453)">
+  <image class="cover-icon" x="0" y="-112" width="66" height="66" opacity=".9" aria-hidden="true"/>
+  <circle cx="-30" cy="-11" r="8" fill="var(--accent)"/>
+  <text class="cover-name" font-size="37" font-weight="600" fill="#f1f2f1"></text>
+  <text class="cover-format" y="37" font-size="22" font-weight="500" fill="#c8cdd4"></text>
+ </g>
+</g>
+</svg>

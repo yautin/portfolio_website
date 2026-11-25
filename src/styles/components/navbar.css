@@ -1,173 +1,133 @@
 @layer components {
+  /* One glass surface. Keep the lettering on a smoked core; put the shine
+     on the rim rather than across the text or the video behind it. */
   .navbar {
-    @apply fixed w-full left-1/2 py-5 px-5 md:px-20 -translate-x-1/2 z-[100] transition-all duration-300 ease-in-out;
+    --glass-tint: #202530;
+    --glide: cubic-bezier(.22,.75,.18,1);
+    position: fixed;
+    z-index: 100;
+    inset-inline: 0;
+    top: max(18px, env(safe-area-inset-top));
+    margin-inline: auto;
+    width: min(50rem, calc(100% - 32px));
+    isolation: isolate;
+    border: 1px solid rgb(222 236 255 / .26);
+    border-radius: 32px;
+    color: #f4f6fa;
+    background: linear-gradient(172deg, rgb(226 238 255 / .11), transparent 48%), var(--glass-tint);
+    box-shadow: inset 0 1px 1px rgb(255 255 255 / .18), inset 0 -1px 2px rgb(167 193 226 / .12), 0 5px 22px rgb(0 5 15 / .24);
+    transition: border-radius 300ms var(--glide), background-color 200ms ease;
 
-    &.scrolled {
-      @apply top-0;
-      background-color: var(--nav-bg);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--color-black-50);
+    &::before {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      inset: -1px;
+      border: 1px solid transparent;
+      border-radius: inherit;
+      background: linear-gradient(112deg, #effaffbb, transparent 22% 57%, #cbddf26b 84%, transparent) border-box;
+      mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
     }
 
-    &.not-scrolled {
-      @apply md:top-10 top-0 bg-transparent;
+    svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 2px solid #bef1ff; outline-offset: -2px; }
+  }
+  /* Never filter the shared header. It would become the backdrop root and
+     prevent either child lens from sampling the page in the production build. */
+
+  .nav-row {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 7px 6px 21px;
+    white-space: nowrap;
+  }
+  .nav-name, .nav-contact, .nav-toggle, .nav-sections a, .nav-drawer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    border-radius: 99px;
+  }
+  .nav-name { font-size: 20px; font-weight: 640; letter-spacing: -.055em; }
+  .nav-name span { color: #92d7eb; }
+  .nav-sections { position: relative; font-size: 14px; font-weight: 510; }
+  .nav-sections ul { display: flex; position: relative; gap: 2px; }
+  .nav-sections a { padding-inline: 14px; color: #d7dfe9; transition: color 160ms ease; }
+  .nav-sections a:is(:hover,[aria-current]) { color: white; }
+  .nav-lens {
+    position: absolute;
+    inset: 4px auto 4px 0;
+    width: var(--lens-width, 0px);
+    transform: translateX(var(--lens-x, 0px));
+    border: 1px solid rgb(225 241 255 / .23);
+    border-radius: 99px;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(155deg, rgb(224 239 255 / .18), rgb(208 228 255 / .07));
+    box-shadow: inset 0 1px 1px rgb(255 255 255 / .16);
+    transition: transform 300ms var(--glide), width 300ms var(--glide), opacity 160ms ease;
+  }
+  .nav-sections:has([aria-current]) .nav-lens { opacity: 1; }
+
+  .nav-contact {
+    gap: 10px;
+    padding-inline: 16px;
+    background: linear-gradient(155deg, #f4f8fc, #dce4ef);
+    color: #172332;
+    box-shadow: inset 0 1px 0 white, 0 1px 4px rgb(0 7 15 / .2);
+    font-size: 14px;
+    font-weight: 620;
+  }
+  .nav-contact:focus-visible { outline-color: #194f72; }
+  .nav-contact[aria-current] { box-shadow: inset 0 0 0 2px #85bdd1; }
+  .nav-contact svg { width: 14px; height: 14px; transition: transform 180ms var(--glide); }
+  @media (hover: hover) { .nav-contact:hover svg { transform: translateX(2px); } }
+  .nav-toggle, .nav-drawer { display: none; }
+
+  @media (width < 52rem) {
+    .navbar {
+      top: max(12px, env(safe-area-inset-top));
+      width: min(24rem, calc(100% - 24px));
+      &[data-open='true'] { border-radius: 25px; --glass-tint: #202631; }
     }
-
-    .inner {
-      @apply relative mx-auto flex items-center justify-between;
+    .nav-row { padding: 4px 5px 4px 16px; gap: 3px; }
+    .nav-name { font-size: 18px; }
+    .nav-sections, .nav-contact-extra { display: none; }
+    .nav-contact { padding-inline: 13px; gap: 6px; font-size: 13px; }
+    .nav-toggle {
+      display: inline-flex; justify-content: center; gap: 6px;
+      padding-inline: 9px; font-size: 14px; font-weight: 540; cursor: pointer;
     }
-
-    .logo {
-      @apply text-white-50 text-xl md:text-2xl font-semibold transition-transform duration-300 hover:scale-105;
-
-      .logo-dot {
-        background: var(--brand-grad);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
+    .nav-toggle svg { width: 12px; height: 12px; transition: transform 250ms var(--glide); }
+    .nav-toggle[aria-expanded='true'] svg { transform: rotate(180deg); }
+    .nav-drawer { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 300ms var(--glide), opacity 190ms ease; }
+    .nav-drawer-clip { min-height: 0; overflow: hidden; }
+    .navbar[data-open='true'] .nav-drawer { grid-template-rows: 1fr; opacity: 1; }
+    .nav-drawer ul {
+      margin: 0 9px 8px; border-top: 1px solid rgb(220 235 255 / .18); padding-top: 5px;
+      max-height: calc(100dvh - 95px - env(safe-area-inset-top)); overflow-y: auto;
     }
-
-    /* tabs are absolutely centred on the bar, independent of the side clusters */
-    nav.desktop {
-      @apply hidden lg:flex items-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
-
-      ul {
-        @apply flex space-x-8;
-
-        li {
-          @apply text-white-50 relative;
-
-          span {
-            @apply transition-colors duration-300;
-          }
-
-          span:hover {
-            color: var(--fg-strong);
-          }
-
-          .underline {
-            @apply absolute -bottom-1 left-0 w-0 h-0.5 rounded-full transition-all duration-300 group-hover:w-full;
-            background: var(--brand-grad);
-          }
-
-          a.active span {
-            color: var(--fg-strong);
-          }
-
-          a.active .underline {
-            @apply w-full;
-          }
-        }
-      }
+    .nav-drawer a {
+      position: relative; width: 100%; padding: 0 12px; min-height: 46px; border-radius: 15px;
+      color: #e4eaf2; font-size: 15px; font-weight: 510;
     }
-
-    .contact-btn {
-      @apply hidden lg:flex;
-
-      .inner {
-        @apply px-5 py-2 rounded-lg group-hover:bg-black-50 transition-colors duration-300;
-        background: var(--btn-bg);
-        color: var(--btn-fg);
-
-        span {
-          @apply transition-colors duration-300;
-        }
-      }
-
-      &:hover .inner span {
-        color: var(--fg-strong);
-      }
-    }
-
-    .menu-toggle {
-      @apply lg:hidden flex items-center justify-center size-11 cursor-pointer; /* was size-10 = 40px */
-
-      img {
-        @apply size-7;
-      }
-    }
-
-    /* right cluster: theme switch · Contact me · hamburger */
-    .nav-right {
-      @apply flex items-center gap-3 md:gap-4;
-    }
-
-    .theme-switch {
-      @apply relative inline-flex items-center w-[52px] h-7 shrink-0 rounded-full border cursor-pointer p-0 transition-colors duration-300;
-
-      /* 52x28 is the right visual size here — growing the track would unbalance
-         the nav cluster — so the touch target is expanded invisibly instead. */
-      &::after {
-        content: "";
-        position: absolute;
-        inset: 50% 0 0 50%;
-        translate: -50% -50%;
-        width: 100%;
-        min-width: 44px;
-        height: 44px;
-      }
-      border-color: var(--color-black-50);
-      background: var(--switch-track);
-
-      .knob {
-        @apply absolute flex items-center justify-center size-5 rounded-full transition-transform duration-300 ease-out;
-        left: 3px;
-        top: 3px;
-        background: var(--switch-knob);
-        color: var(--switch-ink);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-      }
-
-      svg {
-        @apply size-3;
-      }
-    }
+    .nav-drawer a[aria-current] { background: rgb(219 236 255 / .11); color: white; }
+    .nav-drawer a[aria-current]::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #b2d8ea; margin-inline-start: auto; }
   }
 
-  :root[data-theme="light"] .theme-switch .knob {
-    transform: translateX(24px);
+  @media (prefers-reduced-motion: reduce) {
+    .navbar, .navbar *, .navbar *::before { transition: none; }
   }
-
-  /* mobile dropdown menu: animates height via a 0fr -> 1fr grid row */
-  .mobile-menu {
-    @apply lg:hidden grid grid-rows-[0fr] opacity-0 transition-all duration-300 ease-in-out;
-
-    &.open {
-      @apply grid-rows-[1fr] opacity-100;
-    }
-
-    .menu-inner {
-      @apply overflow-hidden;
-    }
-
-    ul {
-      @apply flex flex-col gap-1 mt-4 p-3 rounded-2xl bg-black-100 border border-black-50;
-      box-shadow: var(--card-shadow);
-
-      a {
-        @apply block py-3 px-4 rounded-lg text-white-50 transition-colors duration-300 hover:bg-black-50;
-      }
-
-      a:hover {
-        color: var(--fg-strong);
-      }
-
-      a.active {
-        @apply bg-black-50;
-        color: var(--fg-strong);
-      }
-
-      .mobile-contact {
-        @apply mt-2 text-center font-semibold hover:bg-black-50;
-        background: var(--btn-bg);
-        color: var(--btn-fg);
-      }
-
-      .mobile-contact:hover {
-        color: var(--fg-strong);
-      }
-    }
+  @media (prefers-reduced-transparency: reduce) {
+    .navbar { --glass-tint: #202530; -webkit-backdrop-filter: none; backdrop-filter: none; }
   }
-
+  @media (forced-colors: active) {
+    .navbar, .nav-contact { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+    .navbar::before { display: none; }
+    .navbar a[aria-current] { text-decoration: underline; }
+  }
 }

@@ -1,0 +1,58 @@
+{
+  "rim": {
+    "background": "linear-gradient(180deg, rgb(255, 255, 255) 0%, rgb(201, 201, 201) 9%, rgb(161, 161, 161) 32%, rgb(117, 117, 117) 73%, rgb(255, 255, 255) 100%)",
+    "boxShadow": "0.29px 4.36px 2.18px 0px rgba(0, 0, 0, 0.01), 0.48px 7.24px 3.63px 0px rgba(0, 0, 0, 0.01), 0.78px 11.7px 5.86px 0px rgba(0, 0, 0, 0.02), 1.28px 19.15px 9.6px 0px rgba(0, 0, 0, 0.03), 2.2px 32.97px 16.52px 0px rgba(0, 0, 0, 0.03), 4px 60px 30.07px 0px rgba(0, 0, 0, 0.06)"
+  },
+  "face": {
+    "background": "linear-gradient(150deg, rgb(208, 208, 208) 0%, rgb(232, 232, 232) 50.17%, rgb(200, 200, 200) 100%)",
+    "boxShadow": "inset 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07), inset 0px -1px 1.5px 0px rgba(0, 0, 0, 0.07)"
+  },
+  "gem": {
+    "background": "linear-gradient(135deg, rgb(244, 245, 248) 0%, rgb(196, 200, 208) 55.00000000000001%, rgb(158, 162, 172) 100%)",
+    "boxShadow": "inset 0px 1px 1px 0px rgba(255, 255, 255, 0.9), 0px 4px 7px -1px rgba(0, 0, 0, 0.35)",
+    "rotate": 45
+  },
+  "facet": {
+    "backgroundColor": "rgb(14, 14, 18)"
+  },
+  "link": {
+    "rest": {
+      "backgroundColor": "rgba(255, 255, 255, 0)",
+      "boxShadow": "inset 0px 1px 0px 0px rgba(255, 255, 255, 0), 0px 8px 20px -6px rgba(148, 160, 181, 0), -4px -4px 12px 0px rgba(255, 255, 255, 0)"
+    },
+    "hover": {
+      "backgroundColor": "rgba(255, 255, 255, 0.4)",
+      "boxShadow": "inset 0px 1px 0px 0px rgba(255, 255, 255, 0.85), 0px 8px 20px -6px rgba(148, 160, 181, 0.45), -4px -4px 12px 0px rgba(255, 255, 255, 0.5)"
+    }
+  },
+  "cta": {
+    "rest": {
+      "background": "linear-gradient(180deg, rgb(38, 38, 42) 0%, rgb(8, 8, 10) 100%)",
+      "boxShadow": "inset 0px 1px 0px 0px rgba(255, 255, 255, 0.28), inset 0px -1px 1px 0px rgba(0, 0, 0, 0.5), 0px 7px 16px -6px rgba(0, 0, 0, 0.38)"
+    },
+    "hover": {
+      "background": "linear-gradient(180deg, rgba(37, 37, 41, 0.85) 0%, rgba(8, 8, 10, 0.85) 100%)",
+      "boxShadow": "inset 0px 1px 0px 0px rgba(255, 255, 255, 0.45), inset 0px -1px 1px 0px rgba(0, 0, 0, 0.5), 0px 12px 24px -6px rgba(0, 0, 0, 0.58)"
+    }
+  },
+  "shine": {
+    "background": "linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0) 100%)",
+    "rotate": 20,
+    "opacity": 0
+  },
+  "surfaceTransition": {
+    "type": "spring",
+    "duration": 0.35,
+    "bounce": 0.2
+  },
+  "shineTransition": {
+    "type": "tween",
+    "duration": 0.8,
+    "ease": [
+      0.25,
+      0.1,
+      0.25,
+      1
+    ]
+  }
+}

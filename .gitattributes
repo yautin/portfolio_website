@@ -1,0 +1,3 @@
+# PDF fixtures are binary; their cross-reference spacing is significant.
+*.pdf binary
+*.webp binary

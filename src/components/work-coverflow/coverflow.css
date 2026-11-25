@@ -1,0 +1,95 @@
+:host{display:block;container:showcase / inline-size;color-scheme:dark;--bg:#101117;--ink:#f1f0f4;--dim:#b3b4c2;--rule:#34353f;--font-sans:'Mona Sans',sans-serif;font:16px/1.5 var(--font-sans);color:var(--ink)}
+*{box-sizing:border-box}[hidden]{display:none!important}.collection{position:relative;margin:0;background:var(--bg);border-radius:8px;overflow:clip;padding-inline:clamp(10px,1.4cqw,22px)}main{max-width:1390px;padding:0 clamp(18px,5.2vw,82px);margin:auto}button{color:inherit;font:inherit;cursor:pointer}.bar,.kicker,.index-label,#browse{display:flex;align-items:center}.bar{justify-content:space-between;gap:8px;min-height:50px}
+.kicker,.bar,dt,#others{font:500 10px/1.5 var(--font-sans);letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}.kicker{gap:10px;margin:0 0 10px}.kicker i{width:23px;height:1px;background:#b99cd1}.kicker b{font-weight:normal;color:#777788}
+h1,h3{margin:0;letter-spacing:-.035em;line-height:1.04}.bar{border-block:1px solid var(--rule);height:45px}.index-label{gap:9px}.index-label i{width:6px;height:6px;border-radius:50%;background:#b2a6bf}#back{height:42px;border:0;background:none;font-size:12px;padding:0 4px;letter-spacing:0;text-transform:none}button:focus-visible{outline:2px solid #dec1ff;outline-offset:2px}
+#stage{position:relative;isolation:isolate;overflow:clip;background:radial-gradient(ellipse at 48% 43%,#191b26 0%,transparent 72%);height:430px}.capsule{appearance:none;border:0;background:none;position:absolute;left:0;top:0;padding:0;width:1px;height:1px;text-align:left;overflow:visible;outline:none;touch-action:pan-y}.art{position:absolute;display:block;width:1200px;height:690px;overflow:visible;transform-origin:0 0;left:0;top:0;pointer-events:none}.capsule .hit{position:absolute;display:block;left:0;top:0}.caption{position:absolute;left:0;top:0;display:flex;align-items:center;gap:8px;white-space:nowrap;min-height:44px;border-radius:4px;padding:0 4px;color:#e2e3ea;font-size:15px;letter-spacing:-.015em}.caption small{font:10px/1 var(--font-sans);color:var(--dim);letter-spacing:.06em}.caption i{display:inline-block;width:7px;height:7px;background:var(--accent);border-radius:50%;flex:none}.capsule:focus-visible{outline:none}.capsule:focus-visible .caption{outline:2px solid #dbcaf1;outline-offset:1px}.capsule:hover .caption strong{text-decoration:underline;text-underline-offset:4px}.caption strong{font-weight:540}.muted{color:#a2a3b1}
+#brief{position:absolute;left:51%;top:50%;transform:translateY(-50%);width:45%;z-index:5;pointer-events:none}#brief:not([inert]){pointer-events:auto}#brief .kicker{font:600 11px/1.5 var(--font-sans);color:#d5d5df}#discipline:before{content:'';width:8px;height:8px;display:inline-block;border-radius:50%;background:var(--accent)}h3{font-size:clamp(37px,4.2vw,68px);font-weight:600;line-height:1.06;outline:none}#line{display:inline-block;transform-origin:left center;position:relative}#copy{font-size:clamp(16px,1.38vw,21px);line-height:1.55;color:#d3d4df;max-width:40ch;margin:20px 0 24px}dl{display:flex;gap:32px;padding-top:12px;border-top:1px solid var(--rule);margin:0}dt{font-size:9px}dd{margin:3px 0 0;font-size:14px}#others{position:absolute;left:0;opacity:0;pointer-events:none}
+.collection{overflow:visible}
+.flow-track{position:relative;--arrow-size:44px;--rail:24px}
+/* Clip the moving artwork, not the buttons. The track stays full-width when a brief opens. */
+#stage[data-layout="gallery"] #cards{width:calc(100% - 2 * var(--rail))}
+#stage[data-layout="gallery"]{clip-path:inset(0 var(--rail))}
+#browse{position:absolute;z-index:6;inset-inline:calc(var(--rail) - var(--arrow-size) - 3px);top:44%;transform:translateY(-50%);justify-content:space-between;pointer-events:none}
+#browse button{display:grid;place-items:center;pointer-events:auto;padding:0;border:0;border-radius:50%;width:var(--arrow-size);height:var(--arrow-size);background:transparent;color:#c5cbd6;touch-action:manipulation}
+#browse svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+@media(hover:hover){#browse button:hover{color:#fff;background:#272934}}
+#position{margin-inline-start:auto;font-variant-numeric:tabular-nums}.sr{position:absolute;width:1px;height:1px;margin:-1px;clip-path:inset(50%);overflow:hidden}.collection[data-phase=loading] #brief{visibility:hidden}
+@container showcase (max-width:759px){.kicker{font-size:9px}#brief{width:100%;left:0;top:0;transform:none}h3{font-size:clamp(33px,8vw,47px)}#copy{font-size:16px;margin:13px 0 16px;line-height:1.45}dl{gap:23px}.caption{font-size:14px}.caption small{font-size:9px}#stage{height:315px}}
+
+/* Project captions stay in HTML: readable independently of the engraving and its dot. */
+#stage{container-type:inline-size}
+#structure-note{margin:0 0 18px;border-top:1px solid var(--rule);padding-top:10px;color:var(--dim);font-size:13px;line-height:1.5}#structure-note strong{font-weight:600;color:var(--ink)}
+.capsule[aria-current="true"]:focus-visible .hit{outline:2px solid #dbcaf1;outline-offset:2px;border-radius:8px}
+.caption{display:flex;flex-flow:column;align-items:flex-start;justify-content:center;gap:3px;inline-size:max-content;max-inline-size:30cqw;padding:3px 5px;white-space:normal}
+.caption-title{display:inline-flex;gap:8px;align-items:center;line-height:1.2}
+.caption-title strong{font-size:16px;font-weight:600;letter-spacing:-.025em}
+.caption-detail{font-size:13px;line-height:1.35;font-weight:400;letter-spacing:0;color:#bdc0cd;text-wrap:pretty}
+#stage[data-layout="gallery"] .caption{align-items:center;text-align:center}
+@container showcase (max-width:759px){
+ .caption{max-inline-size:calc(76cqw - 24px)}
+ #stage[data-layout="gallery"] .caption,.capsule[aria-current="true"] .caption{max-inline-size:90cqw}
+ .caption-detail{font-size:12px}
+}
+
+/* The optical layer never takes pointer or keyboard input. */
+#projection{position:absolute;inset:0;z-index:0;overflow:visible;pointer-events:none}
+#projected-fan{filter:blur(2px)}#inner-ray{filter:blur(1px)}
+
+.tray-mark{color:color-mix(in srgb,var(--accent) 34%,#fff);filter:drop-shadow(0 0 3px var(--accent))}
+#lift{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:visible}
+#lift use{filter:drop-shadow(0 0 2px currentColor)}
+#line{width:100%}
+#brief h3{text-wrap:balance}
+#brief h3{font-size:clamp(30px,3vw,48px);line-height:1.10}
+#brief #discipline{text-transform:none;letter-spacing:.06em}
+#project-name{font-size:15px;font-style:italic;font-weight:500;color:#c0beca;margin:10px 0 0}
+#copy{max-width:52ch;margin:14px 0 20px}
+#chips{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0}
+#chips li{border:1px solid #42424c;border-radius:5px;padding:3px 8px;font:400 12px/1.45 var(--font-sans);color:#cfd0d8}
+#receiving-edge{pointer-events:none;position:absolute;inset:0 auto 0 -12px;width:1px;background:linear-gradient(transparent,var(--accent) 32%,var(--accent) 68%,transparent);opacity:var(--edge-strength,0)}
+#brief::after{content:'';position:absolute;inset:-5px -4px -5px -12px;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at left center,var(--accent),transparent 74%);opacity:var(--receiving-light,0)}
+@container showcase (max-width:759px){#brief::after{inset:-8px 0 0;background:radial-gradient(ellipse at 45% top,var(--accent),transparent 65%)}}
+@container showcase (max-width:759px){#receiving-edge{inset:-8px auto auto 0;width:65%;height:1px;background:linear-gradient(90deg,var(--accent),transparent)}}
+@media(prefers-reduced-motion:reduce){#lift{display:none}}
+
+/* The box owns its padding. Only the displaced shadow is behind the reader's plane. */
+#brief[data-projecting]{padding:22px 28px 22px 24px;--axis:180deg;--uncaught:0%}
+#brief[data-projecting]::after{inset:0;background:linear-gradient(105deg,#242330,#1b1d27 66%,#191a23);box-shadow:inset 0 1px #e9e8ff21,inset 0 -1px #afb4cd12;opacity:calc(var(--edge-strength,0)*3.56)}
+#brief[data-projecting]::before{content:'';position:absolute;pointer-events:none;z-index:-2;inset:8px 3px -9px 7px;filter:blur(6px);background:#04060b;opacity:calc(var(--edge-strength,0)*2.8)}
+#brief[data-projecting] #receiving-edge{inset:0 auto 0 0;background:linear-gradient(var(--axis),var(--accent),color-mix(in srgb,var(--accent) 44%,#fff) 50%,var(--accent));opacity:var(--edge-opacity,.8);clip-path:inset(0 -6px var(--uncaught) -6px);box-shadow:0 0 6px color-mix(in srgb,var(--accent) 48%,transparent)}
+#brief[data-projecting] #receiving-edge::after{content:'';position:absolute;inset:0;background:linear-gradient(var(--axis),transparent calc(var(--edge-tip,100%) - 19%),#fff var(--edge-tip,100%),transparent calc(var(--edge-tip,100%) + 3%));opacity:var(--edge-flash,0)}
+@container showcase (max-width:759px){#brief[data-projecting]{padding:16px;--axis:90deg}#brief[data-projecting]::before{inset:5px 4px -6px}#brief[data-projecting] #receiving-edge{inset:0 0 auto;width:auto;height:1px;clip-path:inset(-6px var(--uncaught) -6px 0)}}
+
+/* Float only the contents of the cap. Each specimen follows its own slow, shallow arc. */
+.specimen-float{transform-box:fill-box;transform-origin:center;animation:specimen-drift 8.6s ease-in-out -2s infinite alternate}
+.capsule[data-project="1"] .specimen-float{animation-duration:7.8s;animation-delay:-4.5s}
+.capsule[data-project="2"] .specimen-float{animation-duration:9.3s;animation-delay:-1s}
+@keyframes specimen-drift{from{transform:translate(-3px,6px) rotate(-2deg)}to{transform:translate(3px,-7px) rotate(2deg)}}
+@media(prefers-reduced-motion:reduce){.specimen-float{animation:none}}
+/* Only switch after the first successful 3D frame. Keep the existing stationary metal strip. */
+.molecular-port{pointer-events:none;visibility:hidden}.molecular-view{display:block;width:100%;height:100%;pointer-events:none}
+.collection[data-chamber=mesh] .molecular-port{visibility:visible}.collection[data-chamber=mesh] .specimen-float{display:none}
+.collection[data-chamber=mesh] .chamber-glow ellipse{display:none}.collection[data-chamber=mesh] .chamber-glow use{opacity:.72}
+.capsule .chamber-glow>use:nth-of-type(1){stroke:var(--accent)}
+.capsule .chamber-glow>use:nth-of-type(2){stroke:color-mix(in srgb,var(--accent) 82%,white)}
+.capsule .cap-assembly radialGradient stop{stop-color:var(--accent)}
+.capsule .cap-assembly radialGradient stop:first-child{stop-color:color-mix(in srgb,var(--accent) 55%,white)}
+.capsule .cap-assembly radialGradient stop:nth-child(2){stop-color:color-mix(in srgb,var(--accent) 75%,white)}
+.inspection-pose{position:absolute;left:0;top:0;width:1px;height:1px;pointer-events:none;overflow:visible}
+.case-port{visibility:hidden;pointer-events:none}.case-view{display:block;width:100%;height:100%;pointer-events:none}
+/* SVG poster/reference: colour only the powered trace. Keep the optical glass,
+   molecule and titanium outside this rule; the shared bake retains its mask. */
+.capsule .strip-glow>use:nth-of-type(1){stroke:color-mix(in srgb,var(--accent) 74%,white)}
+.capsule .strip-glow>use:nth-of-type(2){stroke:color-mix(in srgb,var(--accent) 57%,white)}
+.capsule .strip-glow stop{stop-color:color-mix(in srgb,var(--accent) 56%,white)}
+.capsule .strip-glow>use:nth-of-type(4){stroke:color-mix(in srgb,var(--accent) 24%,white)}
+/* Keep the invisible SVG in layout for camera sizing and interaction. Only the
+   explicit reference route or a real render failure may display its artwork. */
+.collection:not([data-case=reference]):not([data-case=poster]) .art>:not(defs):not(.case-port){visibility:hidden}
+.collection[data-case=blender] .case-port{visibility:visible}
+#case-loading{display:none}
+.collection[data-case=pending][data-phase=gallery] #case-loading{display:block;position:absolute;inset:38% 0 auto;text-align:center;color:var(--dim);font-size:13px;pointer-events:none;visibility:hidden;animation:case-wait 0s .45s forwards}
+@keyframes case-wait{to{visibility:visible}}
+/* Poster fallback: keep the wordless face, not the old painted carrier and rail highlights. */
+.collection[data-case=poster] .sled > g > :is(rect,path){display:none}
+.collection[data-case=poster] .tray-surface:has(.poster-print) > :is(.tray-mark,.tray-wash){visibility:hidden}

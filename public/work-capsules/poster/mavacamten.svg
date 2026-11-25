@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-labelledby="mavacamten-title">
+<title id="mavacamten-title">Mavacamten — 20 heavy atoms and 21 bonds</title>
+<defs>
+<radialGradient id="mavacamten-C" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#ffffff"/><stop offset=".24" stop-color="#deeff9"/><stop offset=".57" stop-color="#9ab5c9"/><stop offset=".85" stop-color="#516c84"/><stop offset="1" stop-color="#334a61"/></radialGradient>
+<radialGradient id="mavacamten-N" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#eefaff"/><stop offset=".24" stop-color="#82cfff"/><stop offset=".57" stop-color="#418ee1"/><stop offset=".85" stop-color="#3158a9"/><stop offset="1" stop-color="#1d3e76"/></radialGradient>
+<radialGradient id="mavacamten-O" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#ffefea"/><stop offset=".24" stop-color="#ffaca0"/><stop offset=".57" stop-color="#ea6868"/><stop offset=".85" stop-color="#a93f54"/><stop offset="1" stop-color="#74293d"/></radialGradient>
+<linearGradient id="mavacamten-a" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="-2.142" y2="2.142"><stop offset="0" stop-color="#647b91"/><stop offset=".25" stop-color="#f1faff"/><stop offset=".48" stop-color="#cedfe9"/><stop offset="1" stop-color="#70889d"/></linearGradient>
+<linearGradient id="mavacamten-b" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="2.142" y2="-2.142"><stop offset="0" stop-color="#647b91"/><stop offset=".25" stop-color="#f1faff"/><stop offset=".48" stop-color="#cedfe9"/><stop offset="1" stop-color="#70889d"/></linearGradient>
+</defs>
+<circle id="mavacamten-C06" data-element="C" cx="44.91" cy="149.89" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-C06-C04" data-order="SING" data-aromatic="N" transform="translate(44.91 149.89) rotate(19.228)" d="M6.06 0H18.84" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-O20" data-element="O" cx="117.64" cy="124.05" r="7.69" fill="url(#mavacamten-O)"/>
+<circle id="mavacamten-C04" data-element="C" cx="68.43" cy="158.09" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-C05-C04" data-order="SING" data-aromatic="N" transform="translate(62.27 188.19) rotate(-78.432)" d="M6.06 0H24.66" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<path id="mavacamten-O20-C07" data-order="DOUB" data-aromatic="N" transform="translate(117.64 124.05) rotate(-159.561)" d="M6.84 0H16.67" stroke="url(#mavacamten-b)" stroke-width="4.28"/>
+<path id="mavacamten-C04-N03" data-order="SING" data-aromatic="N" transform="translate(68.43 158.09) rotate(-82.689)" d="M6.06 0H18.88" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C05" data-element="C" cx="62.27" cy="188.19" r="6.81" fill="url(#mavacamten-C)"/>
+<circle id="mavacamten-C07" data-element="C" cx="96.34" cy="116.11" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-N03-C07" data-order="SING" data-aromatic="N" transform="translate(71.68 132.76) rotate(-34.032)" d="M6.65 0H23.70" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-N03" data-element="N" cx="71.68" cy="132.76" r="7.47" fill="url(#mavacamten-N)"/>
+<path id="mavacamten-C07-C08" data-order="SING" data-aromatic="N" transform="translate(96.34 116.11) rotate(-80.172)" d="M6.06 0H19.37" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<path id="mavacamten-C02-N03" data-order="SING" data-aromatic="N" transform="translate(50.77 125.95) rotate(18.046)" d="M6.06 0H15.33" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C08" data-element="C" cx="100.68" cy="91.04" r="6.81" fill="url(#mavacamten-C)"/>
+<circle id="mavacamten-C02" data-element="C" cx="50.77" cy="125.95" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-O01-C02" data-order="DOUB" data-aromatic="N" transform="translate(24.22 144.39) rotate(-34.780)" d="M6.84 0H26.27" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-O01" data-element="O" cx="24.22" cy="144.39" r="7.69" fill="url(#mavacamten-O)"/>
+<path id="mavacamten-C09-C08" data-order="DOUB" data-aromatic="N" transform="translate(78.65 85.19) rotate(14.887)" d="M6.06 0H16.73" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<path id="mavacamten-C02-N19" data-order="SING" data-aromatic="N" transform="translate(50.77 125.95) rotate(-81.978)" d="M6.06 0H16.49" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C09" data-element="C" cx="78.65" cy="85.19" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-N19-C09" data-order="SING" data-aromatic="N" transform="translate(54.00 103.04) rotate(-35.921)" d="M6.65 0H24.37" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-N19" data-element="N" cx="54.00" cy="103.04" r="7.47" fill="url(#mavacamten-N)"/>
+<path id="mavacamten-C09-N10" data-order="SING" data-aromatic="N" transform="translate(78.65 85.19) rotate(-88.428)" d="M6.06 0H18.95" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-N10" data-element="N" cx="79.35" cy="59.60" r="7.47" fill="url(#mavacamten-N)"/>
+<path id="mavacamten-N10-C11" data-order="SING" data-aromatic="N" transform="translate(79.35 59.60) rotate(-32.946)" d="M6.65 0H25.68" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C11" data-element="C" cx="105.99" cy="42.34" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-C11-C18" data-order="SING" data-aromatic="N" transform="translate(105.99 42.34) rotate(-104.700)" d="M6.06 0H25.50" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C18" data-element="C" cx="97.98" cy="11.81" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-C11-C12" data-order="SING" data-aromatic="N" transform="translate(105.99 42.34) rotate(35.019)" d="M6.06 0H19.03" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C13" data-element="C" cx="157.99" cy="50.59" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-C12-C13" data-order="SING" data-aromatic="Y" transform="translate(126.54 56.74) rotate(-11.062)" d="M6.06 0H25.98" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C12" data-element="C" cx="126.54" cy="56.74" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-C13-C14" data-order="DOUB" data-aromatic="Y" transform="translate(157.99 50.59) rotate(32.651)" d="M6.06 0H16.12" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<path id="mavacamten-C17-C12" data-order="DOUB" data-aromatic="Y" transform="translate(115.47 75.45) rotate(-59.416)" d="M6.06 0H15.68" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C14" data-element="C" cx="176.66" cy="62.55" r="6.81" fill="url(#mavacamten-C)"/>
+<circle id="mavacamten-C17" data-element="C" cx="115.47" cy="75.45" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-C15-C14" data-order="SING" data-aromatic="Y" transform="translate(165.67 81.11) rotate(-59.366)" d="M6.06 0H15.50" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<path id="mavacamten-C17-C16" data-order="SING" data-aromatic="Y" transform="translate(115.47 75.45) rotate(31.813)" d="M6.06 0H15.99" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C15" data-element="C" cx="165.67" cy="81.11" r="6.81" fill="url(#mavacamten-C)"/>
+<path id="mavacamten-C16-C15" data-order="DOUB" data-aromatic="Y" transform="translate(134.21 87.08) rotate(-10.746)" d="M6.06 0H25.96" stroke="url(#mavacamten-a)" stroke-width="4.28"/>
+<circle id="mavacamten-C16" data-element="C" cx="134.21" cy="87.08" r="6.81" fill="url(#mavacamten-C)"/>
+</svg>

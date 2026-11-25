@@ -11,7 +11,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run lint:functions` — `deno lint` + `deno check` the Supabase edge functions. ESLint deliberately ignores `supabase/` (Deno, `npm:` imports), so this is the only static check on the reward backend. Needs Deno installed.
 - `npm run typecheck` — `tsc --noEmit` over the strict-TS `src/web3/` modules
 
-There is no test setup for the frontend. The Solidity contracts do have tests: `cd contracts && forge test`.
+There are Node API/routing tests (`npm test`) and Playwright browser tests (`npm run test:e2e`). Run `npx playwright install chromium` first, or use `PLAYWRIGHT_CHANNEL=chrome npm run test:e2e` with installed Chrome. The Solidity contracts also have tests: `cd contracts && forge test`.
+
+### Private medical portfolio
+
+`src/Root.jsx` registers the unlisted `/medical-portfolio` route. `PortfolioGate` calls `/api/medical-portfolio`; only the server reads `PORTFOLIO_PASSWORD`, `PORTFOLIO_SESSION_SECRET` and `PORTFOLIO_ASSET_DIR`. The gallery renders authenticated catalog metadata; original PDFs and generated covers are served through the same authenticated API. Real files and catalog.json live in private storage OUTSIDE this repository. Never expose secrets as `VITE_*`, add public navigation links, or put real samples/metadata in `public/`, client imports, test fixtures or a public Git repository. `tests/fixtures/` contains synthetic assets only. See `docs/medical-portfolio.md` for local storage, deployment and confidentiality boundaries.
 
 ## What this is
 
@@ -69,3 +73,9 @@ To add a game: create `src/games/<id>/` (with an `index.js` facade exposing that
 - `ui.js` — `viewport`, `roundRectGraphics`/`redrawRoundRect`, `REDUCED`, `FONT`, `BASE_UI` neutral tokens, and the button *mechanics*. Button **looks** stay per-game: `makeButton` takes a `paint({ g, txt, w, h, state })` strategy, so Immune Defense keeps its solid cyan and Microwell its brand gradient. Each game's `ui.js` re-exports the shared surface, so scenes keep importing everything from `"../ui"`.
 
 The two games today are **`immune-defense/`** (lane tower-defense) and **`microwell/`** (minesweeper framed as a live-cell microfluidic assay / Lab-on-a-Chip — the hidden "mines" are **infected host cells** in a grid of traps, not free pathogens; first-click-safe seeding, flood-fill, flagging, chording, plus a non-invasive "scan" safe-reveal twist). Microwell is the smaller reference for the contract: `scenes/` holds Boot/Menu/End plus the split `Game` scene, its `ui.js`/`audio.js` are thin skins over `src/games/shared/`, and all tuning/persistence lives in `td/defs.js`. Both games' scenes zoom the camera by `RES` (`viewport(scene)`) so gameplay stays in logical pixels at HiDPI.
+<!-- HERMES-CONTEXT:START -->
+<!-- HERMES-CONTEXT:REVISION 11 -->
+Read AGENTS.md and CLAUDE.md if present; this block does not replace their rules.
+Read context/INDEX.md, context/inventory.md, context/tasks.md and context/skills-tools.md before work.
+Run ctx.py status; cached metadata is not medical evidence.
+<!-- HERMES-CONTEXT:END -->

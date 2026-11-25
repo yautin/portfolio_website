@@ -13,6 +13,20 @@ const navLinks = [
   },
 ];
 
+const heroScene = {
+
+  desktopVideo: '/images/hero-background/chip-flow-desktop.mp4',
+  mobileVideo: '/images/hero-background/chip-flow-mobile.mp4',
+  desktopPoster: '/images/hero-background/chip-flow-poster.webp',
+  mobilePoster: '/images/hero-background/chip-flow-mobile.webp',
+  pause: 'Pause animation',
+  play: 'Play animation',
+  off: 'Motion off',
+  reset: 'Reset view',
+  reducedHint: 'Animation is off to respect your reduced-motion preference.',
+  saveDataHint: 'Animation is off to save data.',
+}
+
 const words = [
   { text: "Science", imgPath: "/images/science.svg", accent: "#4cc9f0" },
   { text: "Data", imgPath: "/images/data.svg", accent: "#9d4edd" },
@@ -25,7 +39,7 @@ const words = [
 // Headline stats — replace the values with your own figures.
 const counterItems = [
   { value: 9, suffix: "+", label: "Therapeutic areas covered" },
-  { value: 70, suffix: "+", label: "Promotional pieces delivered" },
+  { value: 80, suffix: "+", label: "Promotional pieces delivered" },
   { value: 1.5, suffix: "+", label: "Years in medical writing" },
 ];
 
@@ -88,6 +102,7 @@ const drugProducts = [
   { name: "Amivantamab", area: "Oncology" },
   { name: "Mavacamten", area: "Cardiology" },
   { name: "Alirocumab", area: "Cardiology" },
+  { name: "Bempedoic acid", area: "Cardiology" },
   { name: "Clopidogrel", area: "Cardiology" },
   { name: "Ticagrelor", area: "Cardiology" },
   { name: "Dapagliflozin", area: "Cardiology" },
@@ -198,6 +213,7 @@ const contactLinks = [
 
 export {
   navLinks,
+  heroScene,
   words,
   counterItems,
   workProjects,

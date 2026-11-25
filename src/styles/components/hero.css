@@ -101,15 +101,107 @@
     }
   }
 
-  /* original hero backdrop: soft accent light-wells echoing the DNA-helix palette.
-     --hero-tint adds a faint cool wash in light mode so the glowing 3D helix and
-     particles stay legible against the light page. */
-  .hero-glow {
-    @apply absolute inset-0 -z-10 pointer-events-none;
-    background:
-      var(--hero-tint),
-      radial-gradient(42% 55% at 72% 30%, var(--hero-glow-1), transparent 70%),
-      radial-gradient(38% 50% at 56% 68%, var(--hero-glow-2), transparent 72%);
+  /* The cinematic stage stays dark in both themes; the rest of the page keeps
+     its original theme. A poster is always behind the progressive video layer. */
+  .hero-stage {
+    position: relative;
+    display: flow-root;
+    isolation: isolate;
+    --color-white-50: #c4cdda;
+    --fg-strong: #e8ebf2;
+    color: var(--fg-strong);
   }
+
+  .hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: #070b15;
+    img, video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 75% center;
+    }
+    video { opacity: 0; transition: opacity 600ms ease; }
+    video.is-ready { opacity: 1; }
+    .hero-video-shade {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+    }
+  }
+
+  .hero-stage::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 160px;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(transparent, var(--page-bg));
+  }
+
+
+  .hero-scene-controls {
+    position: absolute;
+    z-index: 20;
+    bottom: 80px;
+    right: clamp(20px, 5.55vw, 80px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #c4cdda;
+    font-size: 12px;
+    button {
+      min-height: 44px;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid #94a3b840;
+      border-radius: 999px;
+      background: #0b1221dc;
+      color: #dce6f2;
+      cursor: pointer;
+      transition: border-color 180ms ease, background 180ms ease;
+      &:hover:not(:disabled) { border-color: #86caddaa; background: #182a3c; }
+      &:focus-visible { outline: 2px solid #9bddeb; outline-offset: 4px; }
+      &:disabled { cursor: default; color: #a8b4c6; }
+      svg { width: 14px; height: 14px; }
+    }
+  }
+  .hero-scene-controls .hero-reset {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+    svg { width: 17px; height: 17px; }
+  }
+
+  @media (max-width: 1279px), (hover: none) {
+    .hero-background {
+      img, video { object-position: 75% bottom; }
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(#070b15 0%, rgb(7 11 21 / .95) 30%, transparent 56%);
+      }
+    }
+    .hero-scene-controls { bottom: 8px; }
+  }
+  @media (hover: none) {
+    .hero-scene-controls .hero-reset { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-background video, .hero-scene-controls button { transition: none; }
+  }
+
+
 
 }
