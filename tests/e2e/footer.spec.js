@@ -1,0 +1,22 @@
+import { expect, test } from '@playwright/test'
+
+test('footer pairs the rights notice with a single link to the games hub', async ({ page, isMobile }) => {
+  if (isMobile) await page.setViewportSize({ width: 320, height: 640 })
+  await page.goto('/')
+  const footer = page.getByRole('contentinfo')
+  const fun = footer.getByRole('link', { name: 'For Fun', exact: true })
+  const copy = footer.getByText(/^© \d{4} Marco Ng\. All rights reserved\.$/)
+  await expect(footer.getByRole('link')).toHaveCount(1)
+  await expect(footer).toHaveText(/^© \d{4} Marco Ng\. All rights reserved\.\s*For Fun$/)
+  await expect(fun).toHaveAttribute('href', '/fun')
+  await footer.scrollIntoViewIfNeeded()
+  const [left, right] = await Promise.all([copy.boundingBox(), fun.boundingBox()])
+  expect(left.x + left.width).toBeLessThan(right.x)
+  expect(Math.abs((left.y + left.height / 2) - (right.y + right.height / 2))).toBeLessThan(2)
+  expect(right.x + right.width).toBeLessThanOrEqual(page.viewportSize().width)
+  expect(right.height).toBeGreaterThanOrEqual(44)
+  if (isMobile) await fun.tap()
+  else await fun.press('Enter')
+  await expect(page).toHaveURL(/\/fun\/?$/)
+  await expect(page.getByRole('heading', { name: 'For fun', exact: true })).toBeVisible()
+})

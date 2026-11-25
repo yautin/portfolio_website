@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import ContactGlobe from "../components/ContactGlobe";
 
-import { contactEmail, contactLinks, navLinks, web3formsKey } from "../constants";
+import { contactEmail, contactLinks, web3formsKey } from "../constants";
 import { FLAGS } from "../config/flags";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -225,37 +225,23 @@ const Contact = () => {
       </section>
 
       <footer className="site-footer">
-        <div className="inner">
-          <div className="footer-brand">
-            <p className="footer-name">Marco Ng</p>
-            <p className="footer-tag">Medical writer</p>
-          </div>
-
-          <nav className="footer-nav">
-            {navLinks.map(({ link, name }) => (
-              <a key={name} href={link}>
-                {name}
-              </a>
-            ))}
-            <a href="#contact">Contact</a>
-          </nav>
-
-          <div className="footer-meta">
-            <p className="footer-copy">© {year} Marco Ng. All rights reserved.</p>
-            <Link
-              className="footer-funbtn"
-              to="/fun"
-              onClick={(e) => {
-                // let modifier-clicks (open in new tab, etc.) behave natively
-                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                e.preventDefault();
-                portalTo("/fun", e.currentTarget);
-              }}
-            >
-              🎮 For Fun
-            </Link>
-          </div>
-        </div>
+        <p className="footer-copy">© {year} Marco Ng. <span>All rights reserved.</span></p>
+        <Link
+          className="footer-funbtn"
+          to="/fun"
+          onClick={(e) => {
+            // Let modifier-clicks (open in new tab, etc.) behave natively.
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            e.preventDefault();
+            portalTo("/fun", e.currentTarget);
+          }}
+        >
+          <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M7.5 6.5h9c2 0 3.1 1.5 3.6 3.6l1 5.2c.5 2.7-1.6 3.7-3.3 2.1L15 15h-6l-2.8 2.4c-1.7 1.6-3.8.6-3.3-2.1l1-5.2c.5-2.1 1.6-3.6 3.6-3.6Z" />
+            <path d="M6.3 10.8h3.4M8 9.1v3.4m6.7-1.1h.1m2-1.8h.1" />
+          </svg>
+          For Fun
+        </Link>
       </footer>
     </>
   );
