@@ -15,6 +15,8 @@ All assets live in `public/images/hero-background/`:
 
 Video and poster select the mobile source at viewport widths <=767 CSS pixels, as before the experiment. Both clips: x264 slow/CRF17/GOP60, H.264 High/yuv420p, BT.709 limited range, 30fps, 300 frames, 10 seconds, silent and faststart. Desktop level 5.0; mobile level 3.1. Posters use WebP quality95/method6.
 
+On widths up to 767px the film and matching poster share a shallower frame behind the helix, rather than covering the full headline-plus-figure stack. This reveals more of the circuit pattern without increasing the mobile download or changing the desktop composition.
+
 ## Provenance and reproduction
 
 Input: `context/hero-background-study/motion-v3/master-flow.mp4` (4K approved animation). SHA-256: `bb64a15ab53f38f2615b518e23ceb32fb660131e8c9899f4d68ed56f5407c5fe`.
