@@ -20,6 +20,7 @@ const heroScene = {
   desktopPoster: '/images/hero-background/chip-flow-poster.webp',
   mobilePoster: '/images/hero-background/chip-flow-mobile.webp',
   pause: 'Pause animation',
+  workLink: 'See my work',
   play: 'Play animation',
   off: 'Motion off',
   reset: 'Reset view',
