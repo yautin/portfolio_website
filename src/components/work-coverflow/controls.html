@@ -1,0 +1,20 @@
+<div class="collection" data-phase="loading" data-case="pending">
+<div class="bar"><span class="index-label" hidden><i></i>Project index</span>
+<span id="position">02 / 03</span>
+<button type="button" id="back" hidden>← &nbsp; Back to all projects</button></div>
+<div class="flow-track">
+<div id="browse" role="group" aria-label="Browse projects">
+ <button type="button" aria-label="Previous project"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="m12 4-6 6 6 6"/></svg></button>
+ <button type="button" aria-label="Next project"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="m8 4 6 6-6 6"/></svg></button>
+</div>
+<div id="stage"><div id="cards" role="group" aria-label="Project capsules"></div><span id="case-loading" role="status">Loading capsules…</span>
+<svg id="projection" aria-hidden="true" focusable="false" width="100%" height="100%" style="opacity:0">
+ <defs><linearGradient id="fan-ink" gradientUnits="userSpaceOnUse"><stop stop-color="currentColor" stop-opacity=".60"/><stop offset=".32" stop-color="currentColor" stop-opacity=".36"/><stop offset=".80" stop-color="currentColor" stop-opacity=".27"/><stop offset="1" stop-color="currentColor" stop-opacity=".18"/></linearGradient></defs>
+ <polygon id="projected-fan" points="0,0 0,0 0,0" fill="url(#fan-ink)"/><polygon id="inner-ray" fill="url(#fan-ink)" opacity=".48"/>
+ <line id="light-front" stroke="currentColor" stroke-width="1" stroke-opacity=".76" stroke-linecap="round"/>
+</svg>
+<svg id="lift" aria-hidden="true" focusable="false" width="100%" height="100%" style="opacity:0"><use/></svg>
+<section id="brief" aria-label="Project brief" aria-hidden="true" inert><span id="receiving-edge" aria-hidden="true"></span><div class="brief-rest"><p id="discipline" class="kicker"></p></div><h3 tabindex="-1"><span id="line"></span></h3><div class="brief-rest"><p id="project-name"></p><p id="copy"></p><ul id="chips" aria-label="Project tags"></ul></div></section><span id="others" aria-hidden="true">Other projects</span></div>
+</div>
+<aside id="structure-note" hidden><strong>Inside the glass</strong> · Atomic close-up of three residues in faricimab’s VEGF-A-binding arm, not the whole antibody.</aside><p id="announce" class="sr" role="status"></p>
+</div>

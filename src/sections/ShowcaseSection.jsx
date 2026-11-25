@@ -1,42 +1,33 @@
 import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from "@gsap/react";
+import { useGSAP } from '@gsap/react'
+import WorkCoverFlow from '../components/WorkCoverFlow'
 
-import { workProjects } from "../constants";
-
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger)
 
 const ShowcaseSection = () => {
-  const sectionRef = useRef(null);
+  const sectionRef = useRef(null)
 
   useGSAP(() => {
     gsap.fromTo(
-      ".work-head > *",
+      '.work-head > *',
       { y: 30, opacity: 0 },
       {
         y: 0,
         opacity: 1,
         duration: 0.8,
         stagger: 0.15,
-        ease: "power2.out",
-        scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+        ease: 'power2.out',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
       }
-    );
-
-    gsap.fromTo(
-      ".work-card",
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        stagger: 0.15,
-        ease: "power2.out",
-        scrollTrigger: { trigger: ".work-grid", start: "top 80%" },
-      }
-    );
-  }, []);
+    )
+    // On a cold SPA visit the browser can resolve the fragment before React
+    // has created #work. Honour that link without overriding restored scroll.
+    if (window.location.hash === '#work' && window.scrollY === 0) {
+      sectionRef.current.scrollIntoView({ block: 'start', behavior: 'instant' })
+    }
+  }, { scope: sectionRef })
 
   return (
     <section id="work" ref={sectionRef} className="work-section section-band">
@@ -49,42 +40,9 @@ const ShowcaseSection = () => {
         </p>
       </div>
 
-      <div className="work-grid">
-        {workProjects.map((project) => (
-          <article
-            key={project.title}
-            className="work-card"
-            style={{ "--accent": project.accent, "--icon": `url(${project.icon})` }}
-          >
-            <span className="work-watermark" aria-hidden="true" />
-
-            <div className="work-card-body">
-              <div className="work-icon">
-                <img src={project.icon} alt="" />
-              </div>
-
-              <p className="work-tag">
-                <span className="work-dot" />
-                {project.tag}
-              </p>
-
-              <h3>{project.title}</h3>
-              <p className="work-molecule">{project.molecule}</p>
-              <p className="work-desc">{project.description}</p>
-
-              <div className="work-chips">
-                {project.chips.map((chip) => (
-                  <span key={chip} className="work-chip">
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+      <WorkCoverFlow />
     </section>
-  );
+  )
 }
 
 export default ShowcaseSection

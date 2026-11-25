@@ -1,0 +1,165 @@
+@layer components {
+  .mobile-fluid-nav { display: none; }
+
+  @media (width < 52rem) {
+    .navbar:has(> .mobile-fluid-nav) {
+      top: max(12px, env(safe-area-inset-top));
+      --rail-gutter: max(1rem, env(safe-area-inset-left), env(safe-area-inset-right));
+      width: min(40rem, calc(100% - var(--rail-gutter) - var(--rail-gutter)));
+      height: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .navbar:has(> .mobile-fluid-nav)::before { content: none; }
+    .mobile-fluid-nav {
+      /* Sampled physical response of Framer's k=350, c=55, m=.5 spring;
+         no bounce. A reversed CSS transition picks up from the painted pose. */
+      --spring: linear(0, .025 .83%, .0744 1.67%, .1577 2.92%, .2379 4.17%, .3564 6.25%, .4568 8.33%, .5415 10.42%, .613 12.5%, .6733 14.58%, .7243 16.67%, .8036 20.83%, .8601 25%, .9003 29.17%, .929 33.33%, .9494 37.5%, .964 41.67%, .9817 50%, .9907 58.33%, .9953 66.67%, .9983 79.17%, 1);
+      --travel: 1200ms var(--spring);
+
+      --contact-w: 5rem;
+      --panel-w: min(367.5px, calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+      --panel-pad: clamp(24px, 7vw, 30px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -.02em;
+      pointer-events: none;
+    }
+    .mobile-fluid-nav :is(a, button) {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; min-width: 44px; color: inherit; text-decoration: none;
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-fluid-nav button { border: 0; padding: 0; background: none; font: inherit; cursor: pointer; }
+    .mobile-fluid-nav :focus-visible { outline: 2px solid #bdefff; outline-offset: -2px; }
+    .mobile-fluid-nav [aria-current] { text-decoration: underline; text-underline-offset: .18em; text-decoration-thickness: 1px; }
+    .mobile-fluid-nav [inert] { pointer-events: none; }
+
+    /* The three siblings never share a painted backing. Bridge only opens
+       the space between them; the panel is still exactly 24 × 24 here. */
+    .mobile-fluid-nav .fluid-close {
+      position: absolute; top: 0; left: 50%; transform: translate(-50%, 12px);
+      z-index: 2; isolation: isolate; border-radius: 50%; opacity: 0;
+      transition: transform var(--travel), opacity var(--travel);
+    }
+    .fluid-close::before {
+      content: ''; position: absolute; inset: 2px; z-index: -1; border-radius: 50%;
+    }
+    .mobile-fluid-nav .fluid-close svg { width: 24px; height: 24px; stroke: white; stroke-width: 1.9; fill: none; }
+    .fluid-panel {
+      --bottom-pad: 44px;
+      display: flex; align-items: flex-end; justify-content: center;
+      width: 24px; height: 24px; margin-top: 0; position: relative; isolation: isolate;
+      overflow: hidden; border-radius: 77.456px; pointer-events: none;
+      transition: height var(--travel), width var(--travel), margin-top var(--travel);
+    }
+    @supports (corner-shape: superellipse(1.5)) {
+      .fluid-panel { corner-shape: superellipse(1.5); border-radius: 103px; }
+    }
+
+    .fluid-content {
+      position: relative; flex: none; width: var(--panel-w);
+      padding: var(--panel-pad) var(--panel-pad) var(--bottom-pad);
+      margin-bottom: calc(-1 * var(--bottom-pad)); visibility: hidden;
+      /* Keep full-size text inside the closing mask; no letters on the resting dot. */
+      transition: margin-bottom var(--travel), visibility 0s 400ms;
+      max-height: calc(100dvh - max(12px, env(safe-area-inset-top)) - env(safe-area-inset-bottom) - 132px);
+      overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin;
+    }
+    .fluid-content ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .fluid-content li a {
+      position: relative; justify-content: space-between; gap: 12px; width: 100%; font-size: clamp(1.625rem, 8.25vw, 2rem);
+      line-height: 1.14; letter-spacing: -.035em; overflow-wrap: anywhere;
+      padding: 8px 12px; border-radius: 18px;
+    }
+
+    .fluid-main {
+      position: relative; isolation: isolate; z-index: 1; overflow: hidden;
+      width: 100%; height: 57px; margin-top: -24px; border-radius: 500px;
+      pointer-events: auto;
+      transition: width var(--travel), height var(--travel), margin-top var(--travel);
+    }
+
+    .fluid-main > :is(button,a) { position: absolute; top: 50%; border-radius: 500px; }
+    .fluid-menu { left: 7px; gap: 9px; transform: translateY(-50%); transition: opacity var(--travel); }
+    .mobile-fluid-nav .fluid-menu {
+      width: calc(100% - var(--contact-w) - 24px); justify-content: flex-start; padding-inline: 12px;
+    }
+    .fluid-bars { width: 26px; display: grid; gap: 4px; }
+    .fluid-bars::before, .fluid-bars::after { content: ''; height: 2px; background: white; }
+    .fluid-bars::after { width: 18px; }
+    .fluid-contact {
+      right: 12px; transform: translateY(-50%); width: var(--contact-w); color: black;
+      transition: right var(--travel);
+    }
+    .fluid-contact span {
+      display: grid; place-items: center; width: 100%; min-height: 33px; border-radius: inherit;
+      color: #050505; background: white; transition: color 0s 120ms, background-color var(--travel);
+    }
+    .mobile-fluid-nav .fluid-contact:focus-visible { outline-color: #6da5ba; }
+    .mobile-fluid-nav:not([data-phase='base']) .fluid-panel { margin-top: 54px; }
+    .mobile-fluid-nav:not([data-phase='base']) .fluid-main { margin-top: 12px; }
+    .mobile-fluid-nav[data-phase='expand'] {
+      .fluid-close { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+      .fluid-panel { width: var(--panel-w); height: var(--fluid-content-h); pointer-events: auto; }
+      .fluid-content { margin-bottom: 0; visibility: visible; transition-delay: 0s; }
+
+      .fluid-main { width: var(--contact-w); height: 44px; }
+      .fluid-menu { opacity: 0; }
+      .fluid-contact { right: 0; }
+      .fluid-contact span { background-color: transparent; color: white; }
+    }
+    /* A separate polished surface gives feedback without moving hit boxes,
+       interrupting the disclosure spring, or adding another backdrop filter. */
+    .mobile-fluid-nav :is(a, button) {
+      --lit: 0; --nudge: 0px; --arrow-x: -5px;
+    }
+    .mobile-fluid-nav :is(a, button)::after {
+      content: ''; position: absolute; inset: 2px 0; border-radius: inherit;
+      pointer-events: none; opacity: var(--lit);
+      background: radial-gradient(ellipse at 9% 0%, #d6f3ff27, transparent 67%),
+        linear-gradient(110deg, #0e1b2b30, #c5e9ff0d);
+      box-shadow: inset 0 1px 0 #e4f8ff70, inset 0 0 0 1px #d4eeff2b, inset 0 -1px 2px #b8e5ff1a;
+      transition: opacity 180ms ease-out;
+    }
+    .mobile-fluid-nav .fluid-close::after { inset: 2px; }
+    .mobile-fluid-nav .fluid-contact::after { inset: 5px 0; }
+    .mobile-fluid-nav[data-phase='expand'] .fluid-contact::after { inset: 2px; }
+    .fluid-label, .fluid-arrow {
+      position: relative; z-index: 1; pointer-events: none;
+      transition: transform 210ms cubic-bezier(.2,.75,.25,1), opacity 150ms ease-out;
+    }
+    .fluid-label { transform: translateX(var(--nudge)); }
+    .fluid-arrow { width: 18px; height: 18px; flex: none; opacity: var(--lit); transform: translateX(var(--arrow-x)); }
+    .mobile-fluid-nav :is(a, button):is(:focus-visible, :active, [data-pressed]) { --lit: 1; --nudge: 3px; --arrow-x: 0px; }
+    @media (hover: hover) and (pointer: fine) {
+      .mobile-fluid-nav :is(a, button):not([inert]):hover { --lit: 1; --nudge: 3px; --arrow-x: 0px; }
+    }
+    /* A short tap should paint immediately rather than starting a long fade. */
+    .mobile-fluid-nav :is(a, button):is(:active, [data-pressed])::after { transition-duration: 0s; }
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-fluid-nav *, .mobile-fluid-nav *::before, .mobile-fluid-nav *::after { transition: none !important; }
+      .fluid-label, .fluid-arrow { transform: none; }
+    }
+    @media (forced-colors: active) {
+      .fluid-main, .fluid-panel, .fluid-close::before { outline: 1px solid ButtonText; outline-offset: -1px; }
+      .mobile-fluid-nav .fluid-close svg { stroke: ButtonText; }
+      .fluid-bars::after, .fluid-bars::before { background: ButtonText; }
+      .mobile-fluid-nav :is(a, button)::after { outline: 1px solid Highlight; outline-offset: -2px; }
+    }
+  }
+}

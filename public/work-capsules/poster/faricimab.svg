@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-labelledby="faricimab-title">
+<title id="faricimab-title">Faricimab VEGF-A-binding arm · atomic close-up (not the entire antibody) — 31 heavy atoms and 33 bonds</title>
+<desc>Three adjacent residues in the sequence-matched antibody arm, shown in the conformation of PDB 1CZ8 chain H. Peptide chains continue beyond both ends. Hydrogens omitted.</desc>
+<defs>
+<radialGradient id="faricimab-C" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#ffffff"/><stop offset=".24" stop-color="#deeff9"/><stop offset=".57" stop-color="#9ab5c9"/><stop offset=".85" stop-color="#516c84"/><stop offset="1" stop-color="#334a61"/></radialGradient>
+<radialGradient id="faricimab-N" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#eefaff"/><stop offset=".24" stop-color="#82cfff"/><stop offset=".57" stop-color="#418ee1"/><stop offset=".85" stop-color="#3158a9"/><stop offset="1" stop-color="#1d3e76"/></radialGradient>
+<radialGradient id="faricimab-O" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#ffefea"/><stop offset=".24" stop-color="#ffaca0"/><stop offset=".57" stop-color="#ea6868"/><stop offset=".85" stop-color="#a93f54"/><stop offset="1" stop-color="#74293d"/></radialGradient>
+<linearGradient id="faricimab-a" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="-1.153" y2="1.153"><stop offset="0" stop-color="#647b91"/><stop offset=".25" stop-color="#f1faff"/><stop offset=".48" stop-color="#cedfe9"/><stop offset="1" stop-color="#70889d"/></linearGradient>
+<linearGradient id="faricimab-b" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="1.153" y2="-1.153"><stop offset="0" stop-color="#647b91"/><stop offset=".25" stop-color="#f1faff"/><stop offset=".48" stop-color="#cedfe9"/><stop offset="1" stop-color="#70889d"/></linearGradient>
+</defs>
+<circle id="faricimab-H99_N" data-element="N" cx="119.66" cy="77.37" r="4.02" fill="url(#faricimab-N)"/>
+<path id="faricimab-H99_N-H99_CA" data-order="SING" data-aromatic="N" transform="translate(119.66 77.37) rotate(59.141)" d="M3.58 0H6.93" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H99_O" data-element="O" cx="97.72" cy="94.80" r="4.14" fill="url(#faricimab-O)"/>
+<circle id="faricimab-H99_CA" data-element="C" cx="124.89" cy="86.11" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H99_C-H99_O" data-order="DOUB" data-aromatic="N" transform="translate(111.27 97.50) rotate(-168.707)" d="M3.26 0H10.14" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<path id="faricimab-H99_CA-H99_C" data-order="SING" data-aromatic="N" transform="translate(124.89 86.11) rotate(140.098)" d="M3.26 0H14.49" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H99_C" data-element="C" cx="111.27" cy="97.50" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H99_CA-H99_CB" data-order="SING" data-aromatic="N" transform="translate(124.89 86.11) rotate(-74.478)" d="M3.26 0H8.58" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<path id="faricimab-H99_C-H100_N" data-order="SING" data-aromatic="N" transform="translate(111.27 97.50) rotate(75.112)" d="M3.26 0H9.68" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H99_CD2" data-element="C" cx="157.68" cy="77.92" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H99_CE2-H99_CD2" data-order="DOUB" data-aromatic="Y" transform="translate(173.25 71.85) rotate(158.699)" d="M3.26 0H13.45" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<path id="faricimab-H99_CD2-H99_CG" data-order="SING" data-aromatic="Y" transform="translate(157.68 77.92) rotate(-142.927)" d="M3.26 0H13.01" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H100_N" data-element="N" cx="114.67" cy="110.31" r="4.02" fill="url(#faricimab-N)"/>
+<circle id="faricimab-H99_CE2" data-element="C" cx="173.25" cy="71.85" r="3.67" fill="url(#faricimab-C)"/>
+<circle id="faricimab-H99_CB" data-element="C" cx="128.06" cy="74.70" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H99_CB-H99_CG" data-order="SING" data-aromatic="N" transform="translate(128.06 74.70) rotate(-21.620)" d="M3.26 0H14.63" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<circle id="faricimab-H99_CG" data-element="C" cx="144.70" cy="68.11" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H99_CZ-H99_CE2" data-order="SING" data-aromatic="Y" transform="translate(175.62 55.70) rotate(98.335)" d="M3.26 0H13.05" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<path id="faricimab-H100_N-H100_CA" data-order="SING" data-aromatic="N" transform="translate(114.67 110.31) rotate(133.452)" d="M3.58 0H13.42" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<path id="faricimab-H99_CG-H99_CD1" data-order="DOUB" data-aromatic="Y" transform="translate(144.70 68.11) rotate(-80.442)" d="M3.26 0H13.12" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<path id="faricimab-H100_CD-H100_N" data-order="SING" data-aromatic="N" transform="translate(130.43 113.99) rotate(-166.849)" d="M3.26 0H12.60" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H99_CZ" data-element="C" cx="175.62" cy="55.70" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H99_CZ-H99_OH" data-order="SING" data-aromatic="N" transform="translate(175.62 55.70) rotate(-22.317)" d="M3.26 0H12.79" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<circle id="faricimab-H99_CD1" data-element="C" cx="147.42" cy="51.96" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H99_CE1-H99_CZ" data-order="DOUB" data-aromatic="Y" transform="translate(162.75 45.83) rotate(37.510)" d="M3.26 0H12.96" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<circle id="faricimab-H99_OH" data-element="O" cx="190.86" cy="49.45" r="4.14" fill="url(#faricimab-O)"/>
+<circle id="faricimab-H100_CA" data-element="C" cx="103.20" cy="122.42" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H99_CD1-H99_CE1" data-order="SING" data-aromatic="Y" transform="translate(147.42 51.96) rotate(-21.784)" d="M3.26 0H13.25" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<path id="faricimab-H100_CA-H100_CB" data-order="SING" data-aromatic="N" transform="translate(103.20 122.42) rotate(55.895)" d="M3.26 0H14.62" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H100_CB" data-element="C" cx="113.23" cy="137.23" r="3.67" fill="url(#faricimab-C)"/>
+<circle id="faricimab-H99_CE1" data-element="C" cx="162.75" cy="45.83" r="3.67" fill="url(#faricimab-C)"/>
+<circle id="faricimab-H100_CD" data-element="C" cx="130.43" cy="113.99" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H100_CB-H100_CG" data-order="SING" data-aromatic="N" transform="translate(113.23 137.23) rotate(-21.127)" d="M3.26 0H13.52" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<path id="faricimab-H100_CG-H100_CD" data-order="SING" data-aromatic="N" transform="translate(128.89 131.18) rotate(-84.889)" d="M3.26 0H13.99" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<circle id="faricimab-H100_CG" data-element="C" cx="128.89" cy="131.18" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H100_CA-H100_C" data-order="SING" data-aromatic="N" transform="translate(103.20 122.42) rotate(-169.951)" d="M3.26 0H5.78" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H100_C" data-element="C" cx="94.30" cy="120.84" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H100_C-H101_N" data-order="SING" data-aromatic="N" transform="translate(94.30 120.84) rotate(148.036)" d="M3.26 0H12.17" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H101_N" data-element="N" cx="80.94" cy="129.18" r="4.02" fill="url(#faricimab-N)"/>
+<path id="faricimab-H100_C-H100_O" data-order="DOUB" data-aromatic="N" transform="translate(94.30 120.84) rotate(-58.261)" d="M3.26 0H6.12" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<path id="faricimab-H101_N-H101_CA" data-order="SING" data-aromatic="N" transform="translate(80.94 129.18) rotate(175.132)" d="M3.58 0H6.26" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H100_O" data-element="O" cx="99.46" cy="112.51" r="4.14" fill="url(#faricimab-O)"/>
+<circle id="faricimab-H101_CB" data-element="C" cx="56.04" cy="138.74" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H101_CA-H101_CB" data-order="SING" data-aromatic="N" transform="translate(71.46 129.99) rotate(150.427)" d="M3.26 0H14.47" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H101_CA" data-element="C" cx="71.46" cy="129.99" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H101_CB-H101_CG" data-order="SING" data-aromatic="N" transform="translate(56.04 138.74) rotate(174.460)" d="M3.26 0H8.24" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<path id="faricimab-H101_CA-H101_C" data-order="SING" data-aromatic="N" transform="translate(71.46 129.99) rotate(44.159)" d="M3.26 0H11.09" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<circle id="faricimab-H101_O" data-element="O" cx="86.46" cy="153.07" r="4.14" fill="url(#faricimab-O)"/>
+<path id="faricimab-H101_C-H101_O" data-order="DOUB" data-aromatic="N" transform="translate(81.75 139.99) rotate(70.208)" d="M3.26 0H10.22" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H101_CG" data-element="C" cx="44.59" cy="139.85" r="3.67" fill="url(#faricimab-C)"/>
+<circle id="faricimab-H101_C" data-element="C" cx="81.75" cy="139.99" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H101_CG-H101_CD1" data-order="DOUB" data-aromatic="Y" transform="translate(44.59 139.85) rotate(-140.394)" d="M3.26 0H13.27" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H101_CD1" data-element="C" cx="31.85" cy="129.31" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H101_CD2-H101_CG" data-order="SING" data-aromatic="Y" transform="translate(45.52 152.24) rotate(-94.311)" d="M3.26 0H9.17" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<path id="faricimab-H101_CD1-H101_CE1" data-order="SING" data-aromatic="Y" transform="translate(31.85 129.31) rotate(171.194)" d="M3.26 0H8.49" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H101_CD2" data-element="C" cx="45.52" cy="152.24" r="3.67" fill="url(#faricimab-C)"/>
+<circle id="faricimab-H101_CE1" data-element="C" cx="20.24" cy="131.11" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H101_CE2-H101_CD2" data-order="DOUB" data-aromatic="Y" transform="translate(33.89 154.17) rotate(-9.409)" d="M3.26 0H8.53" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<path id="faricimab-H101_CE1-H101_CZ" data-order="DOUB" data-aromatic="Y" transform="translate(20.24 131.11) rotate(85.696)" d="M3.26 0H9.18" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H101_CE2" data-element="C" cx="33.89" cy="154.17" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H101_CZ-H101_CE2" data-order="SING" data-aromatic="Y" transform="translate(21.18 143.52) rotate(39.952)" d="M3.26 0H13.32" stroke="url(#faricimab-a)" stroke-width="2.31"/>
+<circle id="faricimab-H101_CZ" data-element="C" cx="21.18" cy="143.52" r="3.67" fill="url(#faricimab-C)"/>
+<path id="faricimab-H101_CZ-H101_OH" data-order="SING" data-aromatic="N" transform="translate(21.18 143.52) rotate(170.924)" d="M3.26 0H8.51" stroke="url(#faricimab-b)" stroke-width="2.31"/>
+<circle id="faricimab-H101_OH" data-element="O" cx="9.14" cy="145.45" r="4.14" fill="url(#faricimab-O)"/>
+</svg>

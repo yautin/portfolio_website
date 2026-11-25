@@ -1,0 +1,16 @@
+/* Existing Mona Sans family, self-hosted to remove the blocking Google CSS hop.
+   Latin variable subset; licence is public/fonts/MonaSans-OFL.txt. */
+@font-face {
+  font-family: "Mona Sans";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/mona-sans-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Mona Sans";
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/mona-sans-latin-italic.woff2") format("woff2");
+}
