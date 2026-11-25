@@ -1,53 +1,46 @@
 @layer components {
-  /* ---- Footer ---- */
   .site-footer {
-    @apply mt-24 md:mt-32 border-t border-black-50 px-5 md:px-20 py-10;
+    @apply grid items-center px-5 md:px-20;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1rem;
+    padding-bottom: max(clamp(1rem, 2vw, 1.75rem), env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--page-bg) 88%, var(--input-bg));
+    --trace: color-mix(in srgb, var(--brand-1) 50%, var(--color-black-50));
 
-    .inner {
-      @apply flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left;
+    /* Two halves of one printed trace: the end pad stays directly above the
+       centre of the link, even if its label or the user's font size changes. */
+    &::before, &::after {
+      content: "";
+      grid-row: 1;
+      height: .5rem;
+      margin-bottom: clamp(.75rem, 1.5vw, 1.25rem);
+      pointer-events: none;
     }
-
-    .footer-name {
-      @apply font-semibold text-lg;
-      color: var(--fg-strong);
+    &::before {
+      grid-column: 1;
+      margin-right: -1rem;
+      background: linear-gradient(to right, var(--color-black-50), var(--trace)) left center / 100% 1px no-repeat;
     }
-
-    .footer-tag {
-      @apply text-blue-50 text-sm;
+    &::after {
+      grid-column: 2;
+      background:
+        radial-gradient(circle at center, var(--page-bg) 1px, var(--trace) 1.5px 2.5px, transparent 3px),
+        linear-gradient(var(--trace), var(--trace)) left center / 50% 1px no-repeat;
     }
-
-    .footer-nav {
-      @apply flex flex-wrap justify-center gap-x-6 gap-y-2;
-
-      a {
-        @apply text-white-50 transition-colors duration-300;
-        /* 24px of text is a 24px tap target. Pad to the 44px floor and pull the
-           padding back out of the layout so the footer rhythm is unchanged. */
-        @apply inline-flex items-center min-h-11 -my-2.5;
-      }
-
-      a:hover {
-        color: var(--fg-strong);
-      }
-    }
-
     .footer-copy {
-      @apply text-xs text-blue-50;
+      @apply text-xs sm:text-sm text-blue-50;
+      line-height: 1.5;
+      span { display: inline-block; }
     }
-
-    .footer-meta {
-      @apply flex flex-col items-center md:items-end gap-3;
+    .footer-funbtn {
+      @apply inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold;
+      white-space: nowrap;
+      color: var(--fg-strong);
+      border-color: color-mix(in srgb, var(--brand-1) 28%, var(--color-black-50));
+      background: color-mix(in srgb, var(--brand-1) 5%, var(--page-bg));
+      svg { color: currentColor; flex: none; }
+      &:is(:hover, :focus-visible) { border-color: var(--brand-1); }
+      &:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
     }
   }
-
-  .footer-funbtn {
-    @apply inline-flex items-center gap-2 rounded-full border border-black-50 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white-50 bg-transparent cursor-pointer no-underline transition-colors duration-300;
-    @apply min-h-11; /* was 34px */
-  }
-
-  .footer-funbtn:hover {
-    @apply border-blue-50;
-    color: var(--fg-strong);
-  }
-
 }
