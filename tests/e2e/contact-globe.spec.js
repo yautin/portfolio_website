@@ -182,7 +182,8 @@ test('touch can turn the globe horizontally without trapping a vertical page swi
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   const globe = page.locator('.contact-globe')
-  await globe.evaluate(el => el.scrollIntoView({ block: 'center', behavior: 'instant' }))
+  // Leave room below the viewport for the swipe; centring can hit the page end.
+  await globe.evaluate(el => el.scrollIntoView({ block: 'end', behavior: 'instant' }))
   await expect(globe).toHaveAttribute('data-renderer', 'particles')
   const shape = globe.locator('.globe-route'), initial = await shape.getAttribute('d')
   const box = await globe.boundingBox(), cx = box.x + box.width/2, cy = box.y + box.height/2
