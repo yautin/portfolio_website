@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 
 // Reactive access to the current theme for any component (e.g. the 3D hero),
-// driven by the `data-theme` attribute the navbar toggle sets on <html>.
+// The pre-paint bootstrap still honours a previously saved theme on <html>.
 const subscribe = (callback) => {
   const observer = new MutationObserver(callback);
   observer.observe(document.documentElement, {

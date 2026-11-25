@@ -7,81 +7,36 @@
     @apply max-w-3xl;
   }
 
-  .work-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-14;
+  .work-coverflow, .work-summaries {
+    @apply mt-10 md:mt-14 mx-auto;
+    max-width: 1390px;
   }
 
-  .work-card {
-    @apply relative overflow-hidden rounded-2xl border border-black-50 bg-black-100 p-7
-      transition-all duration-500 hover:-translate-y-2;
-    box-shadow: var(--card-shadow);
+  /* Reserve the browsing stage while the lazy component approaches the viewport. */
+  .work-coverflow:not([data-mounted]) {
+    min-height: clamp(340px, 40vw, 540px);
+  }
 
-    &:hover {
-      border-color: var(--accent);
-      box-shadow: 0 24px 60px -24px var(--accent);
+  @media (width < 768px) {
+    /* Match mount.js's closed stage before lazy loading. A height change here
+       would move later anchor targets while the mobile menu scrolls to them. */
+    .work-coverflow:not([data-mounted]) {
+      min-height: 0;
+      padding-block-start: calc(50px + 133px); /* index bar + stage allowance */
     }
-
-    /* gradient accent line along the top edge, revealed on hover */
-    &::before {
-      content: "";
-      @apply absolute left-0 top-0 h-[3px] w-full opacity-0 transition-opacity duration-500;
-      background: linear-gradient(90deg, var(--accent), transparent 80%);
-    }
-
-    &:hover::before {
-      @apply opacity-100;
-    }
-
-    h3 {
-      @apply text-xl md:text-2xl font-semibold leading-snug;
+    .work-coverflow:not([data-mounted])::before {
+      content: '';
+      display: block;
+      /* Track excludes two 10px insets and two 24px arrow rails. */
+      width: min(calc((100% - 68px) * .86), 400px);
+      aspect-ratio: 100 / 56;
     }
   }
 
-  /* oversized faint echo of the card's own icon, bleeding off the corner */
-  .work-watermark {
-    @apply absolute -top-8 -right-8 size-40 pointer-events-none select-none;
-    background-color: color-mix(in srgb, var(--accent) 22%, transparent);
-    -webkit-mask: var(--icon) center / contain no-repeat;
-    mask: var(--icon) center / contain no-repeat;
+  .work-summaries details {
+    @apply border-b border-black-50 py-5;
   }
-
-  .work-card-body {
-    @apply relative z-10 flex flex-col h-full;
-  }
-
-  .work-icon {
-    @apply flex items-center justify-center size-12 rounded-xl mb-6;
-    background: var(--accent);
-
-    img {
-      @apply size-6;
-    }
-  }
-
-  .work-tag {
-    @apply flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white-50 mb-3;
-
-    .work-dot {
-      @apply size-1.5 rounded-full flex-none;
-      background: var(--accent);
-    }
-  }
-
-  .work-molecule {
-    @apply text-sm font-medium italic mt-2 mb-4;
-    color: var(--accent);
-  }
-
-  .work-desc {
-    @apply text-white-50 text-sm md:text-[15px] leading-relaxed;
-  }
-
-  .work-chips {
-    @apply flex flex-wrap gap-2 mt-auto pt-6;
-
-    .work-chip {
-      @apply text-xs px-3 py-1 rounded-full border border-black-50 text-white-50;
-    }
-  }
+  .work-summaries summary { @apply cursor-pointer font-semibold; }
+  .work-summaries p { @apply mt-2 max-w-prose; }
 
 }

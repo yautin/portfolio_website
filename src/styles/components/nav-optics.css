@@ -1,0 +1,44 @@
+@layer components {
+  .nav-optics-defs { position: absolute; pointer-events: none; width: 0; height: 0; }
+  .desktop-glass { --optic: url(#nav-optic-rail); }
+  .fluid-main { --optic: url(#nav-optic-pill); }
+  .fluid-panel { --optic: url(#nav-optic-panel); --soften: 4px; }
+  .fluid-close::before { --optic: url(#nav-optic-disc); }
+  .mobile-fluid-nav[data-phase='expand'] .fluid-main { --optic: url(#nav-optic-disc); }
+  .navbar :is(.desktop-glass, .fluid-main, .fluid-panel), .navbar .fluid-close::before {
+    --skin: linear-gradient(165deg, #deefff25, #e9f7ff06 28%, #47669609 63%, #a5dcff1c);
+    background: var(--skin), #192535;
+    box-shadow: inset 0 1.25px 1px #f2fcffb8, inset 1.5px 0 2px #cbf2ff52,
+      inset -1.5px -1.5px 2px #d0e7ff6b, inset 0 -4px 6px #9bd8f71c,
+      0 1px 2px #050b1d59, 0 7px 21px -7px #03081c7a;
+    text-shadow: 0 1px 2px #0710208c;
+  }
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .navbar :is(.desktop-glass, .fluid-main, .fluid-panel), .navbar .fluid-close::before {
+      /* Tint plus bounded brightness keeps white labels readable over pale sections. */
+      /* Some WebKit compositors apply blur but omit brightness on a backdrop.
+         The fallback tint alone must protect white ink on a white page. */
+      background: var(--skin), rgb(9 16 29 / .67);
+      -webkit-backdrop-filter: blur(5px) saturate(1.28) brightness(.56);
+      backdrop-filter: blur(5px) saturate(1.28) brightness(.56);
+    }
+    /* URL filters on backdrops are not portable even when CSS.supports parses them.
+       Only opt into this path on a verified engine. Other browsers keep native frost. */
+    .navbar[data-refracts] :is(.desktop-glass, .fluid-main, .fluid-panel), .navbar[data-refracts] .fluid-close::before {
+      background: var(--skin), rgb(10 19 36 / .34);
+      backdrop-filter: var(--optic) blur(var(--soften, .65px)) saturate(1.28) brightness(.56);
+    }
+  }
+  /* Don't show the parked 24px seed THROUGH the translucent closed rail. It
+     appears immediately on Bridge, without changing its box or the choreography. */
+  .mobile-fluid-nav[data-phase='base'] .fluid-panel { visibility: hidden; transition: height var(--travel), width var(--travel), margin-top var(--travel), visibility 0s 1.2s; }
+  @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+    .navbar :is(.desktop-glass, .fluid-main, .fluid-panel), .navbar .fluid-close::before,
+    .navbar[data-refracts] :is(.desktop-glass, .fluid-main, .fluid-panel), .navbar[data-refracts] .fluid-close::before {
+      background: #1a2534; -webkit-backdrop-filter: none; backdrop-filter: none; text-shadow: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .navbar :is(.desktop-glass, .fluid-main, .fluid-panel), .navbar .fluid-close::before { box-shadow: none; outline: 1px solid CanvasText; }
+  }
+}

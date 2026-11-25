@@ -13,6 +13,20 @@ const navLinks = [
   },
 ];
 
+const heroScene = {
+
+  desktopVideo: '/images/hero-background/chip-flow-desktop.mp4',
+  mobileVideo: '/images/hero-background/chip-flow-mobile.mp4',
+  desktopPoster: '/images/hero-background/chip-flow-poster.webp',
+  mobilePoster: '/images/hero-background/chip-flow-mobile.webp',
+  pause: 'Pause animation',
+  play: 'Play animation',
+  off: 'Motion off',
+  reset: 'Reset view',
+  reducedHint: 'Animation is off to respect your reduced-motion preference.',
+  saveDataHint: 'Animation is off to save data.',
+}
+
 const words = [
   { text: "Science", imgPath: "/images/science.svg", accent: "#4cc9f0" },
   { text: "Data", imgPath: "/images/data.svg", accent: "#9d4edd" },
@@ -199,6 +213,7 @@ const contactLinks = [
 
 export {
   navLinks,
+  heroScene,
   words,
   counterItems,
   workProjects,

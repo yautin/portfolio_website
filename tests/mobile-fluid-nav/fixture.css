@@ -1,0 +1,8 @@
+@import '../../src/styles/fonts.css';
+* { box-sizing: border-box; }
+body { margin: 0; background: #555e6b; color: white; font-family: 'Mona Sans', sans-serif; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+ul { list-style: none; padding: 0; margin: 0; }
+main { padding: 65vh 5vw 0; }
+section { min-height: 70vh; }

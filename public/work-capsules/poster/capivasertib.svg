@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-labelledby="capivasertib-title">
+<title id="capivasertib-title">Capivasertib — 30 heavy atoms and 33 bonds</title>
+<defs>
+<radialGradient id="capivasertib-C" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#ffffff"/><stop offset=".24" stop-color="#deeff9"/><stop offset=".57" stop-color="#9ab5c9"/><stop offset=".85" stop-color="#516c84"/><stop offset="1" stop-color="#334a61"/></radialGradient>
+<radialGradient id="capivasertib-CL" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#efffdf"/><stop offset=".24" stop-color="#c3efa2"/><stop offset=".57" stop-color="#80c66b"/><stop offset=".85" stop-color="#458754"/><stop offset="1" stop-color="#2d5d40"/></radialGradient>
+<radialGradient id="capivasertib-N" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#eefaff"/><stop offset=".24" stop-color="#82cfff"/><stop offset=".57" stop-color="#418ee1"/><stop offset=".85" stop-color="#3158a9"/><stop offset="1" stop-color="#1d3e76"/></radialGradient>
+<radialGradient id="capivasertib-O" cx="35%" cy="31%" r="72%" fx="31%" fy="24%"><stop offset="0" stop-color="#ffefea"/><stop offset=".24" stop-color="#ffaca0"/><stop offset=".57" stop-color="#ea6868"/><stop offset=".85" stop-color="#a93f54"/><stop offset="1" stop-color="#74293d"/></radialGradient>
+<linearGradient id="capivasertib-a" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="-1.627" y2="1.627"><stop offset="0" stop-color="#647b91"/><stop offset=".25" stop-color="#f1faff"/><stop offset=".48" stop-color="#cedfe9"/><stop offset="1" stop-color="#70889d"/></linearGradient>
+<linearGradient id="capivasertib-b" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="1.627" y2="-1.627"><stop offset="0" stop-color="#647b91"/><stop offset=".25" stop-color="#f1faff"/><stop offset=".48" stop-color="#cedfe9"/><stop offset="1" stop-color="#70889d"/></linearGradient>
+</defs>
+<circle id="capivasertib-C22" data-element="C" cx="31.48" cy="122.10" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C22-O23" data-order="SING" data-aromatic="N" transform="translate(31.48 122.10) rotate(-164.905)" d="M3.96 0H17.75" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-O23" data-element="O" cx="10.02" cy="116.31" r="5.02" fill="url(#capivasertib-O)"/>
+<path id="capivasertib-C21-C22" data-order="SING" data-aromatic="N" transform="translate(44.31 136.30) rotate(-132.118)" d="M3.96 0H15.18" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<circle id="capivasertib-C21" data-element="C" cx="44.31" cy="136.30" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-N16" data-element="N" cx="77.36" cy="60.06" r="4.88" fill="url(#capivasertib-N)"/>
+<path id="capivasertib-C20-C21" data-order="SING" data-aromatic="N" transform="translate(49.05 124.11) rotate(111.231)" d="M3.96 0H9.11" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-C13-N16" data-order="SING" data-aromatic="N" transform="translate(82.91 69.40) rotate(-120.706)" d="M3.96 0H6.52" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<circle id="capivasertib-N19" data-element="N" cx="63.96" cy="104.96" r="4.88" fill="url(#capivasertib-N)"/>
+<path id="capivasertib-N19-C20" data-order="SING" data-aromatic="N" transform="translate(63.96 104.96) rotate(127.889)" d="M4.34 0H20.31" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C20" data-element="C" cx="49.05" cy="124.11" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C17-N19" data-order="SING" data-aromatic="N" transform="translate(66.41 88.11) rotate(98.304)" d="M3.96 0H12.68" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C14" data-element="C" cx="106.73" cy="79.80" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C14-C13" data-order="SING" data-aromatic="N" transform="translate(106.73 79.80) rotate(-156.415)" d="M3.96 0H22.03" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C13" data-element="C" cx="82.91" cy="69.40" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C24-C20" data-order="SING" data-aromatic="N" transform="translate(60.32 139.70) rotate(-125.882)" d="M3.96 0H15.28" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<path id="capivasertib-C13-C17" data-order="SING" data-aromatic="N" transform="translate(82.91 69.40) rotate(131.409)" d="M3.96 0H20.98" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C25" data-element="C" cx="81.29" cy="148.59" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-C17" data-element="C" cx="66.41" cy="88.11" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C25-C24" data-order="SING" data-aromatic="Y" transform="translate(81.29 148.59) rotate(-157.035)" d="M3.96 0H18.81" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-C12-C13" data-order="SING" data-aromatic="N" transform="translate(82.13 50.72) rotate(87.621)" d="M3.96 0H14.74" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-C15-C14" data-order="SING" data-aromatic="N" transform="translate(114.62 86.72) rotate(-138.727)" d="M3.96 0H6.53" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C24" data-element="C" cx="60.32" cy="139.70" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-C8" data-element="C" cx="188.98" cy="66.21" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C26-C25" data-order="DOUB" data-aromatic="Y" transform="translate(91.95 162.99) rotate(-126.512)" d="M3.96 0H13.95" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<path id="capivasertib-C8-C9" data-order="DOUB" data-aromatic="Y" transform="translate(188.98 66.21) rotate(163.951)" d="M3.96 0H18.77" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-O18-C17" data-order="DOUB" data-aromatic="N" transform="translate(56.09 88.80) rotate(-3.819)" d="M4.47 0H6.39" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<path id="capivasertib-N7-C8" data-order="SING" data-aromatic="Y" transform="translate(190.12 44.44) rotate(92.984)" d="M4.34 0H17.84" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C9" data-element="C" cx="167.14" cy="72.50" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-C12" data-element="C" cx="82.13" cy="50.72" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-N7" data-element="N" cx="190.12" cy="44.44" r="4.88" fill="url(#capivasertib-N)"/>
+<circle id="capivasertib-C26" data-element="C" cx="91.95" cy="162.99" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C1-C9" data-order="SING" data-aromatic="Y" transform="translate(155.26 54.55) rotate(56.494)" d="M3.96 0H17.56" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-C29-C24" data-order="DOUB" data-aromatic="Y" transform="translate(50.06 145.15) rotate(-27.956)" d="M3.96 0H7.66" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<path id="capivasertib-N7-C2" data-order="SING" data-aromatic="Y" transform="translate(190.12 44.44) rotate(-160.436)" d="M4.34 0H16.93" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C15" data-element="C" cx="114.62" cy="86.72" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-O18" data-element="O" cx="56.09" cy="88.80" r="5.02" fill="url(#capivasertib-O)"/>
+<circle id="capivasertib-C1" data-element="C" cx="155.26" cy="54.55" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C2-C1" data-order="SING" data-aromatic="Y" transform="translate(170.44 37.44) rotate(131.578)" d="M3.96 0H18.91" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C2" data-element="C" cx="170.44" cy="37.44" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-N10-C15" data-order="SING" data-aromatic="N" transform="translate(115.56 65.18) rotate(92.516)" d="M4.34 0H17.60" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-C11-C12" data-order="SING" data-aromatic="N" transform="translate(93.09 57.19) rotate(-149.435)" d="M3.96 0H8.77" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-C1-C3" data-order="DOUB" data-aromatic="Y" transform="translate(155.26 54.55) rotate(-169.212)" d="M3.96 0H17.92" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-N4-C2" data-order="DOUB" data-aromatic="Y" transform="translate(165.45 16.46) rotate(76.629)" d="M4.34 0H17.61" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-C27-C26" data-order="SING" data-aromatic="Y" transform="translate(81.55 168.29) rotate(-26.993)" d="M3.96 0H7.72" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<circle id="capivasertib-C29" data-element="C" cx="50.06" cy="145.15" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-C3" data-element="C" cx="133.76" cy="50.46" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C3-N10" data-order="SING" data-aromatic="N" transform="translate(133.76 50.46) rotate(141.022)" d="M3.96 0H19.07" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-N4" data-element="N" cx="165.45" cy="16.46" r="4.88" fill="url(#capivasertib-N)"/>
+<circle id="capivasertib-N10" data-element="N" cx="115.56" cy="65.18" r="4.88" fill="url(#capivasertib-N)"/>
+<path id="capivasertib-N10-C11" data-order="SING" data-aromatic="N" transform="translate(115.56 65.18) rotate(-160.418)" d="M4.34 0H19.89" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-N4-C6" data-order="SING" data-aromatic="Y" transform="translate(165.45 16.46) rotate(-169.168)" d="M4.34 0H17.59" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-N5-C3" data-order="SING" data-aromatic="Y" transform="translate(128.75 29.31) rotate(76.668)" d="M4.34 0H17.78" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<path id="capivasertib-C28-C29" data-order="SING" data-aromatic="Y" transform="translate(60.82 159.49) rotate(-126.903)" d="M3.96 0H13.97" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<circle id="capivasertib-C11" data-element="C" cx="93.09" cy="57.19" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-C27" data-element="C" cx="81.55" cy="168.29" r="4.45" fill="url(#capivasertib-C)"/>
+<circle id="capivasertib-C6" data-element="C" cx="144.28" cy="12.41" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-C6-N5" data-order="DOUB" data-aromatic="Y" transform="translate(144.28 12.41) rotate(132.584)" d="M3.96 0H18.61" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-N5" data-element="N" cx="128.75" cy="29.31" r="4.88" fill="url(#capivasertib-N)"/>
+<path id="capivasertib-C27-C28" data-order="DOUB" data-aromatic="Y" transform="translate(81.55 168.29) rotate(-156.993)" d="M3.96 0H18.56" stroke="url(#capivasertib-b)" stroke-width="3.25"/>
+<circle id="capivasertib-C28" data-element="C" cx="60.82" cy="159.49" r="4.45" fill="url(#capivasertib-C)"/>
+<path id="capivasertib-CL3-C27" data-order="SING" data-aromatic="N" transform="translate(94.27 186.16) rotate(-125.438)" d="M5.24 0H17.97" stroke="url(#capivasertib-a)" stroke-width="3.25"/>
+<circle id="capivasertib-CL3" data-element="CL" cx="94.27" cy="186.16" r="5.89" fill="url(#capivasertib-CL)"/>
+</svg>

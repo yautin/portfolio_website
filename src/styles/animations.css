@@ -11,6 +11,13 @@
   animation: wordSlider 21s infinite cubic-bezier(0.9, 0.01, 0.3, 0.99);
 }
 
+/* Stop on a complete word, never halfway through the clipped slider window.
+   Keep this unlayered alongside the animation it overrides. */
+#hero[data-motion='paused'] .wrapper {
+  animation: none;
+  transform: translateY(0);
+}
+
 @keyframes wordSlider {
   0%     { transform: translateY(0%); }
   16.67% { transform: translateY(-16.67%); }
