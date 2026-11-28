@@ -1,10 +1,22 @@
 @layer components {
   .work-section {
     @apply px-5 md:px-20;
+    padding-block-start: clamp(2.5rem, 5vw, 4rem);
   }
 
   .work-head {
     @apply max-w-3xl;
+
+    .section-eyebrow { position: relative; }
+    .work-trace {
+      position: absolute;
+      inset-inline-start: calc(100% + .75rem);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--brand-1);
+      opacity: .66;
+      pointer-events: none;
+    }
   }
 
   .work-coverflow, .work-summaries {

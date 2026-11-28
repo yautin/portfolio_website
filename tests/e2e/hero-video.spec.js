@@ -98,14 +98,20 @@ for (const preference of ['reduced motion', 'save data']) {
 test('hero pauses offscreen and preserves an explicit pause on return', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   const video = page.locator('.hero-background video')
+  const stage = page.locator('.hero-stage')
+  const leaveHero = async () => {
+    // Selected work can share the viewport with the end of the hero.
+    await stage.evaluate(el => window.scrollBy({ top: el.getBoundingClientRect().bottom + 4, behavior: 'instant' }))
+    await expect(stage).not.toBeInViewport()
+  }
   await expect.poll(() => video.evaluate(v => !v.paused && v.currentTime > 0)).toBe(true)
-  await page.locator('#work').scrollIntoViewIfNeeded()
+  await leaveHero()
   await expect.poll(() => video.evaluate(v => v.paused)).toBe(true)
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }))
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
   await expect.poll(() => video.evaluate(v => !v.paused)).toBe(true)
   await page.getByRole('button', { name: 'Pause animation', exact: true }).click()
-  await page.locator('#work').scrollIntoViewIfNeeded()
+  await leaveHero()
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }))
   await expect(page.getByRole('button', { name: 'Play animation', exact: true })).toBeVisible()
   await expect.poll(() => video.evaluate(v => v.paused)).toBe(true)
