@@ -20,3 +20,25 @@ test('footer pairs the rights notice with a single link to the games hub', async
   await expect(page).toHaveURL(/\/fun\/?$/)
   await expect(page.getByRole('heading', { name: 'For fun', exact: true })).toBeVisible()
 })
+
+test('the etched footer ends above For Fun without growing or intercepting the link', async ({ page, isMobile }) => {
+  const width = isMobile ? 390 : 1440
+  await page.setViewportSize({ width, height: isMobile ? 844 : 900 })
+  await page.goto('/')
+  const footer = page.getByRole('contentinfo')
+  await footer.scrollIntoViewIfNeeded()
+  const edge = footer.locator('.footer-etch')
+  await expect(edge).toHaveAttribute('aria-hidden', 'true')
+  await expect(edge).toHaveCSS('pointer-events', 'none')
+  const layout = await footer.evaluate(el => {
+    const btn = el.querySelector('a').getBoundingClientRect()
+    const pad = el.querySelector('.footer-etch-pad').getBoundingClientRect()
+    const rect = el.getBoundingClientRect()
+    return { height: rect.height, offset: (btn.left + btn.right - pad.left - pad.right) / 2,
+      gap: btn.top - pad.bottom, overflow: document.documentElement.scrollWidth - innerWidth }
+  })
+  expect(Math.abs(layout.offset)).toBeLessThan(1)
+  expect(layout.gap).toBeGreaterThan(2)
+  expect(layout.height).toBeCloseTo(isMobile ? 80 : 100, 0)
+  expect(layout.overflow).toBeLessThanOrEqual(0)
+})

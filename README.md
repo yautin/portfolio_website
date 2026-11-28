@@ -8,7 +8,7 @@ Live site: https://marco-ng.com/
 
 ## Highlights
 
-- **Interactive 3D hero** — a DNA-helix scene (React Three Fiber) with a rotating headline and animated stat counters.
+- **Interactive 3D hero** — a DNA-helix scene (React Three Fiber) with a rotating headline and an experience strip above “See my work”. The figures count up once on entry, or display immediately with reduced motion.
 - **Purpose-built content sections** with a consistent type scale and alternating background bands for a clear reading rhythm.
 - **Two mini-games** behind the footer's "For Fun" button (see below): **Immune Defense**, a 15-level PvZ-style lane tower defense, and **Microwell**, a single-cell-microfluidics twist on minesweeper.
 - **Accessible & responsive** — honours `prefers-reduced-motion`, keyboard-focusable, anchor-aware navigation, and mobile-friendly layouts.

@@ -3,7 +3,7 @@ import { heroScene, words } from '../constants/index.js'
 import Button from '../components/Button.jsx'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import AnimatedCounter from '../components/AnimatedCounter.jsx'
+import HeroStats from '../components/HeroStats.jsx'
 import HeroBackground from '../components/HeroBackground.jsx'
 import { useHeroMotion } from '../hooks/useHeroMotion.js'
 
@@ -56,7 +56,10 @@ const Hero = () => {
                         <p className="text-white-50 md:text-xl relative z-10 pointer-events-none xl:max-w-xl">
                             Hi! I'm Marco, a medical writer with a passion for transforming complex medical information.
                         </p>
-                        <Button text={heroScene.workLink} />
+                        <div className="hero-work-group">
+                            <HeroStats animate={motion.allowed && !motion.userPaused && !motion.blocked} />
+                            <Button text={heroScene.workLink} />
+                        </div>
                     </div>
                 </header>
                 {/* {RIGHT: 3D MODEL} */}
@@ -89,7 +92,7 @@ const Hero = () => {
                 </button>
             </div>
           </div>
-            <AnimatedCounter />
+
         </section>
     )
 }
