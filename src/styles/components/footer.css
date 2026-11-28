@@ -5,35 +5,43 @@
     column-gap: 1rem;
     padding-bottom: max(clamp(1rem, 2vw, 1.75rem), env(safe-area-inset-bottom));
     background: color-mix(in srgb, var(--page-bg) 88%, var(--input-bg));
-    --trace: color-mix(in srgb, var(--brand-1) 50%, var(--color-black-50));
+    overflow-x: clip;
+    --etch-ink: #456373;
+    --etch-cyan: #7bcadd;
+    --etch-copper: #9c8068;
 
-    /* Two halves of one printed trace: the end pad stays directly above the
-       centre of the link, even if its label or the user's font size changes. */
-    &::before, &::after {
-      content: "";
+    /* Use the link's grid column as the anchor, retaining the old separator height. */
+    .footer-etch {
+      position: relative;
       grid-row: 1;
-      height: .5rem;
-      margin-bottom: clamp(.75rem, 1.5vw, 1.25rem);
-      pointer-events: none;
-    }
-    &::before {
-      grid-column: 1;
-      margin-right: -1rem;
-      background: linear-gradient(to right, var(--color-black-50), var(--trace)) left center / 100% 1px no-repeat;
-    }
-    &::after {
       grid-column: 2;
-      background:
-        radial-gradient(circle at center, var(--page-bg) 1px, var(--trace) 1.5px 2.5px, transparent 3px),
-        linear-gradient(var(--trace), var(--trace)) left center / 50% 1px no-repeat;
+      height: calc(.5rem + clamp(.75rem, 1.5vw, 1.25rem));
+      pointer-events: none;
+      svg {
+        position: absolute;
+        /* Leave breathing room above the button when this row is only 20px tall. */
+        top: clamp(-3px, calc(100% - 23px), 0px);
+        left: 50%;
+        width: 100vw;
+        max-width: none;
+        height: 24px;
+        overflow: visible;
+      }
+    }
+    .footer-etch-compact { display: none; }
+    @media (max-width: 599px) {
+      .footer-etch-wide { display: none; }
+      .footer-etch-compact { display: inline; }
     }
     .footer-copy {
       @apply text-xs sm:text-sm text-blue-50;
+      grid-area: 2 / 1;
       line-height: 1.5;
       span { display: inline-block; }
     }
     .footer-funbtn {
       @apply inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold;
+      grid-area: 2 / 2;
       white-space: nowrap;
       color: var(--fg-strong);
       border-color: color-mix(in srgb, var(--brand-1) 28%, var(--color-black-50));
@@ -42,5 +50,10 @@
       &:is(:hover, :focus-visible) { border-color: var(--brand-1); }
       &:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
     }
+  }
+  [data-theme="light"] .site-footer {
+    --etch-ink: #3d6576;
+    --etch-cyan: #12667a;
+    --etch-copper: #8a6752;
   }
 }

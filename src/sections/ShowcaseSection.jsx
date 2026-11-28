@@ -32,7 +32,13 @@ const ShowcaseSection = () => {
   return (
     <section id="work" ref={sectionRef} className="work-section section-band">
       <div className="work-head">
-        <p className="section-eyebrow">Selected work</p>
+        <p className="section-eyebrow">
+          Selected work
+          <svg className="work-trace" aria-hidden="true" focusable="false" width="44" height="12" viewBox="0 0 44 12" fill="none" stroke="currentColor">
+            <path d="M.5 8.5h19l5-5h14" />
+            <circle cx="40.5" cy="3.5" r="2" />
+          </svg>
+        </p>
         <h2 className="section-title">Turning clinical data into content HCPs act on</h2>
         <p className="section-lead">
           Client deliverables are confidential and shown here as summaries.

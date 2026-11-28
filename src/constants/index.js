@@ -37,10 +37,10 @@ const words = [
   { text: "Evidence", imgPath: "/images/evidence.svg", accent: "#52d1a4" },
 ];
 
-// Headline stats — replace the values with your own figures.
+// Hero experience strip, in reading order.
 const counterItems = [
-  { value: 9, suffix: "+", label: "Therapeutic areas covered" },
-  { value: 80, suffix: "+", label: "Promotional pieces delivered" },
+  { value: 80, suffix: "+", label: "Promotional pieces" },
+  { value: 9, suffix: "+", label: "Therapeutic areas" },
   { value: 2, suffix: "+", label: "Years in medical writing" },
 ];
 

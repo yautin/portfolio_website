@@ -225,6 +225,37 @@ const Contact = () => {
       </section>
 
       <footer className="site-footer">
+        <div className="footer-etch" aria-hidden="true">
+          <svg focusable="false" fill="none" strokeLinejoin="round">
+            <defs>
+              <linearGradient id="footer-track-ink" gradientUnits="userSpaceOnUse" x1="-100%" x2="0" y1="0" y2="0">
+                <stop stopColor="var(--etch-ink)" stopOpacity=".25" />
+                <stop offset=".76" stopColor="var(--etch-ink)" />
+                <stop offset="1" stopColor="var(--etch-cyan)" />
+              </linearGradient>
+            </defs>
+            {/* The origin is above the link. Only the lengths of the runs change on a phone. */}
+            {[{ size: 'wide', bend: -251, start: -365, end: -54, gap: 25, tail: 50 },
+              { size: 'compact', bend: -90, start: -106, end: -32, gap: 20, tail: 33 }].map(({ size, bend, start, end, gap, tail }) => (
+              <g className={`footer-etch-${size}`} key={size}>
+                <g stroke="url(#footer-track-ink)" strokeWidth="1.35">
+                  <line x1="-100%" y1="3.5" x2={bend} y2="3.5" />
+                  <path d={`M${bend} 3.5l12 12H0`} />
+                </g>
+                <g opacity=".66">
+                  <path stroke="var(--etch-copper)" d={`M${start} 8.5H${bend - 4}l12 12H${end}`} />
+                  <circle cx={end} cy="20.5" r="1.6" fill="var(--etch-copper)" />
+                </g>
+                <g stroke="var(--etch-ink)" opacity=".68">
+                  <path d={`M${gap} 15.5H${tail}l9 -9`} />
+                  <line x1={tail + 9} y1="6.5" x2="100%" y2="6.5" />
+                </g>
+              </g>
+            ))}
+            <circle className="footer-etch-pad" cy="15.5" r="4" stroke="var(--etch-cyan)" strokeWidth="1.4" fill="var(--page-bg)" />
+            <circle cy="15.5" r="1.4" fill="var(--etch-cyan)" />
+          </svg>
+        </div>
         <p className="footer-copy">© {year} Marco Ng. <span>All rights reserved.</span></p>
         <Link
           className="footer-funbtn"
